@@ -1,0 +1,10 @@
+[
+    {
+        "version": "1.0.0",
+        "downloadUrl": "https://github.com/wrav/oembed/archive/master.zip",
+        "date": "2018-11-18:00:00+10:30",
+        "notes": [
+            "[Added] Initial release and migration from previous project"
+        ]
+    }
+]

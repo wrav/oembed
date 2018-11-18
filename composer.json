@@ -1,0 +1,57 @@
+{
+    "name": "wrav/oembed",
+    "description": "A simple plugin to extract media information from websites, like youtube videos, twitter statuses or blog articles.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "oembed",
+        "iframe",
+        "youtube",
+        "vimeo",
+        "instagram",
+        "twitter",
+        "facebook"
+    ],
+    "support": {
+        "docs": "https://github.com/wrav/oembed/blob/master/README.md",
+        "issues": "https://github.com/wrav/oembed/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "reganlawton",
+            "homepage": "https://github.com/reganlawton"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "~3.0.0-beta.23",
+        "essence/essence": "^3.3"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+          "wrav\\oembed\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "oEmbed",
+        "handle": "oembed",
+        "schemaVersion": "1.0.0",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/wrav/oembed/master/CHANGELOG.md",
+        "components": {
+            "oembedService": "wrav\\oembed\\services\\OembedService"
+        },
+        "class": "wrav\\oembed\\Oembed"
+    }
+}
