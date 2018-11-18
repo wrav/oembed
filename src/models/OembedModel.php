@@ -18,7 +18,7 @@ use craft\base\Model;
  *
  * @author    reganlawton
  * @package   Oembed
- * @since     2.0.0
+ * @since     1.0.0
  */
 class OembedModel extends Model
 {
