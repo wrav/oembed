@@ -34,4 +34,18 @@ class OembedVariable
     {
         return Oembed::getInstance()->oembedService->render($url, $options);
     }
+
+    /**
+     * Call it like this:
+     *
+     *     {{ craft.oembed.embed(url, options) }}
+     *
+     * @param $url
+     * @param array $options
+     * @return string
+     */
+    public function embed($url, array $options = [])
+    {
+        return Oembed::getInstance()->oembedService->embed($url, $options);
+    }
 }

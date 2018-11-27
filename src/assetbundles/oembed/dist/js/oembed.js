@@ -12,7 +12,7 @@
 
 var oembedOnChangeTimeout = null;
 
-$('input.oembed-field').change(function () {
+$('input.oembed-field').on('keyup blur change', function () {
     var that = $(this);
 
     if (oembedOnChangeTimeout != null) {
@@ -23,10 +23,11 @@ $('input.oembed-field').change(function () {
         oembedOnChangeTimeout = null;
 
         var val = that.val();
+
         if(val) {
             $.ajax({
                 type: "GET",
-                url: "/actions/oembed/default/preview?url=" + val + "&options[]=",
+                url: "/admin/oembed/preview?url=" + val + "&options[]=",
                 async: true
             }).done(function (res) {
                 var preview = that.parent().find('.oembed-preview');
@@ -44,5 +45,3 @@ $('input.oembed-field').change(function () {
 
     }, 500);
 });
-
-// https://www.youtube.com/watch?v=mJB83EZtAjc

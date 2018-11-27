@@ -27,26 +27,26 @@ class DefaultController extends Controller
     // Protected Properties
     // =========================================================================
 
-    protected $allowAnonymous = true;
+    protected $allowAnonymous = false;
 
     // Public Methods
     // =========================================================================
 
     public function actionPreview()
     {
-        $data = Craft::$app->request->getQueryParams();
+        $url = Craft::$app->request->getRequiredParam('url');
+        $options = Craft::$app->request->getParam('options') ?? [];
 
         try {
-            if (isset($data['url'])) {
-                echo Oembed::getInstance()->oembedService->render($data['url'], []);
-            }   
+            return $this->renderTemplate(
+                'oembed/preview',
+                [
+                    'url' => $url,
+                    'options' => $options,
+                ]
+            );
         } catch(\Exception $exception) {
-            if (getenv('ENVIRONMENT') === 'dev') {
-                throw new $exception;
-            }
-        } finally {
-            Craft::$app->end();
+            throw new $exception;
         }
-
     }
 }

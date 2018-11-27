@@ -23,6 +23,7 @@ use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterComponentTypesEvent;
 use craft\web\View;
 use craft\events\RegisterUrlRulesEvent;
+use craft\web\UrlManager;
 
 use yii\base\Event;
 
@@ -116,6 +117,14 @@ class Oembed extends Plugin
             }
         );
 
+        Event::on(
+            UrlManager::class,
+            UrlManager::EVENT_REGISTER_CP_URL_RULES,
+            function(RegisterUrlRulesEvent $event) {
+                $event->rules['oembed/preview'] = 'oembed/default/preview';
+            }
+        );
+
         Craft::info(
             Craft::t(
                 'oembed',
@@ -125,8 +134,5 @@ class Oembed extends Plugin
             __METHOD__
         );
     }
-
-    // Protected Methods
-    // =========================================================================
 
 }
