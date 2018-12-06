@@ -1,5 +1,14 @@
 [
     {
+        "version": "1.0.3",
+        "downloadUrl": "https://github.com/wrav/oembed/archive/master.zip",
+        "date": "2018-12-07:00:00+10:30",
+        "notes": [
+            "[Updated] Prevent JS asset rendering on frontend",
+            "[Updated] Revert javascript to use jQuery"
+        ]
+    },
+    {
         "version": "1.0.2",
         "downloadUrl": "https://github.com/wrav/oembed/archive/master.zip",
         "date": "2018-12-06:00:00+10:30",

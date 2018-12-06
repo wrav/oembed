@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 1.0.3 - 2018-12-07
+
+### Updated`
+- Prevent JS asset rendering on frontend
+- Revert javascript to use jQuery
+
 ## 1.0.2 - 2018-12-06
 
 ### Updated
