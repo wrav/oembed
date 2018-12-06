@@ -1,5 +1,13 @@
 [
     {
+        "version": "1.0.2",
+        "downloadUrl": "https://github.com/wrav/oembed/archive/master.zip",
+        "date": "2018-12-06:00:00+10:30",
+        "notes": [
+            "[Updated] Refactored javascript to your native JS over jQuery"
+        ]
+    },
+    {
         "version": "1.0.1",
         "downloadUrl": "https://github.com/wrav/oembed/archive/master.zip",
         "date": "2018-11-26:00:00+10:30",
