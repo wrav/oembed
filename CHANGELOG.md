@@ -2,7 +2,7 @@
 
 ## 1.0.3 - 2018-12-07
 
-### Updated`
+### Updated
 - Prevent JS asset rendering on frontend
 - Revert javascript to use jQuery
 
