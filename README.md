@@ -4,6 +4,8 @@
 
 A simple plugin to extract media information from websites, like youtube videos, twitter statuses or blog articles.
 
+[![Beerpay](https://beerpay.io/wrav/oembed/badge.svg)](https://beerpay.io/wrav/oembed)
+
 ## Requirements
 
 This plugin requires Craft CMS 3.0.0-beta.23 or later.
