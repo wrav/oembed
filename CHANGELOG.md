@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.0.5 - 2019-02-08
+
+### Updated
+- Fix bug where field is in Matrix field and the AJAX event action isn't bound / fired until after entry initial saved
+
 ## 1.0.4 - 2019-01-17
 
 ### Updated

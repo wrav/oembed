@@ -12,7 +12,7 @@
 
 var oembedOnChangeTimeout = null;
 
-$('input.oembed-field').on('keyup blur change', function () {
+$('body').on('keyup blur change', 'input.oembed-field', function () {
     var that = $(this);
 
     if (oembedOnChangeTimeout != null) {

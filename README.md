@@ -58,7 +58,7 @@ Additional Essense information can be found [here](https://github.com/essence/es
 
 ## Credits
 
-Original built while at working at [HutSix](https://hutsix.com.au/) I've since been granted permission to continue development here.
+Original built while working at [HutSix](https://hutsix.com.au/) I've since been granted permission to continue development here.
 
 ## Change Log
 
