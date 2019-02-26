@@ -29,7 +29,7 @@
     ],
     "require": {
         "craftcms/cms": "^3.0.0-beta.23",
-        "essence/essence": "^3.3"
+        "essence/essence": "dev-master#4e5ec8d0d219548cd35192669d99170efd253892"
     },
     "repositories": [
         {
