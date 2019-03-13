@@ -69,7 +69,6 @@ class OembedModel extends Model
 
     public function getUrl()
     {
-
         $value = $this->url;
 
         if (is_string($value)) {

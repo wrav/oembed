@@ -12,8 +12,8 @@ namespace wrav\oembed\services;
 
 use craft\helpers\Template;
 use craft\base\Component;
-use Essence\Essence;
-use Essence\Media;
+use Embed\Adapters\Adapter;
+use Embed\Embed;
 
 /**
  * OembedService Service
@@ -33,11 +33,8 @@ class OembedService extends Component
     {
         array_multisort($options);
 
-        /** @var Essence $essence */
-        $essence = new Essence();
-
-        /** @var Media $media */
-        $media = $essence->extract($url,$options);
+        /** @var Adapter $media */
+        $media = Embed::create($url, $options);
 
         if ($media) {
             return $media;
@@ -56,6 +53,6 @@ class OembedService extends Component
         /** @var Media $media */
         $media = $this->embed($url, $options);
 
-        return Template::raw(isset($media->html) ? $media->html : '');
+        return Template::raw(isset($media->code) ? $media->code : '');
     }
 }
