@@ -27,9 +27,11 @@ To install the plugin, follow these instructions.
 
 ## Using oEmbed
 
-To use simply call the `embed` method on your field type
+To use simply call one of the following methods on your field type
 
+    {{ entry.field.embed }} 
     {{ entry.field.render }}
+    {{ entry.field.media }}
     
 We also provide option to use as a Twig variable
 
@@ -37,23 +39,30 @@ We also provide option to use as a Twig variable
     
 You can access additional media details using the examples below.
 
-    entry.field.media.type
-    entry.field.media.version
-    entry.field.media.url
     entry.field.media.title
     entry.field.media.description
+    entry.field.media.url
+    entry.field.media.type
+    entry.field.media.tags
+    entry.field.media.images
+    entry.field.media.image
+    entry.field.media.imageWidth
+    entry.field.media.imageHeight
+    entry.field.media.code
+    entry.field.media.width
+    entry.field.media.height
+    entry.field.media.aspectRatio
     entry.field.media.authorName
     entry.field.media.authorUrl
     entry.field.media.providerName
     entry.field.media.providerUrl
-    entry.field.media.cacheAge
-    entry.field.media.thumbnailUrl
-    entry.field.media.thumbnailWidth
-    entry.field.media.thumbnailHeight
-    entry.field.media.html
-    entry.field.media.width
-    entry.field.media.height
-    
+    entry.field.media.providerIcons
+    entry.field.media.providerIcon
+    entry.field.media.publishedDate
+    entry.field.media.license
+    entry.field.media.linkedData
+    entry.field.media.feeds
+
 Additional Essense information can be found [here](https://github.com/essence/essence)
 
 ## Credits
@@ -67,8 +76,3 @@ Changes can be viewed [here](https://github.com/wrav/oembed/blob/master/CHANGELO
 ## Support
 
 Get in touch via email or by [creating a Github issue](/wrav/oembed/issues)
-
-## Show your Support
-This is licensed under the MIT license meaning it will always be free. If you like the plugin, please feel free to show your support and buy me a :beers:. 
-
-[![Beerpay](https://beerpay.io/wrav/oembed/badge.svg)](https://beerpay.io/wrav/oembed)
