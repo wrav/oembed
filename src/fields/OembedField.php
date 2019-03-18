@@ -124,7 +124,7 @@ class OembedField extends Field
                     $embed = $embed->embed();
 
                     if (!empty($embed)) {
-                        $preview .= '<div class="oembed-preview">'.$embed->html.'</div>';
+                        $preview .= '<div class="oembed-preview">'.$embed->code.'</div>';
                     } else {
                         $preview .= '<div class="oembed-preview"><p class="error">Please check your URL.</p></div>';
                     }
