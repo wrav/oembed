@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.1.2 - 2019-02-18
+
+### Updated
+- Version bump.
+
 ## 1.1.1 - 2019-02-18
 
 ### Updated
