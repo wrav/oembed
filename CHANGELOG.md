@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.1.1 - 2019-02-18
+
+### Updated
+- Fix bug in field type rendering.
+
 ## 1.1.0 - 2019-03-13
 > {note} The plugin’s dependence has changed from `essence/essence` to `embed/embed`. After updating to oEmbed 1.1.0 or later, make sure you reference to the README and test your site for possible missing/ renamed twig object keys.
 
