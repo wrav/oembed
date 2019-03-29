@@ -10,6 +10,7 @@
 
 namespace wrav\oembed\services;
 
+use craft;
 use craft\helpers\Template;
 use craft\base\Component;
 use Embed\Adapters\Adapter;
@@ -31,16 +32,29 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [])
     {
-        array_multisort($options);
-
-        /** @var Adapter $media */
-        $media = Embed::create($url, $options);
-
-        if ($media) {
-            return $media;
+        if (Craft::$app->cache->exists($url)) {
+            return \Craft::$app->cache->get($url);
         }
 
-        return null;
+        try {
+            array_multisort($options);
+
+            /** @var Adapter $media */
+            $media = Embed::create($url, $options);
+        } finally {
+            if (!empty($media)) {
+                Craft::$app->cache->set($url, $media, 'P1H');
+                return $media;
+            }
+
+            return new class {
+                // Returns NULL for calls to props
+                public function __call(string $name , array $arguments )
+                {
+                    return null;
+                }
+            };
+        }
     }
 
     /**
@@ -53,6 +67,10 @@ class OembedService extends Component
         /** @var Media $media */
         $media = $this->embed($url, $options);
 
-        return Template::raw(isset($media->code) ? $media->code : '');
+        if (!empty($media)) {
+            return Template::raw(isset($media->code) ? $media->code : '');
+        } else {
+            return null;
+        }
     }
 }

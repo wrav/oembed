@@ -125,4 +125,13 @@ class OembedModel extends Model
     {
         return $this->embed($options);
     }
+
+    /**
+     * @return boolean
+     */
+    public function valid()
+    {
+        $media = $this->embed();
+        return (!empty($media) && isset($media->code));
+    }
 }

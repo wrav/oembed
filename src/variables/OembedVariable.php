@@ -48,4 +48,19 @@ class OembedVariable
     {
         return Oembed::getInstance()->oembedService->embed($url, $options);
     }
+
+    /**
+     * Call it like this:
+     *
+     *     {{ craft.oembed.valid(url, options) }}
+     *
+     * @param $url
+     * @param array $options
+     * @return string
+     */
+    public function valid($url, array $options = [])
+    {
+        $media = $this->embed($url, $options);
+        return (!empty($media) && isset($media->code));
+    }
 }

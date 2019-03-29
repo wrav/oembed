@@ -29,13 +29,17 @@ To install the plugin, follow these instructions.
 
 To use simply call one of the following methods on your field type
 
-    {{ entry.field.embed }} 
+    {{ entry.field.valid }} 
     {{ entry.field.render }}
+    {{ entry.field.embed }} 
     {{ entry.field.media }}
     
 We also provide option to use as a Twig variable
 
+    {{ craft.oembed.valid(url, options) }}
     {{ craft.oembed.render(url, options) }}
+    {% set embed = craft.oembed.embed(url, options) %}
+    {% set media = craft.oembed.media(url, options) %}
     
 You can access additional media details using the examples below.
 
@@ -63,7 +67,7 @@ You can access additional media details using the examples below.
     entry.field.media.linkedData
     entry.field.media.feeds
 
-Additional Essense information can be found [here](https://github.com/essence/essence)
+Additional Embed information can be found [here](https://github.com/oscarotero/Embed)
 
 ## Credits
 
