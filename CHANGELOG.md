@@ -1,6 +1,17 @@
 # oEmbed Changelog
 
-``
+## 1.1.4 - 2019-04-04
+
+### Updated
+- Updated to allow better support for sites which don't quite meet the oEmbed format requirements. 
+
+## 1.1.3 - 2019-03-29
+
+### Added
+- Added `valid` method to handle errors gracefully (Thanks @iparr). 
+- Added data caching for parsed URLs to help increase page response time. 
+
+### Updated
 - Updated docs. 
 
 ## 1.1.2 - 2019-02-18

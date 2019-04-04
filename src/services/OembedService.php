@@ -41,6 +41,10 @@ class OembedService extends Component
 
             /** @var Adapter $media */
             $media = Embed::create($url, $options);
+
+            if (!empty($media) && !isset($media->code)) {
+                $media->code = "<iframe src='$url' width='100%' frameborder='0' scrolling='no'></iframe>";
+            }
         } finally {
             if (!empty($media)) {
                 Craft::$app->cache->set($url, $media, 'P1H');
