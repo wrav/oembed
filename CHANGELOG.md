@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.1.5 - 2019-04-15
+
+### Updated
+- Updated to prevent <script/> rendering outsite `/admin/entries`, with support if `admin` isn't the CP URL trigger.
+
 ## 1.1.4 - 2019-04-04
 
 ### Updated
