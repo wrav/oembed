@@ -13,6 +13,7 @@ namespace wrav\oembed;
 use wrav\oembed\fields\OembedField;
 use wrav\oembed\services\OembedService;
 use wrav\oembed\variables\OembedVariable;
+use wrav\oembed\models\Settings;
 
 use Craft;
 use craft\base\Plugin;
@@ -134,6 +135,32 @@ class Oembed extends Plugin
                 ['name' => $this->name]
             ),
             __METHOD__
+        );
+    }
+
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * @inheritdoc
+     */
+    protected function createSettingsModel()
+    {
+        return new Settings();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function settingsHtml(): string
+    {
+//        dd($this->getSettings());
+
+        return Craft::$app->view->renderTemplate(
+            'oembed/settings',
+            [
+                'settings' => $this->getSettings(),
+            ]
         );
     }
 

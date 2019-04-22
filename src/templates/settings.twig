@@ -1,0 +1,19 @@
+{#
+/**
+ * @author    reganlawton
+ * @copyright Copyright (c) 2017 reganlawton
+ * @link      https://github.com/wrav
+ * @package   Oembed
+ * @since     1.1.6
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{{ forms.lightswitchField({
+    label: "Enable Cache"|t,
+    instructions: ""|t,
+    id: 'enableCache',
+    name: 'enableCache',
+    on: settings.enableCache,
+}) }}

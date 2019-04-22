@@ -15,6 +15,7 @@ use craft\helpers\Template;
 use craft\base\Component;
 use Embed\Adapters\Adapter;
 use Embed\Embed;
+use wrav\oembed\Oembed;
 
 /**
  * OembedService Service
@@ -32,7 +33,7 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [])
     {
-        if (Craft::$app->cache->exists($url)) {
+        if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($url)) {
             return \Craft::$app->cache->get($url);
         }
 
@@ -47,7 +48,10 @@ class OembedService extends Component
             }
         } finally {
             if (!empty($media)) {
-                Craft::$app->cache->set($url, $media, 'P1H');
+                if (Oembed::getInstance()->getSettings()->enableCache) {
+                    Craft::$app->cache->set($url, $media, 'P1H');
+                }
+
                 return $media;
             }
 

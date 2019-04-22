@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.1.6 - 2019-04-22
+
+### Updated
+- Caching is now a field you enable in new settings area.
+
 ## 1.1.5 - 2019-04-15
 
 ### Updated
