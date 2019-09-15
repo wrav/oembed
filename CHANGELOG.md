@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.1.7 - 2019-09-16
+
+### Updated
+- Support custom control panel (`cpTrigger`) configurations.
+
 ## 1.1.6 - 2019-04-22
 
 ### Updated
