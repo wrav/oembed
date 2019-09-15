@@ -23,11 +23,12 @@ $('body').on('keyup blur change', 'input.oembed-field', function () {
         oembedOnChangeTimeout = null;
 
         var val = that.val();
+        var cpTrigger = Craft && Craft.cpTrigger ? Craft.cpTrigger : 'admin';
 
         if(val) {
             $.ajax({
                 type: "GET",
-                url: "/admin/oembed/preview?url=" + val + "&options[]=",
+                url: "/"+cpTrigger.toString()+"/oembed/preview?url=" + val + "&options[]=",
                 async: true
             }).done(function (res) {
                 var preview = that.parent().find('.oembed-preview');
