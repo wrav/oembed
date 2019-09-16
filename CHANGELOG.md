@@ -1,5 +1,13 @@
 # oEmbed Changelog
 
+## 1.1.8 - 2019-09-16
+
+### Updated
+- Support Youtube and Vimeo `autoplay`, `loop` and `autopause` embed feature via DOM manipulation. ([#14](https://github.com/wrav/oembed/issues/14))
+
+### Fixed
+- Array to string conversion bug due to lack of a recursive function. ([#17](https://github.com/wrav/oembed/issues/17))
+
 ## 1.1.7 - 2019-09-16
 
 ### Updated
