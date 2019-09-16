@@ -67,6 +67,17 @@ class OembedModel extends Model
         ];
     }
 
+    public function parseArray($arr)
+    {
+        if (is_array($arr) && !empty($arr['url'])) {
+            if(is_array($arr['url'])) {
+                return $this->parseArray($arr['url']);
+            }
+            return $arr['url'];
+        }
+        return null;
+    }
+
     public function getUrl()
     {
         $value = $this->url;
@@ -79,22 +90,11 @@ class OembedModel extends Model
         }
 
         if(is_array($value)) {
-            if (isset($value['url'])) {
-                if(is_array($value['url'])) {
-                    if(is_array($value['url']['url'])) {
-                        if(is_array($value['url']['url']['url'])) {
-                            return $value['url']['url']['url']['url'];
-                        }
-                        return $value['url']['url']['url'];
-                    }
-                    return $value['url']['url'];
-                }
-                return $value['url'];
-            }
-            return null;
+            $value = $this->parseArray($value);
         }
 
-        return $value ? $value : null;
+        $this->url = $value ? $value : null;
+        return $this->url;
     }
 
     /**
