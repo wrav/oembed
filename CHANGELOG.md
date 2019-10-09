@@ -1,40 +1,10 @@
 # oEmbed Changelog
 
-## 1.1.8 - 2019-09-16
+## 1.2.0
+- Added Field Preivews (by boscho87)
+- Added translations
 
-### Updated
-- Support Youtube and Vimeo `autoplay`, `loop` and `autopause` embed feature via DOM manipulation. ([#14](https://github.com/wrav/oembed/issues/14))
-
-### Fixed
-- Array to string conversion bug due to lack of a recursive function. ([#17](https://github.com/wrav/oembed/issues/17))
-
-## 1.1.7 - 2019-09-16
-
-### Updated
-- Support custom control panel (`cpTrigger`) configurations.
-
-## 1.1.6 - 2019-04-22
-
-### Updated
-- Caching is now a field you enable in new settings area.
-
-## 1.1.5 - 2019-04-15
-
-### Updated
-- Updated to prevent <script/> rendering outsite `/admin/entries`, with support if `admin` isn't the CP URL trigger.
-
-## 1.1.4 - 2019-04-04
-
-### Updated
-- Updated to allow better support for sites which don't quite meet the oEmbed format requirements. 
-
-## 1.1.3 - 2019-03-29
-
-### Added
-- Added `valid` method to handle errors gracefully (Thanks @iparr). 
-- Added data caching for parsed URLs to help increase page response time. 
-
-### Updated
+## 1.1.2
 - Updated docs. 
 
 ## 1.1.2 - 2019-02-18

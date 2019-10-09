@@ -13,10 +13,8 @@ namespace wrav\oembed\services;
 use craft;
 use craft\helpers\Template;
 use craft\base\Component;
-use DOMDocument;
 use Embed\Adapters\Adapter;
 use Embed\Embed;
-use wrav\oembed\Oembed;
 
 /**
  * OembedService Service
@@ -34,7 +32,7 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [])
     {
-        if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($url)) {
+        if (Craft::$app->cache->exists($url)) {
             return \Craft::$app->cache->get($url);
         }
 
@@ -43,54 +41,19 @@ class OembedService extends Component
 
             /** @var Adapter $media */
             $media = Embed::create($url, $options);
-
-            if (!empty($media) && !isset($media->code)) {
-                $media->code = "<iframe src='$url' width='100%' frameborder='0' scrolling='no'></iframe>";
-            }
         } finally {
             if (!empty($media)) {
-                if (Oembed::getInstance()->getSettings()->enableCache) {
-                    Craft::$app->cache->set($url, $media, 'P1H');
-                }
-            } else {
-                $media = new class {
-                    // Returns NULL for calls to props
-                    public function __call(string $name , array $arguments )
-                    {
-                        return null;
-                    }
-                };
-            }
-
-            // Wrapping to be safe :)
-            try {
-                $html = $media->code;
-                $dom = new DOMDocument;
-                $dom->loadHTML($html);
-
-                $iframe = $dom->getElementsByTagName('iframe')->item(0);
-                $src = $iframe->getAttribute('src');
-
-                // Autoplay
-                if ($options['autoplay'] && strpos($html, 'autoplay=') === false && $src) {
-                    $src = preg_replace('/\?(.*)$/i', '?autoplay='. (!!$options['autoplay'] ? '1' : '0') .'&${1}', $src);
-                }
-
-                // Looping
-                if ($options['loop'] && strpos($html, 'loop=') === false && $src) {
-                    $src = preg_replace('/\?(.*)$/i', '?loop='. (!!$options['loop'] ? '1' : '0') .'&${1}', $src);
-                }
-
-                // Autopause
-                if ($options['autopause'] && strpos($html, 'autopause=') === false && $src) {
-                    $src = preg_replace('/\?(.*)$/i', '?autopause='. (!!$options['autopause'] ? '1' : '0') .'&${1}', $src);
-                }
-
-                $iframe->setAttribute('src', $src);
-                $media->code = $dom->saveXML($iframe);
-            } finally {
+                Craft::$app->cache->set($url, $media, 'P1H');
                 return $media;
             }
+
+            return new class {
+                // Returns NULL for calls to props
+                public function __call(string $name , array $arguments )
+                {
+                    return null;
+                }
+            };
         }
     }
 

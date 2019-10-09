@@ -10,10 +10,10 @@
 
 namespace wrav\oembed;
 
+use craft\i18n\PhpMessageSource;
 use wrav\oembed\fields\OembedField;
 use wrav\oembed\services\OembedService;
 use wrav\oembed\variables\OembedVariable;
-use wrav\oembed\models\Settings;
 
 use Craft;
 use craft\base\Plugin;
@@ -47,6 +47,30 @@ class Oembed extends Plugin
      * @var Oembed
      */
     public static $plugin;
+
+
+    /**
+     * Oembed constructor.
+     * @param $id
+     * @param null $parent
+     * @param array $config
+     */
+    public function __construct($id, $parent = null, array $config = [])
+    {
+        $i18n = Craft::$app->getI18n();
+        if (!isset($i18n->translations[$id]) && !isset($i18n->translations[$id . '*'])) {
+            $i18n->translations[$id] = [
+                'class' => PhpMessageSource::class,
+                'sourceLanguage' => 'en-US',
+                'basePath' => '@wrav/oembed/translations',
+                'forceTranslation' => true,
+                'allowOverrides' => true,
+            ];
+        }
+        parent::__construct($id, $parent, $config);
+    }
+
+
 
     // Public Methods
     // =========================================================================
@@ -112,7 +136,7 @@ class Oembed extends Plugin
             View::class,
             View::EVENT_END_PAGE,
             function(Event $event) {
-                if (Craft::$app->getRequest()->getIsCpRequest() && preg_match('/^\/.+\/entries\//', Craft::$app->getRequest()->getUrl())) {
+                if (Craft::$app->getRequest()->getIsCpRequest()) {
                     $url = Craft::$app->assetManager->getPublishedUrl('@wrav/oembed/assetbundles/oembed/dist/js/oembed.js', true);
 
                     echo "<script src='$url'></script>";
@@ -135,32 +159,6 @@ class Oembed extends Plugin
                 ['name' => $this->name]
             ),
             __METHOD__
-        );
-    }
-
-    // Protected Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    protected function createSettingsModel()
-    {
-        return new Settings();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function settingsHtml(): string
-    {
-//        dd($this->getSettings());
-
-        return Craft::$app->view->renderTemplate(
-            'oembed/settings',
-            [
-                'settings' => $this->getSettings(),
-            ]
         );
     }
 
