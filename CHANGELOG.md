@@ -1,7 +1,7 @@
 # oEmbed Changelog
 
 ## 1.2.0
-- Added Field Preivews (by boscho87)
+- Added Field Preivews (by boscho87) #15
 - Added translations
 
 ## 1.1.2
