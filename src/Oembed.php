@@ -52,6 +52,27 @@ class Oembed extends Plugin
     // =========================================================================
 
     /**
+     * Oembed constructor.
+     * @param $id
+     * @param null $parent
+     * @param array $config
+     */
+    public function __construct($id, $parent = null, array $config = [])
+    {
+        $i18n = Craft::$app->getI18n();
+        if (!isset($i18n->translations[$id]) && !isset($i18n->translations[$id . '*'])) {
+            $i18n->translations[$id] = [
+                'class' => PhpMessageSource::class,
+                'sourceLanguage' => 'en-US',
+                'basePath' => '@wrav/oembed/translations',
+                'forceTranslation' => true,
+                'allowOverrides' => true,
+            ];
+        }
+        parent::__construct($id, $parent, $config);
+    }
+
+    /**
      * Set our $plugin static property to this class so that it can be accessed via
      * Oembed::$plugin
      *
@@ -111,7 +132,7 @@ class Oembed extends Plugin
         Event::on(
             View::class,
             View::EVENT_END_PAGE,
-            function(Event $event) {
+            function (Event $event) {
                 if (Craft::$app->getRequest()->getIsCpRequest() && preg_match('/^\/.+\/entries\//', Craft::$app->getRequest()->getUrl())) {
                     $url = Craft::$app->assetManager->getPublishedUrl('@wrav/oembed/assetbundles/oembed/dist/js/oembed.js', true);
 
@@ -123,7 +144,7 @@ class Oembed extends Plugin
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function(RegisterUrlRulesEvent $event) {
+            function (RegisterUrlRulesEvent $event) {
                 $event->rules['oembed/preview'] = 'oembed/default/preview';
             }
         );
