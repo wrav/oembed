@@ -13,17 +13,18 @@ namespace wrav\oembed\fields;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use craft\base\PreviewableFieldInterface;
 use yii\db\Schema;
 use wrav\oembed\models\OembedModel;
 
 /**
  * OembedField Field
  *
- * @author    reganlawton
+ * @author    reganlawton | boscho87
  * @package   Oembed
  * @since     1.0.0
  */
-class OembedField extends Field
+class OembedField extends Field implements PreviewableFieldInterface
 {
     // Public Properties
     // =========================================================================
@@ -71,7 +72,7 @@ class OembedField extends Field
     }
 
     /**
-     * @param mixed                 $value   The raw field value
+     * @param mixed $value The raw field value
      * @param ElementInterface|null $element The element the field is associated with, if there is one
      *
      * @return mixed The prepared field value
@@ -90,13 +91,33 @@ class OembedField extends Field
      * Modifies an element query.
      *
      * @param ElementInterface $query The element query
-     * @param mixed            $value The value that was set on this field’s corresponding [[ElementCriteriaModel]]
+     * @param mixed $value The value that was set on this field’s corresponding [[ElementCriteriaModel]]
      *                                param, if any.
      * @return null|false `false` in the event that the method is sure that no elements are going to be found.
      */
     public function serializeValue($value, ElementInterface $element = null)
     {
         return parent::serializeValue($value, $element);
+    }
+
+    /**
+     * @param mixed $value
+     * @param ElementInterface $element
+     * @return string
+     */
+    public function getTableAttributeHtml($value, ElementInterface $element): string
+    {
+        // https://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
+        $youtubeUrl = (string)$value;
+        $query = parse_url($youtubeUrl, PHP_URL_QUERY) ?? '';
+        parse_str($query, $params);
+        $id = $params['v'] ?? '';
+        if ($id) {
+            $url = sprintf('https://img.youtube.com/vi/%s/default.jpg', $id);
+            //Todo possible improvement, (make size configurable)
+            return sprintf('<img src="%s" alt="" height="60px">', $url);
+        }
+        return '';
     }
 
     /**
@@ -109,32 +130,40 @@ class OembedField extends Field
 
     /**
      * @param ElementInterface|null $element The element the field is associated with, if there is one
-     * @param mixed                 $value   The field’s value. This will either be the [[normalizeValue() normalized
+     * @param mixed $value The field’s value. This will either be the [[normalizeValue() normalized
      *                                       value]], raw POST data (i.e. if there was a validation error), or null
      * @return string The input HTML.
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        $input = '<input name="'.$this->handle.'" class="text nicetext fullwidth oembed-field" value="'.$value.'" />';
-        $preview = '<p><strong>Preview</strong></p>';
-
+        $input = '<input name="' . $this->handle . '" class="text nicetext fullwidth oembed-field" value="' . $value . '" />';
+        $preview = sprintf('%s%s%s', '<p><strong>', Craft::t('oembed', 'Preview'), '</strong></p>');
         if ($value) {
             try {
                 if ($embed = new OembedModel($value)) {
                     $embed = $embed->embed();
-
                     if (!empty($embed)) {
-                        $preview .= '<div class="oembed-preview">'.$embed->code.'</div>';
+                        $preview .= '<div class="oembed-preview">' . $embed->code . '</div>';
                     } else {
-                        $preview .= '<div class="oembed-preview"><p class="error">Please check your URL.</p></div>';
+                        $preview .= sprintf(
+                            '%s%s%s',
+                            '<div class="oembed-preview"><p class="error">',
+                            Craft::t('oembed', 'Please check your URL.'),
+                            '</p></div>'
+                        );
                     }
                 }
             } catch (\Exception $exception) {
-                $preview .= '<div class="oembed-preview"><p class="error">Please check your URL.</p></div>';
+                $preview .= sprintf(
+                    '%s%s%s',
+                    '<div class="oembed-preview"><p class="error">',
+                    Craft::t('oembed', 'Please check your URL.'),
+                    '</p></div>'
+                );
             }
         } else {
             $preview .= '<div class="oembed-preview"></div>';
         }
-        return $input.$preview;
+        return $input . $preview;
     }
 }

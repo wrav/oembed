@@ -1,5 +1,12 @@
 # oEmbed Changelog
 
+
+## 1.2.0
+
+### Added
+- Added Field TablePreview (by boscho87) #15
+- Added translations
+
 ## 1.1.8 - 2019-09-16
 
 ### Updated
