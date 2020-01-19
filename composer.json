@@ -29,7 +29,8 @@
     ],
     "require": {
         "craftcms/cms": "^3.0.0-beta.23",
-        "embed/embed": "^3.3"
+        "embed/embed": "^3.3",
+        "laravel/helpers": "^1.1"
     },
     "repositories": [
         {

@@ -29,10 +29,10 @@ To install the plugin, follow these instructions.
 
 To use simply call one of the following methods on your field type
 
-    {{ entry.field.valid }} 
-    {{ entry.field.render }}
-    {{ entry.field.embed }} 
-    {{ entry.field.media }}
+    {{ entry.field.valid }} # Get the embed object
+    {{ entry.field.render }} # Renders HTML
+    {{ entry.field.embed }} # Get the embed object
+    {{ entry.field.media }} # Get the embed object
     
 We also provide option to use as a Twig variable
 
@@ -68,6 +68,27 @@ You can access additional media details using the examples below.
     entry.field.media.feeds
 
 Additional Embed information can be found [here](https://github.com/oscarotero/Embed)
+
+## GraphQl
+
+I recommend enabling caching in the plugin settings menu to speed up the API resolve timing.
+
+Below is an example of a Oembed field called "foobar" add accessing properties from the embed object.
+
+```
+{
+  entries {
+    id,
+    ... on page_page_Entry {
+      foobar {
+        code,
+        providerUrl,
+        aspectRatio
+      }
+    }
+  }
+}
+```
 
 ## Credits
 

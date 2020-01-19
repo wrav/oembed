@@ -1,5 +1,15 @@
 # oEmbed Changelog
 
+## 1.2.0 - 2020-01-19
+
+### Updated
+- Support `rel` URL propety via DOM manipulation. ([#24](https://github.com/wrav/oembed/issues/24))
+- Added GraphQL support. ([#25](https://github.com/wrav/oembed/issues/25))
+- Updated docs
+
+### Fixed
+- Fixed "Undefined index: autoplay" warnings. ([#26](https://github.com/wrav/oembed/issues/26))
+
 ## 1.1.8 - 2019-09-16
 
 ### Updated

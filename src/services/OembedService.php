@@ -17,6 +17,7 @@ use DOMDocument;
 use Embed\Adapters\Adapter;
 use Embed\Embed;
 use wrav\oembed\Oembed;
+use yii\log\Logger;
 
 /**
  * OembedService Service
@@ -72,23 +73,26 @@ class OembedService extends Component
                 $src = $iframe->getAttribute('src');
 
                 // Autoplay
-                if ($options['autoplay'] && strpos($html, 'autoplay=') === false && $src) {
+                if (!empty($options['autoplay']) && strpos($html, 'autoplay=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?autoplay='. (!!$options['autoplay'] ? '1' : '0') .'&${1}', $src);
                 }
 
                 // Looping
-                if ($options['loop'] && strpos($html, 'loop=') === false && $src) {
+                if (!empty($options['loop']) && strpos($html, 'loop=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?loop='. (!!$options['loop'] ? '1' : '0') .'&${1}', $src);
                 }
 
                 // Autopause
-                if ($options['autopause'] && strpos($html, 'autopause=') === false && $src) {
+                if (!empty($options['autopause']) && strpos($html, 'autopause=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?autopause='. (!!$options['autopause'] ? '1' : '0') .'&${1}', $src);
                 }
 
                 $iframe->setAttribute('src', $src);
                 $media->code = $dom->saveXML($iframe);
-            } finally {
+            } catch (\Exception $exception) {
+                Craft::info($exception->getMessage(), 'oembed');
+            }
+            finally {
                 return $media;
             }
         }
