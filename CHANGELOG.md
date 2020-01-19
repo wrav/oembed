@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.2.1 - 2020-01-19
+
+### Updated
+- Re-add `rel` feature missing due to merge conflict. ([#24](https://github.com/wrav/oembed/issues/24))
+
 ## 1.2.0 - 2020-01-19
 
 ### Updated
