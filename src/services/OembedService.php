@@ -87,6 +87,11 @@ class OembedService extends Component
                     $src = preg_replace('/\?(.*)$/i', '?autopause='. (!!$options['autopause'] ? '1' : '0') .'&${1}', $src);
                 }
 
+                // Rel
+                if (!empty($options['rel']) && strpos($html, 'rel=') === false && $src) {
+                    $src = preg_replace('/\?(.*)$/i', '?rel='. (!!$options['rel'] ? '1' : '0') .'&${1}', $src);
+                }
+
                 $iframe->setAttribute('src', $src);
                 $media->code = $dom->saveXML($iframe);
             } catch (\Exception $exception) {
