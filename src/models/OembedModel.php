@@ -10,6 +10,7 @@
 
 namespace wrav\oembed\models;
 
+use Embed\Adapters\Youtube;
 use wrav\oembed\Oembed;
 use craft\base\Model;
 
@@ -26,11 +27,14 @@ class OembedModel extends Model
     // =========================================================================
 
     /**
-     * Some model attribute
-     *
      * @var string
      */
     public $url = '';
+
+    /**
+     * @var mixed
+     */
+    public $oembed = null;
 
     /**
      * OembedModel constructor.
@@ -48,6 +52,26 @@ class OembedModel extends Model
     {
         return "".$this->getUrl();
     }
+
+    public function __get($name)
+    {
+        if (property_exists($this , $name)) {
+            return $this->$name;
+        }
+
+        if ($this->oembed === null) {
+            $oembed = Oembed::getInstance()->oembedService->embed($this->url);
+
+            if (!$oembed) {
+                $this->embed = [];
+            }
+
+            $this->oembed = $oembed;
+        }
+
+        return $this->oembed->$name;
+    }
+
 
     /**
      * Returns the validation rules for attributes.

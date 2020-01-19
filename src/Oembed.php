@@ -154,8 +154,6 @@ class Oembed extends Plugin
      */
     protected function settingsHtml(): string
     {
-//        dd($this->getSettings());
-
         return Craft::$app->view->renderTemplate(
             'oembed/settings',
             [

@@ -13,6 +13,14 @@ namespace wrav\oembed\fields;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use craft\elements\MatrixBlock as MatrixBlockElement;
+use craft\gql\arguments\elements\MatrixBlock as MatrixBlockArguments;
+use craft\gql\resolvers\elements\MatrixBlock as MatrixBlockResolver;
+use craft\gql\types\generators\MatrixBlockType as MatrixBlockTypeGenerator;
+use craft\gql\types\QueryArgument;
+use craft\helpers\Gql as GqlHelper;
+use GraphQL\Type\Definition\Type;
+use wrav\oembed\gql\OembedFieldTypeGenerator;
 use yii\db\Schema;
 use wrav\oembed\models\OembedModel;
 
@@ -29,11 +37,14 @@ class OembedField extends Field
     // =========================================================================
 
     /**
-     * Some attribute
-     *
      * @var string
      */
     public $url = '';
+
+    /**
+     * @var array
+     */
+    public $oembed = [];
 
     // Static Methods
     // =========================================================================
@@ -71,6 +82,21 @@ class OembedField extends Field
     }
 
     /**
+     * @inheritdoc
+     * @since 3.3.0
+     */
+    public function getContentGqlType()
+    {
+        $typeArray = OembedFieldTypeGenerator::generateTypes($this);
+
+        return [
+            'name' => $this->handle,
+            'description' => "Oembed field",
+            'type' => array_shift($typeArray),
+        ];
+    }
+
+    /**
      * @param mixed                 $value   The raw field value
      * @param ElementInterface|null $element The element the field is associated with, if there is one
      *
@@ -78,12 +104,17 @@ class OembedField extends Field
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
-        if (is_string($value) && $decValue = json_decode($value, true)) {
+        if (is_string($value) &&     $decValue = json_decode($value, true)) {
             if (isset($decValue['url'])) {
                 return new OembedModel($decValue['url']);
             }
         }
-        return $value ? new OembedModel($value) : null;
+
+        $oembed = $value ? new OembedModel($value) : null;
+
+        $this->oembed = $oembed;
+
+        return $oembed;
     }
 
     /**
