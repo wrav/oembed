@@ -1,5 +1,13 @@
 # oEmbed Changelog
 
+## 1.2.2 - 2020-01-30
+
+### Updated
+- Updated README with usage of new feature.
+
+### Added
+- *(NEW FEATURE)* Add new `params` option to allow you to set missing URL query params that are supported by the providers oembed protocol. ([#24](https://github.com/wrav/oembed/issues/24) & [#30](https://github.com/wrav/oembed/issues/30))
+
 ## 1.2.1 - 2020-01-19
 
 ### Updated
