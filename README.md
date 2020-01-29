@@ -41,6 +41,20 @@ We also provide option to use as a Twig variable
     {% set embed = craft.oembed.embed(url, options) %}
     {% set media = craft.oembed.media(url, options) %}
     
+Updating the embed URL , such as autoplay, rel, mute paramaters. This allows for you to support features the provider might not yet support
+
+    {{ 
+        entry.oembed_field.render({
+            params: {
+                autoplay: 1,
+                rel: 0,
+                mute: 0,
+                loop: 1,
+                autopause: 1,
+            }
+        }) 
+    }}
+    
 You can access additional media details using the examples below.
 
     entry.field.media.title

@@ -2,7 +2,7 @@
     "name": "wrav/oembed",
     "description": "A simple plugin to extract media information from websites, like youtube videos, twitter statuses or blog articles.",
     "type": "craft-plugin",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "keywords": [
         "craft",
         "cms",

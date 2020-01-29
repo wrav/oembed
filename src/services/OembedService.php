@@ -63,6 +63,7 @@ class OembedService extends Component
                 };
             }
 
+
             // Wrapping to be safe :)
             try {
                 $html = $media->code;
@@ -71,6 +72,12 @@ class OembedService extends Component
 
                 $iframe = $dom->getElementsByTagName('iframe')->item(0);
                 $src = $iframe->getAttribute('src');
+
+                if(!empty($options['params'])) {
+                    foreach((array)$options['params'] as $key => $value) {
+                        $src = preg_replace('/\?(.*)$/i', '?'.$key.'='. $value .'&${1}', $src);
+                    }
+                }
 
                 // Autoplay
                 if (!empty($options['autoplay']) && strpos($html, 'autoplay=') === false && $src) {
