@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.2.4 - 2020-02-05
+
+### Updated
+- Removed package dependacy to get PHP 7.0-compatible ([#33](https://github.com/wrav/oembed/issues/33))
+
 ## 1.2.3 - 2020-02-05
 
 ### Fixed
