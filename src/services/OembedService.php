@@ -100,7 +100,7 @@ class OembedService extends Component
                 }
 
                 $iframe->setAttribute('src', $src);
-                $media->code = $dom->saveXML($iframe);
+                $media->code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
             } catch (\Exception $exception) {
                 Craft::info($exception->getMessage(), 'oembed');
             }

@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.2.3 - 2020-02-05
+
+### Fixed
+- Fixed "Upgrading to 1.2.0+ disables admin UI ([#32](https://github.com/wrav/oembed/issues/32))" bug caused by LibXML rendering self closing `iframe`.
+
 ## 1.2.2 - 2020-01-30
 
 ### Updated
