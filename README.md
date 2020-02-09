@@ -41,7 +41,7 @@ We also provide option to use as a Twig variable
     {% set embed = craft.oembed.embed(url, options) %}
     {% set media = craft.oembed.media(url, options) %}
     
-Updating the embed URL , such as autoplay, rel, mute paramaters. This allows for you to support features the provider might not yet support
+Updating the embed URL, such as autoplay, rel, mute paramaters. This allows for you to support features the provider might not yet support
 
     {{ 
         entry.oembed_field.render({
@@ -52,6 +52,15 @@ Updating the embed URL , such as autoplay, rel, mute paramaters. This allows for
                 loop: 1,
                 autopause: 1,
             }
+        }) 
+    }}
+    
+Updating the width & height attributes on the iframe can be done using the following method, however is CSS is still recommended view for sizing your iframe.
+
+    {{ 
+        entry.oembed_field.render({
+            width: 640,
+            height: 480,
         }) 
     }}
     

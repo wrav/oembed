@@ -84,6 +84,16 @@ class OembedService extends Component
                     $src = preg_replace('/\?(.*)$/i', '?autoplay='. (!!$options['autoplay'] ? '1' : '0') .'&${1}', $src);
                 }
 
+                // Width - Override
+                if (!empty($options['width']) && is_int($options['width'])) {
+                    $iframe->setAttribute('width', $options['width']);
+                }
+                
+                // Height - Override
+                if (!empty($options['height']) && is_int($options['height'])) {
+                    $iframe->setAttribute('height', $options['height']);
+                }
+
                 // Looping
                 if (!empty($options['loop']) && strpos($html, 'loop=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?loop='. (!!$options['loop'] ? '1' : '0') .'&${1}', $src);

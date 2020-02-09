@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.2.5 - 2020-02-10
+
+### Updated
+- Allow users to set width and height on the iframe ([#35](https://github.com/wrav/oembed/issues/35)).
+
 ## 1.2.4 - 2020-02-05
 
 ### Updated
