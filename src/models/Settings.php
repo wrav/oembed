@@ -28,4 +28,19 @@ class Settings extends Model
      */
     public $enableCache;
 
+    /**
+     * @var string
+     */
+    public $enableNotifications;
+
+    /**
+     * @var string
+     */
+    public $notificationEmail;
+
+    /**
+     * @var string
+     */
+    public $previewHidden;
+
 }
