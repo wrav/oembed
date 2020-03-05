@@ -1,0 +1,15 @@
+.oembed-header {
+  margin: 0.5rem 0;
+  background: #f3f7fc;
+  padding: 10px 15px;
+  cursor: pointer
+}
+
+.oembed-preview {
+  width: 100%;
+  overflow: hidden;
+}
+
+.oembed-preview iframe {
+  max-width: 100%;
+}

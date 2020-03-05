@@ -12,6 +12,19 @@
 
 var oembedOnChangeTimeout = null;
 
+$('body').on('click', '.oembed-header', function () {
+    var oembedPreview = $(this).parent().find('.oembed-preview');
+    var icon = $(this).parent().find('.oembed-header *[data-icon-after]');
+
+    oembedPreview.toggleClass('hidden');
+
+    if(oembedPreview.hasClass('hidden')) {
+        icon.attr('data-icon-after', 'expand')
+    } else {
+        icon.attr('data-icon-after', 'collapse')
+    }
+});
+
 $('body').on('keyup blur change', 'input.oembed-field', function () {
     var that = $(this);
 
