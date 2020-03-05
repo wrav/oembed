@@ -144,8 +144,6 @@ class Oembed extends Plugin
             Craft::$app->queue->push(new BrokenUrlNotify([
                 'url' => $event->url,
             ]));
-
-//                Craft::$app->getQueue()->push(new BrokenUrlNotify());
         });
 
         Event::on(

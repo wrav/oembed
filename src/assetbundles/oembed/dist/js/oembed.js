@@ -23,7 +23,6 @@ $('body').on('click', '.oembed-header', function () {
     } else {
         icon.attr('data-icon-after', 'collapse')
     }
-
 });
 
 $('body').on('keyup blur change', 'input.oembed-field', function () {
@@ -45,7 +44,6 @@ $('body').on('keyup blur change', 'input.oembed-field', function () {
                 url: "/"+cpTrigger.toString()+"/oembed/preview?url=" + val + "&options[]=",
                 async: true
             }).done(function (res) {
-                console.log(that)
                 var preview = that.parent().find('.oembed-preview');
                 preview.html('');
 
