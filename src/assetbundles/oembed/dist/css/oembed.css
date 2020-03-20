@@ -1,13 +1,40 @@
 .oembed-header {
   margin: 0.5rem 0;
   background: #f3f7fc;
-  padding: 10px 15px;
-  cursor: pointer
+  padding: 10px 0;
+  cursor: pointer;
 }
 
 .oembed-preview {
   width: 100%;
+  position: relative;
+}
+
+.oembed-preview.has-embed {
+  height: 120px;
   overflow: hidden;
+  pointer-events: none;
+}
+
+.oembed-preview.has-embed:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #f3f7fc);
+  width: 100%;
+  height: 100px;
+}
+
+.oembed-preview.has-embed.expanded {
+  height: auto;
+  pointer-events: auto;
+}
+
+.oembed-preview.has-embed.expanded:after {
+  content: none;
 }
 
 .oembed-preview iframe {

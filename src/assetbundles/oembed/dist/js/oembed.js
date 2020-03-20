@@ -16,12 +16,12 @@ $('body').on('click', '.oembed-header', function () {
     var oembedPreview = $(this).parent().find('.oembed-preview');
     var icon = $(this).parent().find('.oembed-header *[data-icon-after]');
 
-    oembedPreview.toggleClass('hidden');
+    oembedPreview.toggleClass('expanded');
 
-    if(oembedPreview.hasClass('hidden')) {
-        icon.attr('data-icon-after', 'expand')
-    } else {
+    if(oembedPreview.hasClass('expanded')) {
         icon.attr('data-icon-after', 'collapse')
+    } else {
+        icon.attr('data-icon-after', 'expand')
     }
 });
 
@@ -45,12 +45,12 @@ $('body').on('keyup blur change', 'input.oembed-field', function () {
                 async: true
             }).done(function (res) {
                 var preview = that.parent().find('.oembed-preview');
-                preview.html('');
+                preview.html('').removeClass('hidden');
 
                 if (res) {
-                    preview.html(res);
+                    preview.addClass('has-embed').html(res);
                 } else {
-                    preview.html(
+                    preview.removeClass('has-embed').html(
                         '<p class="error">Please check your URL.</p>'
                     );
                 }
