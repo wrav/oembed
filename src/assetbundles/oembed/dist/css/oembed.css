@@ -15,6 +15,9 @@
   overflow: hidden;
   pointer-events: none;
 }
+.oembed-preview.default-hidden.has-embed {
+  height: 0;
+}
 
 .oembed-preview.has-embed:after {
   content: "";
