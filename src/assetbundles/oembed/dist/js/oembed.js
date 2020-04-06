@@ -39,16 +39,18 @@ $('body').on('keyup blur change', 'input.oembed-field', function () {
         var cpTrigger = Craft && Craft.cpTrigger ? Craft.cpTrigger : 'admin';
 
         if(val) {
+            var preview = that.parent().find('.oembed-preview');
+            preview.removeClass('has-embed').html(
+                '<p>Loading...</p>'
+            );
+
             $.ajax({
                 type: "GET",
                 url: "/"+cpTrigger.toString()+"/oembed/preview?url=" + val + "&options[]=",
                 async: true
             }).done(function (res) {
-                var preview = that.parent().find('.oembed-preview');
-                preview.html('').removeClass('hidden');
-
                 if (res) {
-                    preview.addClass('has-embed').html(res);
+                    preview.addClass('has-embed expanded').html(res);
                 } else {
                     preview.removeClass('has-embed').html(
                         '<p class="error">Please check your URL.</p>'

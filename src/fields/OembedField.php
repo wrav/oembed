@@ -148,7 +148,7 @@ class OembedField extends Field
     public function getInputHtml($value, ElementInterface $element = null): string
     {
         $settings = Oembed::getInstance()->getSettings();
-        $hidden = $settings['previewHidden'];
+        $hiddenClass = $settings['previewHidden'] ? 'default-hidden' : '';
 
         $input = '<input name="'.$this->handle.'" class="text nicetext fullwidth oembed-field" value="'.$value.'" />';
         $preview = '<div class="oembed-header">
@@ -159,19 +159,18 @@ class OembedField extends Field
             try {
                 if ($embed = new OembedModel($value)) {
                     $embed = $embed->embed();
-                    $hiddenClass = $hidden ? 'default-hidden' : '';
 
                     if (!empty($embed)) {
                         $preview .= '<div class="oembed-preview has-embed ' . $hiddenClass . ' / ">'.$embed->code.'</div>';
                     } else {
-                        $preview .= '<div class="oembed-preview"><p class="error">Please check your URL.</p></div>';
+                        $preview .= '<div class="oembed-preview ' . $hiddenClass . '"><p class="error">Please check your URL.</p></div>';
                     }
                 }
             } catch (\Exception $exception) {
-                $preview .= '<div class="oembed-preview"><p class="error">Please check your URL.</p></div>';
+                $preview .= '<div class="oembed-preview ' . $hiddenClass . '"><p class="error">Please check your URL.</p></div>';
             }
         } else {
-            $preview .= '<div class="oembed-preview"></div>';
+            $preview .= '<div class="oembed-preview ' . $hiddenClass . '"></div>';
         }
         return $input.$preview;
     }
