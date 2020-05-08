@@ -21,6 +21,7 @@ use craft\gql\types\QueryArgument;
 use craft\helpers\Gql as GqlHelper;
 use GraphQL\Type\Definition\Type;
 use wrav\oembed\gql\OembedFieldTypeGenerator;
+use wrav\oembed\Oembed;
 use yii\db\Schema;
 use wrav\oembed\models\OembedModel;
 
@@ -146,18 +147,27 @@ class OembedField extends Field
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
+        $settings = Oembed::getInstance()->getSettings();
+        $hidden = $settings['previewHidden'];
+        $previewIcon = $hidden ? 'expand' : 'collapse';
+
+
         $input = '<input name="'.$this->handle.'" class="text nicetext fullwidth oembed-field" value="'.$value.'" />';
-        $preview = '<p><strong>Preview</strong></p>';
+        $preview = '<div class="oembed-header">
+                      <p class="fullwidth"><strong>Preview</strong> <span class="right" data-icon-after="'.$previewIcon.'"></span></p>
+                    </div>';
 
         if ($value) {
             try {
                 if ($embed = new OembedModel($value)) {
                     $embed = $embed->embed();
 
+                    $hiddenClass = $hidden ? 'hidden' : '';
+
                     if (!empty($embed)) {
-                        $preview .= '<div class="oembed-preview">'.$embed->code.'</div>';
+                        $preview .= '<div class="oembed-preview '.$hiddenClass.'">'.$embed->code.'</div>';
                     } else {
-                        $preview .= '<div class="oembed-preview"><p class="error">Please check your URL.</p></div>';
+                        $preview .= '<div class="oembed-preview '.$hiddenClass.'"><p class="error">Please check your URL.</p></div>';
                     }
                 }
             } catch (\Exception $exception) {

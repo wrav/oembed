@@ -16,6 +16,7 @@ use craft\base\Component;
 use DOMDocument;
 use Embed\Adapters\Adapter;
 use Embed\Embed;
+use wrav\oembed\events\BrokenUrlEvent;
 use wrav\oembed\Oembed;
 use yii\log\Logger;
 
@@ -35,9 +36,6 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [])
     {
-//        var_dump($url);
-//        die;
-
         if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($url)) {
             return \Craft::$app->cache->get($url);
         }
@@ -49,14 +47,18 @@ class OembedService extends Component
             $media = Embed::create($url, $options);
 
             if (!empty($media) && !isset($media->code)) {
+                if (Oembed::getInstance()->getSettings()->enableNotifications) {
+                    if (!empty($media->getUrl())) {
+                        Oembed::getInstance()->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
+                            'url' => $media->getUrl()
+                        ]));
+                    }
+                }
+
                 $media->code = "<iframe src='$url' width='100%' frameborder='0' scrolling='no'></iframe>";
             }
         } finally {
-            if (!empty($media)) {
-                if (Oembed::getInstance()->getSettings()->enableCache) {
-                    Craft::$app->cache->set($url, $media, 'P1H');
-                }
-            } else {
+            if (empty($media)) {
                 $media = new class {
                     // Returns NULL for calls to props
                     public function __call(string $name , array $arguments )
@@ -88,6 +90,16 @@ class OembedService extends Component
                     $src = preg_replace('/\?(.*)$/i', '?autoplay='. (!!$options['autoplay'] ? '1' : '0') .'&${1}', $src);
                 }
 
+                // Width - Override
+                if (!empty($options['width']) && is_int($options['width'])) {
+                    $iframe->setAttribute('width', $options['width']);
+                }
+
+                // Height - Override
+                if (!empty($options['height']) && is_int($options['height'])) {
+                    $iframe->setAttribute('height', $options['height']);
+                }
+
                 // Looping
                 if (!empty($options['loop']) && strpos($html, 'loop=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?loop='. (!!$options['loop'] ? '1' : '0') .'&${1}', $src);
@@ -109,6 +121,10 @@ class OembedService extends Component
                 Craft::info($exception->getMessage(), 'oembed');
             }
             finally {
+                if (Oembed::getInstance()->getSettings()->enableCache) {
+                    Craft::$app->cache->set($url, $media, 'P1H');
+                }
+
                 return $media;
             }
         }

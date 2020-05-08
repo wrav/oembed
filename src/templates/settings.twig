@@ -25,3 +25,27 @@
     name: 'enableGdpr',
     on: settings.enableGdpr,
 }) }}
+
+{{ forms.lightswitchField({
+    label: "Previews hidden by default"|t,
+    instructions: "This will hide preview in collapsable component"|t,
+    id: 'previewHidden',
+    name: 'previewHidden',
+    on: settings.previewHidden,
+}) }}
+
+{{ forms.lightswitchField({
+    label: "Enable notifications"|t,
+    instructions: ""|t,
+    id: 'enableNotifications',
+    name: 'enableNotifications',
+    on: settings.enableNotifications,
+}) }}
+
+{{ forms.textField({
+    label: "Notification Email"|t,
+    instructions: "Will default to system email sender"|t,
+    id: 'notificationEmail',
+    name: 'notificationEmail',
+    on: settings.notificationEmail,
+}) }}

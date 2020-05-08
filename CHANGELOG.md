@@ -1,5 +1,25 @@
 # oEmbed Changelog
 
+## 1.3.1 - 2020-05-08
+
+### Added
+- *(NEW FEATURE)* Added GDPR setting to transform URL's for Youtube and Vimeo to their GDPR versions. This happen's without needing to change existing URL's.
+
+## 1.3.0 - 2020-03-05
+
+### Added
+- *(NEW FEATURE)* Added setting to hide preview iframe in the new a collapsable UI component.
+- *(NEW FEATURE)* Added notification by email for broken URLs which can be set up in plugin settings. This feature is still under development and new feature's like Slack, Microsoft Team notification channels will be added including support to update the notify message copy.
+
+### Updated
+- Preview iframe is now rendered into a collapsable component to save space.
+- Add `overflow:hidden` to iframe to prevent overflow ([#37](https://github.com/wrav/oembed/issues/37)).
+
+## 1.2.5 - 2020-02-10
+
+### Updated
+- Allow users to set width and height on the iframe ([#35](https://github.com/wrav/oembed/issues/35)).
+
 ## 1.2.4 - 2020-02-05
 
 ### Updated

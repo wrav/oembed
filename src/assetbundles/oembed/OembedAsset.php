@@ -40,6 +40,7 @@ class OembedAsset extends AssetBundle
         ];
 
         $this->css = [
+            'css/oembed.css',
         ];
 
         parent::init();

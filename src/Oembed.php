@@ -10,7 +10,9 @@
 
 namespace wrav\oembed;
 
+use wrav\oembed\events\BrokenUrlEvent;
 use wrav\oembed\fields\OembedField;
+use wrav\oembed\jobs\BrokenUrlNotify;
 use wrav\oembed\services\OembedService;
 use wrav\oembed\variables\OembedVariable;
 use wrav\oembed\models\Settings;
@@ -37,6 +39,8 @@ use yii\base\Event;
  */
 class Oembed extends Plugin
 {
+    const EVENT_BROKEN_URL_DETECTED = 'oembedBrokenUrlDetected';
+
     // Static Properties
     // =========================================================================
 
@@ -47,6 +51,11 @@ class Oembed extends Plugin
      * @var Oembed
      */
     public static $plugin;
+
+    /**
+     * @var string|null The plugin’s schema version number
+     */
+    public $schemaVersion = '1.0.1';
 
     // Public Methods
     // =========================================================================
@@ -116,6 +125,9 @@ class Oembed extends Plugin
                     $url = Craft::$app->assetManager->getPublishedUrl('@wrav/oembed/assetbundles/oembed/dist/js/oembed.js', true);
 
                     echo "<script src='$url'></script>";
+
+                    $url = Craft::$app->assetManager->getPublishedUrl('@wrav/oembed/assetbundles/oembed/dist/css/oembed.css', true);
+                    echo "<link rel='stylesheet' href='$url'>";
                 }
             }
         );
@@ -125,6 +137,16 @@ class Oembed extends Plugin
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function(RegisterUrlRulesEvent $event) {
                 $event->rules['oembed/preview'] = 'oembed/default/preview';
+            }
+        );
+
+        Event::on(
+            Oembed::class,
+            Oembed::EVENT_BROKEN_URL_DETECTED,
+            function (BrokenUrlEvent $event) {
+                Craft::$app->getQueue()->push(new BrokenUrlNotify([
+                    'url' => $event->url,
+                ]));
             }
         );
 

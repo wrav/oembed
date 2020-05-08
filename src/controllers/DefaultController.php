@@ -43,6 +43,7 @@ class DefaultController extends Controller
                 [
                     'url' => $url,
                     'options' => $options,
+                    'settings' => Oembed::getInstance()->getSettings(),
                 ]
             );
         } catch(\Exception $exception) {

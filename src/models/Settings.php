@@ -29,4 +29,20 @@ class Settings extends Model
      * @var bool
      */
     public $enableGdpr;
+
+    /**
+     * @var string
+     */
+    public $enableNotifications;
+
+    /**
+     * @var string
+     */
+    public $notificationEmail;
+
+    /**
+     * @var string
+     */
+    public $previewHidden;
+
 }

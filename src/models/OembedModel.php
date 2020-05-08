@@ -42,7 +42,6 @@ class OembedModel extends Model
      */
     public function __construct($url)
     {
-//        var_dump($url);
         $this->url = $url;
     }
 

@@ -1,9 +1,7 @@
 {% set media = craft.oembed.embed(url) %}
 
 {% if media and media.code|default(false) %}
-    <div class="embed-preview">
-        {{ media.code|default('')|raw }}
-    </div>
+    {{ media.code|default('')|raw }}
 {% else %}
     <p class="error">Please check your URL.</p>
 {% endif %}
