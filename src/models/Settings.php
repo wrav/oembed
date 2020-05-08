@@ -20,12 +20,13 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    // Public Properties
-    // =========================================================================
-
     /**
-     * @var string
+     * @var bool
      */
     public $enableCache;
 
+    /**
+     * @var bool
+     */
+    public $enableGdpr;
 }

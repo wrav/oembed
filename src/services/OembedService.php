@@ -35,6 +35,9 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [])
     {
+//        var_dump($url);
+//        die;
+
         if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($url)) {
             return \Craft::$app->cache->get($url);
         }
@@ -63,7 +66,6 @@ class OembedService extends Component
                 };
             }
 
-
             // Wrapping to be safe :)
             try {
                 $html = $media->code;
@@ -72,6 +74,8 @@ class OembedService extends Component
 
                 $iframe = $dom->getElementsByTagName('iframe')->item(0);
                 $src = $iframe->getAttribute('src');
+
+                $src = $this->manageGDPR($src);
 
                 if(!empty($options['params'])) {
                     foreach((array)$options['params'] as $key => $value) {
@@ -108,6 +112,38 @@ class OembedService extends Component
                 return $media;
             }
         }
+    }
+
+    private function manageGDPR($url)
+    {
+        if (Oembed::getInstance()->getSettings()->enableGdpr) {
+            $skip = false;
+            $youtubePattern = '/(?:.+?)?(?:\/v\/|watch\/|embed\/|\?v=|\&v=|youtu\.be\/|\/v=|^youtu\.be\/|watch\%3Fv\%3D)/i';
+            preg_match($youtubePattern, $url, $matches, PREG_OFFSET_CAPTURE);
+
+            if(count($matches)) {
+                $url = preg_replace($youtubePattern, 'https://www.youtube-nocookie.com/embed/', $url);
+                $skip = true;
+            }
+
+            if(!$skip) {
+                if (strpos($url, 'vimeo.com') !== false ) {
+                    if (strpos($url, 'dnt=') === false) {
+                        preg_match('/\?.*$/', $url, $matches, PREG_OFFSET_CAPTURE);
+                        if(count($matches)) {
+                            $url = preg_replace('/(\?(.*))$/i', '?dnt=1&${2}', $url);
+                        } else {
+                            $url = $url.'?dnt=1';
+                        }
+                    }
+
+                    $url = preg_replace('/(dnt=(1|0))/i', 'dnt=1', $url);
+                    $skip = true;
+                }
+            }
+        }
+
+        return $url;
     }
 
     /**
