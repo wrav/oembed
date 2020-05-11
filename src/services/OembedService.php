@@ -134,11 +134,11 @@ class OembedService extends Component
     {
         if (Oembed::getInstance()->getSettings()->enableGdpr) {
             $skip = false;
-            $youtubePattern = '/(?:youtu.+?)?(?:\/v\/|watch\/|embed\/|\?v=|\&v=|youtu\.be\/|\/v=|^youtu\.be\/|watch\%3Fv\%3D)/i';
+            $youtubePattern = '/(?:http|https)*?:*\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.be|youtube-nocookie\.com)/i';
             preg_match($youtubePattern, $url, $matches, PREG_OFFSET_CAPTURE);
 
             if(count($matches)) {
-                $url = preg_replace($youtubePattern, 'https://www.youtube-nocookie.com/embed/', $url);
+                $url = preg_replace($youtubePattern, 'https://www.youtube-nocookie.com', $url);
                 $skip = true;
             }
 
