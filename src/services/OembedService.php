@@ -138,8 +138,6 @@ class OembedService extends Component
             preg_match($youtubePattern, $url, $matches, PREG_OFFSET_CAPTURE);
 
             if(count($matches)) {
-                var_dump($matches);
-                die;
                 $url = preg_replace($youtubePattern, 'https://www.youtube-nocookie.com/embed/', $url);
                 $skip = true;
             }
