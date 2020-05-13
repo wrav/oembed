@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.1 - 2020-05-08
+
+### Added
+- *(NEW FEATURE)* Added GDPR setting to transform URL's for Youtube and Vimeo to their GDPR versions. This happen's without needing to change existing URL's.
+
 ## 1.3.0 - 2020-03-05
 
 ### Added

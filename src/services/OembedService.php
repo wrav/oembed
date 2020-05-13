@@ -77,6 +77,8 @@ class OembedService extends Component
                 $iframe = $dom->getElementsByTagName('iframe')->item(0);
                 $src = $iframe->getAttribute('src');
 
+                $src = $this->manageGDPR($src);
+
                 if(!empty($options['params'])) {
                     foreach((array)$options['params'] as $key => $value) {
                         $src = preg_replace('/\?(.*)$/i', '?'.$key.'='. $value .'&${1}', $src);
@@ -126,6 +128,38 @@ class OembedService extends Component
                 return $media;
             }
         }
+    }
+
+    private function manageGDPR($url)
+    {
+        if (Oembed::getInstance()->getSettings()->enableGdpr) {
+            $skip = false;
+            $youtubePattern = '/(?:http|https)*?:*\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.be|youtube-nocookie\.com)/i';
+            preg_match($youtubePattern, $url, $matches, PREG_OFFSET_CAPTURE);
+
+            if(count($matches)) {
+                $url = preg_replace($youtubePattern, 'https://www.youtube-nocookie.com', $url);
+                $skip = true;
+            }
+
+            if(!$skip) {
+                if (strpos($url, 'vimeo.com') !== false ) {
+                    if (strpos($url, 'dnt=') === false) {
+                        preg_match('/\?.*$/', $url, $matches, PREG_OFFSET_CAPTURE);
+                        if(count($matches)) {
+                            $url = preg_replace('/(\?(.*))$/i', '?dnt=1&${2}', $url);
+                        } else {
+                            $url = $url.'?dnt=1';
+                        }
+                    }
+
+                    $url = preg_replace('/(dnt=(1|0))/i', 'dnt=1', $url);
+                    $skip = true;
+                }
+            }
+        }
+
+        return $url;
     }
 
     /**
