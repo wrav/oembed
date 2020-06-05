@@ -11,11 +11,12 @@
 namespace wrav\oembed\gql;
 
 use craft\gql\base\GeneratorInterface;
+use craft\gql\base\SingleGeneratorInterface;
 use craft\gql\GqlEntityRegistry;
 use craft\gql\TypeLoader;
 use GraphQL\Type\Definition\Type;
 
-class OembedFieldTypeGenerator implements GeneratorInterface
+class OembedFieldTypeGenerator implements GeneratorInterface, SingleGeneratorInterface
 {
     /**
      * @inheritdoc
@@ -58,6 +59,43 @@ class OembedFieldTypeGenerator implements GeneratorInterface
         });
 
         return [$property];
+    }
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function generateType($context = null): ObjectType
+    {
+        /** @var OembedField $context */
+        $typeName = self::getName($context);
+
+        $properties = [
+            'title' => Type::string(),
+            'description' => Type::string(),
+            'url' => Type::string(),
+            'type' => Type::string(),
+            'images' => Type::string(),
+            'image' => Type::string(),
+            'imageWidth' => Type::string(),
+            'imageHeight' => Type::string(),
+            'code' => Type::string(),
+            'width' => Type::string(),
+            'height' => Type::string(),
+            'aspectRatio' => Type::string(),
+            'authorName' => Type::string(),
+            'authorUrl' => Type::string(),
+            'providerName' => Type::string(),
+            'providerUrl' => Type::string(),
+        ];
+
+        return GqlEntityRegistry::getEntity($typeName) ?: GqlEntityRegistry::createEntity($typeName, new Element([
+            'name' => $typeName,
+            'fields' => function() use ($properties) {
+                return $properties;
+            }
+        ]));
     }
 
     /**
