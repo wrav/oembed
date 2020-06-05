@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.2 - 2020-06-05
+
+### Updated
+- Fixed GraphQL bug `Internal Server Error: GraphQL fails to get oembed fields` ([#46](https://github.com/wrav/oembed/issues/46)).
+
 ## 1.3.1 - 2020-05-08
 
 ### Added
