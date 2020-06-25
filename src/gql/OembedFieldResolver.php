@@ -21,8 +21,16 @@ class OembedFieldResolver extends ObjectType
      */
     protected function resolve($source, $arguments, $context, ResolveInfo $resolveInfo)
     {
-        $fieldName = $resolveInfo->fieldName;
+        var_dump($source);
+        die;
 
-        return $source->$fieldName ?? null;
+        switch($resolveInfo->fieldName) {
+            case 'url':
+//                var_dump($resolveInfo);
+//                die;
+                return 'Working';
+            default:
+                return $source->{$resolveInfo->fieldName} ?? null;
+        }
     }
 }
