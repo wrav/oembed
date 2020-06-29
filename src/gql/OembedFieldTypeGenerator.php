@@ -11,12 +11,12 @@
 namespace wrav\oembed\gql;
 
 use craft\gql\base\GeneratorInterface;
-use craft\gql\base\SingleGeneratorInterface;
 use craft\gql\GqlEntityRegistry;
 use craft\gql\TypeLoader;
 use GraphQL\Type\Definition\Type;
+use wrav\oembed\fields\OembedField;
 
-class OembedFieldTypeGenerator implements GeneratorInterface, SingleGeneratorInterface
+class OembedFieldTypeGenerator implements GeneratorInterface
 {
     /**
      * @inheritdoc
@@ -31,7 +31,6 @@ class OembedFieldTypeGenerator implements GeneratorInterface, SingleGeneratorInt
             'description' => Type::string(),
             'url' => Type::string(),
             'type' => Type::string(),
-            'images' => Type::string(),
             'image' => Type::string(),
             'imageWidth' => Type::string(),
             'imageHeight' => Type::string(),
@@ -61,43 +60,6 @@ class OembedFieldTypeGenerator implements GeneratorInterface, SingleGeneratorInt
         return [$property];
     }
 
-
-
-    /**
-     * @inheritdoc
-     */
-    public static function generateType($context = null): ObjectType
-    {
-        /** @var OembedField $context */
-        $typeName = self::getName($context);
-
-        $properties = [
-            'title' => Type::string(),
-            'description' => Type::string(),
-            'url' => Type::string(),
-            'type' => Type::string(),
-            'images' => Type::string(),
-            'image' => Type::string(),
-            'imageWidth' => Type::string(),
-            'imageHeight' => Type::string(),
-            'code' => Type::string(),
-            'width' => Type::string(),
-            'height' => Type::string(),
-            'aspectRatio' => Type::string(),
-            'authorName' => Type::string(),
-            'authorUrl' => Type::string(),
-            'providerName' => Type::string(),
-            'providerUrl' => Type::string(),
-        ];
-
-        return GqlEntityRegistry::getEntity($typeName) ?: GqlEntityRegistry::createEntity($typeName, new Element([
-            'name' => $typeName,
-            'fields' => function() use ($properties) {
-                return $properties;
-            }
-        ]));
-    }
-
     /**
      * @inheritdoc
      */
@@ -106,4 +68,5 @@ class OembedFieldTypeGenerator implements GeneratorInterface, SingleGeneratorInt
         /** @var OembedField $context */
         return $context->handle . '_OembedField';
     }
+
 }

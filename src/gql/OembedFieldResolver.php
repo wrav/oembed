@@ -23,6 +23,6 @@ class OembedFieldResolver extends ObjectType
     {
         $fieldName = $resolveInfo->fieldName;
 
-        return $source->$fieldName ?? null;
+        return $source->$fieldName;
     }
 }

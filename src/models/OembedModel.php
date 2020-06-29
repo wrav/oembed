@@ -56,7 +56,7 @@ class OembedModel extends Model
     public function __get($name)
     {
         if (property_exists($this , $name)) {
-            return $this->$name;
+            return $this->$name ?? null;
         }
 
         if ($this->oembed === null) {
@@ -69,7 +69,7 @@ class OembedModel extends Model
             $this->oembed = $oembed;
         }
 
-        return $this->oembed->$name;
+        return $this->oembed->$name ?? null;
     }
 
 
