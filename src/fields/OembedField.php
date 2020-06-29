@@ -110,7 +110,7 @@ class OembedField extends Field
                 return new OembedModel($value['url']);
             }
         }
-        
+
         if (is_string($value) && $decValue = json_decode($value, true)) {
             if (isset($decValue['url'])) {
                 return new OembedModel($decValue['url']);

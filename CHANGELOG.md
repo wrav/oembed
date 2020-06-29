@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.4 - 2020-06-29
+
+### Updated
+- Fix to normalizeValue function on GraphQL field's `__get()` magic method. Thanks @joshuabaker
+
 ## 1.3.3 - 2020-06-29
 
 ### Updated

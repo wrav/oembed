@@ -15,7 +15,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 class OembedFieldResolver extends ObjectType
 {
-
     /**
      * @inheritdoc
      */

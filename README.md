@@ -92,7 +92,7 @@ You can access additional media details using the examples below.
 
 Additional Embed information can be found [here](https://github.com/oscarotero/Embed)
 
-## GraphQl
+## GraphQL
 
 I recommend enabling caching in the plugin settings menu to speed up the API resolve timing.
 
@@ -123,4 +123,4 @@ Changes can be viewed [here](https://github.com/wrav/oembed/blob/master/CHANGELO
 
 ## Support
 
-Get in touch via email or by [creating a Github issue](/wrav/oembed/issues)
+Get in touch via email, Discord, or by [creating a Github issue](/wrav/oembed/issues)
