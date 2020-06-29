@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.3 - 2020-06-29
+
+### Updated
+- Fix to GraphQL bug caused by PHP NULL coalescing operator from issue ([#46](https://github.com/wrav/oembed/issues/46)).
+
 ## 1.3.2 - 2020-06-05
 
 ### Updated
