@@ -59,6 +59,9 @@ class OembedModel extends Model
             return $this->$name ?? null;
         }
 
+//        var_dump($this->url);
+//        die;
+        
         if ($this->oembed === null) {
             $oembed = Oembed::getInstance()->oembedService->embed($this->url);
 

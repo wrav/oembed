@@ -63,6 +63,48 @@ class OembedFieldTypeGenerator implements GeneratorInterface
     /**
      * @inheritdoc
      */
+    public static function generateType($context = null)
+    {
+        /** @var OembedField $context */
+        $typeName = self::getName($context);
+
+        $properties = [
+            'title' => Type::string(),
+            'description' => Type::string(),
+            'url' => Type::string(),
+            'type' => Type::string(),
+            'image' => Type::string(),
+            'imageWidth' => Type::string(),
+            'imageHeight' => Type::string(),
+            'code' => Type::string(),
+            'width' => Type::string(),
+            'height' => Type::string(),
+            'aspectRatio' => Type::string(),
+            'authorName' => Type::string(),
+            'authorUrl' => Type::string(),
+            'providerName' => Type::string(),
+            'providerUrl' => Type::string(),
+        ];
+
+        $property = GqlEntityRegistry::getEntity($typeName)
+            ?: GqlEntityRegistry::createEntity($typeName, new OembedFieldResolver([
+                'name' => $typeName,
+                'description' => 'This entity has all the Oembed Field properties',
+                'fields' => function () use ($properties) {
+                    return $properties;
+                },
+            ]));
+
+        TypeLoader::registerType($typeName, function () use ($property) {
+            return $property;
+        });
+
+        return $property;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public static function getName($context = null): string
     {
         /** @var OembedField $context */
