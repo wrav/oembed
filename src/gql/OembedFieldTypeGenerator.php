@@ -14,6 +14,7 @@ use craft\gql\base\GeneratorInterface;
 use craft\gql\GqlEntityRegistry;
 use craft\gql\TypeLoader;
 use GraphQL\Type\Definition\Type;
+use wrav\oembed\fields\OembedField;
 
 class OembedFieldTypeGenerator implements GeneratorInterface
 {
@@ -30,7 +31,6 @@ class OembedFieldTypeGenerator implements GeneratorInterface
             'description' => Type::string(),
             'url' => Type::string(),
             'type' => Type::string(),
-            'images' => Type::string(),
             'image' => Type::string(),
             'imageWidth' => Type::string(),
             'imageHeight' => Type::string(),
@@ -68,4 +68,5 @@ class OembedFieldTypeGenerator implements GeneratorInterface
         /** @var OembedField $context */
         return $context->handle . '_OembedField';
     }
+
 }
