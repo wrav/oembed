@@ -40,6 +40,10 @@ class OembedService extends Component
             return \Craft::$app->cache->get($url);
         }
 
+        if (Oembed::getInstance()->getSettings()->facebookKey) {
+            $options['facebook']['key'] = Oembed::getInstance()->getSettings()->facebookKey;
+        }
+
         try {
             array_multisort($options);
 

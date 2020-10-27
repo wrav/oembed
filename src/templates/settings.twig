@@ -47,5 +47,13 @@
     instructions: "Will default to system email sender"|t,
     id: 'notificationEmail',
     name: 'notificationEmail',
-    on: settings.notificationEmail,
+    value: settings.notificationEmail,
+}) }}
+
+{{ forms.textField({
+    label: "Access token for Facebook/Instagram"|t,
+    instructions: "Create an app in the <a href='https://developers.facebook.com/apps/' target='_blank'>Facebook developer console</a>, enable the oEmbed product and use that <a href='https://developers.facebook.com/docs/plugins/oembed/#access-tokens' target='_blank'>access token</a>"|t,
+    id: 'facebookKey',
+    name: 'facebookKey',
+    value: settings.facebookKey,
 }) }}
