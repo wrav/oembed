@@ -51,6 +51,10 @@ Updating the embed URL, such as autoplay, rel, mute paramaters. This allows for 
                 mute: 0,
                 loop: 1,
                 autopause: 1,
+            },
+            attributes: {
+                title: 'Main title',
+                'data-title': 'Some other title',
             }
         }) 
     }}
@@ -61,6 +65,17 @@ Updating the width & height attributes on the iframe can be done using the follo
         entry.oembed_field.render({
             width: 640,
             height: 480,
+        }) 
+    }}
+    
+or
+    
+    {{ 
+        entry.oembed_field.render({
+            attributes: {
+                width: 640,
+                height: 480,
+            }
         }) 
     }}
     

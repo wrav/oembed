@@ -119,6 +119,12 @@ class OembedService extends Component
                     $src = preg_replace('/\?(.*)$/i', '?rel='. (!!$options['rel'] ? '1' : '0') .'&${1}', $src);
                 }
 
+                if(!empty($options['attributes'])) {
+                    foreach((array)$options['attributes'] as $key => $value) {
+                        $iframe->setAttribute($key, $value);
+                    }
+                }
+
                 $iframe->setAttribute('src', $src);
                 $media->code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
             } catch (\Exception $exception) {

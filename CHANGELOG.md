@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.6 - 2020-10-28
+
+### Added
+- Added new render option called `attributes` to allow custom attributes to bet added to iframe element, this resolves issue ([#51](https://github.com/wrav/oembed/issues/51)).
+
 ## 1.3.5 - 2020-10-28
 
 ### Updated
