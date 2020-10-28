@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.5 - 2020-10-28
+
+### Updated
+- Add settings-input for Facebook/Instagram access token. Thanks Floris aka @FlorisDerks
+
 ## 1.3.4 - 2020-06-29
 
 ### Updated
