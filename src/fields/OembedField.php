@@ -24,6 +24,7 @@ use wrav\oembed\gql\OembedFieldTypeGenerator;
 use wrav\oembed\Oembed;
 use yii\db\Schema;
 use wrav\oembed\models\OembedModel;
+use wrav\oembed\assetbundles\oembed\OembedAsset;
 
 /**
  * OembedField Field
@@ -153,6 +154,8 @@ class OembedField extends Field
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
+        Craft::$app->view->registerAssetBundle(OembedAsset::class);
+
         $settings = Oembed::getInstance()->getSettings();
         $hidden = $settings['previewHidden'];
         $previewIcon = $hidden ? 'expand' : 'collapse';

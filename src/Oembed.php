@@ -118,21 +118,6 @@ class Oembed extends Plugin
         );
 
         Event::on(
-            View::class,
-            View::EVENT_END_PAGE,
-            function(Event $event) {
-                if (Craft::$app->getRequest()->getIsCpRequest() && preg_match('/^\/.+\/entries\//', Craft::$app->getRequest()->getUrl())) {
-                    $url = Craft::$app->assetManager->getPublishedUrl('@wrav/oembed/assetbundles/oembed/dist/js/oembed.js', true);
-
-                    echo "<script src='$url'></script>";
-
-                    $url = Craft::$app->assetManager->getPublishedUrl('@wrav/oembed/assetbundles/oembed/dist/css/oembed.css', true);
-                    echo "<link rel='stylesheet' href='$url'>";
-                }
-            }
-        );
-
-        Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function(RegisterUrlRulesEvent $event) {

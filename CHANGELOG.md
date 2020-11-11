@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 1.3.7 - 2020-11-13
+
+### Fixed
+- The preview now works in all areas of the control panel ([#62](https://github.com/wrav/oembed/issues/62)).
+- Plugin resources are no longer appended after the html tag ([#52](https://github.com/wrav/oembed/issues/52)).
+
 ## 1.3.6 - 2020-10-28
 
 ### Added
