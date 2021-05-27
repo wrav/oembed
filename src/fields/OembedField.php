@@ -105,23 +105,34 @@ class OembedField extends Field
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
-        if (is_array($value)) {
-            if (isset($value['url'])) {
-                return new OembedModel($value['url']);
-            }
+        // If null, don’t proceed
+        if ($value === null) {
+            return null;
+        }
+        
+        // If an instance of `OembedModel` and URL is set, return it
+        if ($value instanceof OembedModel && $value->url) {
+            return $value;
         }
 
-        if (is_string($value) && $decValue = json_decode($value, true)) {
-            if (isset($decValue['url'])) {
-                return new OembedModel($decValue['url']);
-            }
+        // If JSON object string, decode it and use that as the value
+        if (Json::isJsonObject($value)) {
+            $value = Json::decode($value); // Returns an array
         }
 
-        $oembed = $value ? new OembedModel($value) : null;
-
-        $this->oembed = $oembed;
-
-        return $oembed;
+        // If array with `url` attribute, that’s our url so update the value
+        if ($url = ArrayHelper::getValue($value, 'url')) {
+            // Run `getValue` twice to avoid https://github.com/wrav/oembed/issues/74
+            $value = ArrayHelper::getValue($value, 'url', $url);
+        }
+        
+        // If URL string, return an instance of `OembedModel`
+        if (UrlHelper::isFullUrl($value)) {
+            return new OembedModel($value);
+        }
+        
+        // If we get here, something’s gone wrong
+        return null;
     }
 
     /**
