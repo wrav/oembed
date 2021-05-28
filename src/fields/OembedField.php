@@ -124,13 +124,17 @@ class OembedField extends Field
         }
 
         // If array with `url` attribute, that’s our url so update the value
-        if ($url = ArrayHelper::getValue($value, 'url')) {
-            // Run `getValue` twice to avoid https://github.com/wrav/oembed/issues/74
-            $value = ArrayHelper::getValue($value, 'url', $url);
+        if (is_array($value)) {
+            $value = ArrayHelper::getValue($value, 'url');
+        }
+
+        // Run `getValue` twice to avoid https://github.com/wrav/oembed/issues/74
+        if (is_array($value)) {
+            $value = ArrayHelper::getValue($value, 'url');
         }
         
         // If URL string, return an instance of `OembedModel`
-        if (UrlHelper::isFullUrl($value)) {
+        if (is_string($value) && UrlHelper::isFullUrl($value)) {
             return new OembedModel($value);
         }
         
