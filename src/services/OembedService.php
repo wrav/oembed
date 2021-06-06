@@ -40,6 +40,10 @@ class OembedService extends Component
             return \Craft::$app->cache->get($url);
         }
 
+        if (Oembed::getInstance()->getSettings()->facebookKey) {
+            $options['facebook']['key'] = Oembed::getInstance()->getSettings()->facebookKey;
+        }
+
         try {
             array_multisort($options);
 
@@ -113,6 +117,12 @@ class OembedService extends Component
                 // Rel
                 if (!empty($options['rel']) && strpos($html, 'rel=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?rel='. (!!$options['rel'] ? '1' : '0') .'&${1}', $src);
+                }
+
+                if(!empty($options['attributes'])) {
+                    foreach((array)$options['attributes'] as $key => $value) {
+                        $iframe->setAttribute($key, $value);
+                    }
                 }
 
                 $iframe->setAttribute('src', $src);

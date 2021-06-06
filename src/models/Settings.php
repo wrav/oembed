@@ -45,4 +45,9 @@ class Settings extends Model
      */
     public $previewHidden;
 
+    /**
+     * @var string
+     */
+    public $facebookKey;
+
 }

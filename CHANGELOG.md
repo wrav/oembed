@@ -1,5 +1,21 @@
 # oEmbed Changelog
 
+## 1.3.7 - 2020-11-13
+
+### Fixed
+- The preview now works in all areas of the control panel ([#62](https://github.com/wrav/oembed/issues/62)).
+- Plugin resources are no longer appended after the html tag ([#52](https://github.com/wrav/oembed/issues/52)).
+
+## 1.3.6 - 2020-10-28
+
+### Added
+- Added new render option called `attributes` to allow custom attributes to bet added to iframe element, this resolves issue ([#51](https://github.com/wrav/oembed/issues/51)).
+
+## 1.3.5 - 2020-10-28
+
+### Updated
+- Add settings-input for Facebook/Instagram access token. Thanks Floris aka @FlorisDerks
+
 ## 1.3.4 - 2020-06-29
 
 ### Updated
