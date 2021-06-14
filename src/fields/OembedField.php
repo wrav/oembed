@@ -49,6 +49,11 @@ class OembedField extends Field
      * @var array
      */
     public $oembed = [];
+    
+    /**
+     * @var mixed|null
+     */
+    protected $value;
 
     // Static Methods
     // =========================================================================
@@ -115,7 +120,7 @@ class OembedField extends Field
         
         // If an instance of `OembedModel` and URL is set, return it
         if ($value instanceof OembedModel && $value->url) {
-            return $value;
+            return $this->value = $value;
         }
 
         // If JSON object string, decode it and use that as the value
@@ -135,7 +140,7 @@ class OembedField extends Field
         
         // If URL string, return an instance of `OembedModel`
         if (is_string($value) && UrlHelper::isFullUrl($value)) {
-            return new OembedModel($value);
+            return $this->value = new OembedModel($value);
         }
         
         // If we get here, something’s gone wrong
