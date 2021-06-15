@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 1.3.8 - 2020-06-15
+
+### Updated
+- Fixes issue with code changes due to PHP namespacing.
+- Updates to caching key to support embed options, this resolves issues [#73](https://github.com/wrav/oembed/issues/73). 
+
 ## 1.3.7 - 2020-06-15
 
 ### Updated

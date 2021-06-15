@@ -36,8 +36,15 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [])
     {
+        try {
+            $hash = md5(json_encode($options));
+        } catch (\Exception $exception) {
+            $hash = '';
+        }
+        $cacheKey = $url.'_'.$hash;
+
         if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($url)) {
-            return \Craft::$app->cache->get($url);
+            return \Craft::$app->cache->get($cacheKey);
         }
 
         if (Oembed::getInstance()->getSettings()->facebookKey) {
@@ -132,7 +139,7 @@ class OembedService extends Component
             }
             finally {
                 if (Oembed::getInstance()->getSettings()->enableCache) {
-                    Craft::$app->cache->set($url, $media, 'P1H');
+                    Craft::$app->cache->set($cacheKey, $media, 'P1H');
                 }
 
                 return $media;

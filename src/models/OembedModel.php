@@ -13,6 +13,7 @@ namespace wrav\oembed\models;
 use Embed\Adapters\Youtube;
 use wrav\oembed\Oembed;
 use craft\base\Model;
+use craft\helpers\Json;
 
 /**
  * OembedModel Model
@@ -159,9 +160,9 @@ class OembedModel extends Model
     /**
      * @return boolean
      */
-    public function valid()
+    public function valid(array $options = [])
     {
-        $media = $this->embed();
+        $media = $this->embed($options);
         return (!empty($media) && isset($media->code));
     }
 }
