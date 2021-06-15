@@ -18,7 +18,10 @@ use craft\gql\arguments\elements\MatrixBlock as MatrixBlockArguments;
 use craft\gql\resolvers\elements\MatrixBlock as MatrixBlockResolver;
 use craft\gql\types\generators\MatrixBlockType as MatrixBlockTypeGenerator;
 use craft\gql\types\QueryArgument;
+use craft\helpers\ArrayHelper;
 use craft\helpers\Gql as GqlHelper;
+use craft\helpers\Json;
+use craft\helpers\UrlHelper;
 use GraphQL\Type\Definition\Type;
 use wrav\oembed\gql\OembedFieldTypeGenerator;
 use wrav\oembed\Oembed;
@@ -46,6 +49,11 @@ class OembedField extends Field
      * @var array
      */
     public $oembed = [];
+    
+    /**
+     * @var mixed|null
+     */
+    protected $value;
 
     // Static Methods
     // =========================================================================
@@ -105,23 +113,38 @@ class OembedField extends Field
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
+        // If null, don’t proceed
+        if ($value === null) {
+            return null;
+        }
+        
+        // If an instance of `OembedModel` and URL is set, return it
+        if ($value instanceof OembedModel && $value->url) {
+            return $this->value = $value;
+        }
+
+        // If JSON object string, decode it and use that as the value
+        if (Json::isJsonObject($value)) {
+            $value = Json::decode($value); // Returns an array
+        }
+
+        // If array with `url` attribute, that’s our url so update the value
         if (is_array($value)) {
-            if (isset($value['url'])) {
-                return new OembedModel($value['url']);
-            }
+            $value = ArrayHelper::getValue($value, 'url');
         }
 
-        if (is_string($value) && $decValue = json_decode($value, true)) {
-            if (isset($decValue['url'])) {
-                return new OembedModel($decValue['url']);
-            }
+        // Run `getValue` twice to avoid https://github.com/wrav/oembed/issues/74
+        if (is_array($value)) {
+            $value = ArrayHelper::getValue($value, 'url');
         }
-
-        $oembed = $value ? new OembedModel($value) : null;
-
-        $this->oembed = $oembed;
-
-        return $oembed;
+        
+        // If URL string, return an instance of `OembedModel`
+        if (is_string($value) && UrlHelper::isFullUrl($value)) {
+            return $this->value = new OembedModel($value);
+        }
+        
+        // If we get here, something’s gone wrong
+        return null;
     }
 
     /**
