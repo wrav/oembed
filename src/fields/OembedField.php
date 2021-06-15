@@ -46,11 +46,6 @@ class OembedField extends Field
     public $url = '';
 
     /**
-     * @var array
-     */
-    public $oembed = [];
-    
-    /**
      * @var mixed|null
      */
     protected $value;
@@ -115,36 +110,35 @@ class OembedField extends Field
     {
         // If null, don’t proceed
         if ($value === null) {
-            return null;
+            return new OembedModel(null);
         }
-        
+
         // If an instance of `OembedModel` and URL is set, return it
         if ($value instanceof OembedModel && $value->url) {
-            return $this->value = $value;
+            if (UrlHelper::isFullUrl($value->url)) {
+                return $this->value = $value->url;
+            } else {
+                // If we get here, something’s gone wrong
+                return new OembedModel(null);
+            }
         }
 
         // If JSON object string, decode it and use that as the value
-        if (Json::isJsonObject($value)) {
-            $value = Json::decode($value); // Returns an array
-        }
+        $value = Json::decodeIfJson($value); // Returns an array
 
         // If array with `url` attribute, that’s our url so update the value
-        if (is_array($value)) {
+        // Run `getValue` to avoid https://github.com/wrav/oembed/issues/74
+        while(is_array($value)) {
             $value = ArrayHelper::getValue($value, 'url');
         }
 
-        // Run `getValue` twice to avoid https://github.com/wrav/oembed/issues/74
-        if (is_array($value)) {
-            $value = ArrayHelper::getValue($value, 'url');
-        }
-        
-        // If URL string, return an instance of `OembedModel`
+        // If URL stri  ng, return an instance of `OembedModel`
         if (is_string($value) && UrlHelper::isFullUrl($value)) {
             return $this->value = new OembedModel($value);
         }
-        
+
         // If we get here, something’s gone wrong
-        return null;
+        return new OembedModel(null);
     }
 
     /**

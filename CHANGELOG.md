@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 1.3.7 - 2020-06-15
+
+### Updated
+- Updates to OembedModel / GraphQL bugfixes, this resolves issues [#74](https://github.com/wrav/oembed/issues/74) and PR [#75](https://github.com/wrav/oembed/issues/75). Thank you to @joshuabaker, @denisyilmaz and anyone else I missed. 
+- Clean up bugfixes changes
+
 ## 1.3.6 - 2020-10-28
 
 ### Added

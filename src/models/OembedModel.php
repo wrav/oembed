@@ -34,7 +34,7 @@ class OembedModel extends Model
     /**
      * @var mixed
      */
-    public $oembed = null;
+    private $oembed = null;
 
     /**
      * OembedModel constructor.
@@ -105,6 +105,12 @@ class OembedModel extends Model
     public function getUrl()
     {
         $value = $this->url;
+
+        if (is_string($value) && $decValue = Json::decodeIfJson($value, true)) {
+            if (isset($decValue['url'])) {
+                return new OembedModel($decValue['url'] ?? null);
+            }
+        }
 
         if (is_string($value)) {
             $decValue = json_decode($value, true);
