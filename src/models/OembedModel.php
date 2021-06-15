@@ -10,9 +10,9 @@
 
 namespace wrav\oembed\models;
 
-use Embed\Adapters\Youtube;
-use wrav\oembed\Oembed;
 use craft\base\Model;
+use craft\helpers\Json;
+use wrav\oembed\Oembed;
 
 /**
  * OembedModel Model
