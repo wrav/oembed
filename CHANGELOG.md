@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.9 - 2020-06-16
+
+### Updated
+- Fixes issue with `params` option not applying if query / GET params not yet set, this resolves issues [#53](https://github.com/wrav/oembed/issues/53).
+
 ## 1.3.8 - 2020-06-15
 
 ### Updated

@@ -90,6 +90,11 @@ class OembedService extends Component
 
                 $src = $this->manageGDPR($src);
 
+                // Solved issue with "params" options not applying
+                if (!preg_match('/\?(.*)$/i', $src)) {
+                    $src .= "?";
+                }
+
                 if(!empty($options['params'])) {
                     foreach((array)$options['params'] as $key => $value) {
                         $src = preg_replace('/\?(.*)$/i', '?'.$key.'='. $value .'&${1}', $src);
