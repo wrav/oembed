@@ -1,5 +1,4 @@
 {% set media = craft.oembed.embed(url) %}
-
 {% if media and media.code|default(false) %}
     {{ media.code|default('')|raw }}
 {% else %}
