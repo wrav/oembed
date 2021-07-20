@@ -43,7 +43,7 @@ class OembedService extends Component
         }
         $cacheKey = $url.'_'.$hash;
 
-        if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($url)) {
+        if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($cacheKey)) {
             return \Craft::$app->cache->get($cacheKey);
         }
 
