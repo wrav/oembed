@@ -1,17 +1,24 @@
 # oEmbed Changelog
 
-## 1.3.9 - 2020-06-16
+## 1.3.10 - 2021-07-20
+
+### Updated
+- Fixes issue with caching key, thanks [@mijewe](https://github.com/mijewe).
+- Fixes to 'class@anonymous' handling, this should help resolve issues [#81](https://github.com/wrav/oembed/issues/81), [#50](https://github.com/wrav/oembed/issues/50), [#10](https://github.com/wrav/oembed/issues/10).
+- Updated CHANGELOG dates.
+
+## 1.3.9 - 2021-06-16
 
 ### Updated
 - Fixes issue with `params` option not applying if query / GET params not yet set, this resolves issues [#53](https://github.com/wrav/oembed/issues/53).
 
-## 1.3.8 - 2020-06-15
+## 1.3.8 - 2021-06-15
 
 ### Updated
 - Fixes issue with code changes due to PHP namespacing.
 - Updates to caching key to support embed options, this resolves issues [#73](https://github.com/wrav/oembed/issues/73). 
 
-## 1.3.7 - 2020-06-15
+## 1.3.7 - 2021-06-15
 
 ### Updated
 - Updates to OembedModel / GraphQL bugfixes, this resolves issues [#74](https://github.com/wrav/oembed/issues/74) and PR [#75](https://github.com/wrav/oembed/issues/75). Thank you to @joshuabaker, @denisyilmaz and anyone else I missed. 

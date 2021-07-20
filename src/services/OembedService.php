@@ -72,7 +72,12 @@ class OembedService extends Component
             if (empty($media)) {
                 $media = new class {
                     // Returns NULL for calls to props
-                    public function __call(string $name , array $arguments )
+                    public function __call($name , $arguments )
+                    {
+                        return null;
+                    }
+                    // Returns NULL for calls to props
+                    public function __get($name)
                     {
                         return null;
                     }
@@ -81,7 +86,8 @@ class OembedService extends Component
 
             // Wrapping to be safe :)
             try {
-                $html = $media->code;
+                $html = !empty($media->code) ? $media->code : "<iframe src='$url' width='100%' frameborder='0' scrolling='no'></iframe>";
+
                 $dom = new DOMDocument;
                 $dom->loadHTML($html);
 
@@ -139,6 +145,7 @@ class OembedService extends Component
 
                 $iframe->setAttribute('src', $src);
                 $media->code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
+
             } catch (\Exception $exception) {
                 Craft::info($exception->getMessage(), 'oembed');
             }
@@ -146,7 +153,6 @@ class OembedService extends Component
                 if (Oembed::getInstance()->getSettings()->enableCache) {
                     Craft::$app->cache->set($cacheKey, $media, 'P1H');
                 }
-
                 return $media;
             }
         }
