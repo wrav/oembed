@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.11 - 2021-07-21
+
+### Added
+- Added fallback adapter for invalid URLs and PHP 8 issues, thanks [@gglnx](https://github.com/gglnx). This also fixes #81, #76 issues.
+
 ## 1.3.10 - 2021-07-20
 
 ### Updated
