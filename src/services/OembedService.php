@@ -16,6 +16,9 @@ use craft\base\Component;
 use DOMDocument;
 use Embed\Adapters\Adapter;
 use Embed\Embed;
+use Embed\Exceptions\InvalidUrlException;
+use Embed\Http\CurlDispatcher;
+use wrav\oembed\adapters\FallbackAdapter;
 use wrav\oembed\events\BrokenUrlEvent;
 use wrav\oembed\Oembed;
 use yii\log\Logger;
@@ -56,40 +59,25 @@ class OembedService extends Component
 
             /** @var Adapter $media */
             $media = Embed::create($url, $options);
-
-            if (!empty($media) && !isset($media->code)) {
-                if (Oembed::getInstance()->getSettings()->enableNotifications) {
-                    if (!empty($media->getUrl())) {
-                        Oembed::getInstance()->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
-                            'url' => $media->getUrl()
-                        ]));
-                    }
-                }
-
-                $media->code = "<iframe src='$url' width='100%' frameborder='0' scrolling='no'></iframe>";
+        } catch (InvalidUrlException $e) {
+            // Trigger notification
+            if (Oembed::getInstance()->getSettings()->enableNotifications) {
+                Oembed::getInstance()->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
+                    'url' => $url,
+                ]));
             }
+
+            // Create fallback
+            $media = new FallbackAdapter(
+                $e->getResponse(),
+                $options,
+                new CurlDispatcher()
+            );
         } finally {
-            if (empty($media)) {
-                $media = new class {
-                    // Returns NULL for calls to props
-                    public function __call($name , $arguments )
-                    {
-                        return null;
-                    }
-                    // Returns NULL for calls to props
-                    public function __get($name)
-                    {
-                        return null;
-                    }
-                };
-            }
-
             // Wrapping to be safe :)
             try {
-                $html = !empty($media->code) ? $media->code : "<iframe src='$url' width='100%' frameborder='0' scrolling='no'></iframe>";
-
                 $dom = new DOMDocument;
-                $dom->loadHTML($html);
+                $dom->loadHTML($media->getCode());
 
                 $iframe = $dom->getElementsByTagName('iframe')->item(0);
                 $src = $iframe->getAttribute('src');
@@ -151,7 +139,10 @@ class OembedService extends Component
             }
             finally {
                 if (Oembed::getInstance()->getSettings()->enableCache) {
-                    Craft::$app->cache->set($cacheKey, $media, 'P1H');
+                    // Cache failed requests only for 15 minutes
+                    $duration = $media instanceof FallbackAdapter ? 15 * 60 : 60 * 60;
+
+                    Craft::$app->cache->set($cacheKey, $media, $duration);
                 }
                 return $media;
             }
