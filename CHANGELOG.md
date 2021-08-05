@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.12 - 2021-08-05
+
+### Added
+- Fix issue with blank URLs where fallback adapter sets URL to '/'. This also fixes #88 issue.
+
 ## 1.3.11 - 2021-07-21
 
 ### Added

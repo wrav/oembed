@@ -134,6 +134,10 @@ class OembedModel extends Model
      */
     public function render(array $options = [])
     {
+        if (empty($this->getUrl())) {
+            return null;
+        }
+
         return Oembed::getInstance()->oembedService->render($this->getUrl(), $options);
     }
 
@@ -145,6 +149,10 @@ class OembedModel extends Model
      */
     public function embed(array $options = [])
     {
+        if (empty($this->getUrl())) {
+            return null;
+        }
+
         return Oembed::getInstance()->oembedService->embed($this->getUrl(), $options);
     }
 
@@ -154,6 +162,10 @@ class OembedModel extends Model
      */
     public function media(array $options = [])
     {
+        if (empty($this->getUrl())) {
+            return null;
+        }
+
         return $this->embed($options);
     }
 
@@ -162,6 +174,10 @@ class OembedModel extends Model
      */
     public function valid(array $options = [])
     {
+        if (empty($this->getUrl())) {
+            return false;
+        }
+
         $media = $this->embed($options);
         return (!empty($media) && isset($media->code));
     }

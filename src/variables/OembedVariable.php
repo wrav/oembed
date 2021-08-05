@@ -32,6 +32,10 @@ class OembedVariable
      */
     public function render($url, array $options = [])
     {
+        if (empty($url)) {
+            return null;
+        }
+
         return Oembed::getInstance()->oembedService->render($url, $options);
     }
 
@@ -46,6 +50,10 @@ class OembedVariable
      */
     public function embed($url, array $options = [])
     {
+        if (empty($url)) {
+            return null;
+        }
+
         return Oembed::getInstance()->oembedService->embed($url, $options);
     }
 
@@ -56,10 +64,14 @@ class OembedVariable
      *
      * @param $url
      * @param array $options
-     * @return string
+     * @return bool
      */
     public function valid($url, array $options = [])
     {
+        if (empty($url)) {
+            return false;
+        }
+
         $media = $this->embed($url, $options);
         return (!empty($media) && isset($media->code));
     }
