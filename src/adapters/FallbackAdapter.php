@@ -22,6 +22,10 @@ class FallbackAdapter extends Adapter
 
     public function getCode()
     {
-        return Utils::iframe($this->url);
+        if (!$this->url) {
+            return Utils::iframe($this->url);
+        }
+
+        return null;
     }
 }
