@@ -12,6 +12,7 @@ namespace wrav\oembed\services;
 
 use craft;
 use craft\helpers\Template;
+use craft\helpers\UrlHelper;
 use craft\base\Component;
 use DOMDocument;
 use Embed\Adapters\Adapter;
@@ -57,8 +58,12 @@ class OembedService extends Component
         try {
             array_multisort($options);
 
+            $dispatcher = new CurlDispatcher([
+                CURLOPT_REFERER => UrlHelper::siteUrl(),
+            ]);
+
             /** @var Adapter $media */
-            $media = Embed::create($url, $options);
+            $media = Embed::create($url, $options, $dispatcher);
         } catch (InvalidUrlException $e) {
             // Trigger notification
             if (Oembed::getInstance()->getSettings()->enableNotifications) {
