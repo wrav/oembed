@@ -18,7 +18,7 @@ use Embed\Adapters\Adapter;
 use Embed\Embed;
 use Embed\Exceptions\InvalidUrlException;
 use Embed\Http\CurlDispatcher;
-use wrav\oembed\adapters\FallbackAdapter;
+use wrav\oembed\adapters\EmbedAdapter;
 use wrav\oembed\events\BrokenUrlEvent;
 use wrav\oembed\Oembed;
 use yii\log\Logger;
@@ -35,7 +35,7 @@ class OembedService extends Component
     /**
      * @param $url
      * @param array $options
-     * @return Media|string
+     * @return array|string
      */
     public function embed($url, array $options = [])
     {
@@ -45,6 +45,7 @@ class OembedService extends Component
             $hash = '';
         }
         $cacheKey = $url.'_'.$hash;
+        $data = [];
 
         if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($cacheKey)) {
             return \Craft::$app->cache->get($cacheKey);
@@ -57,27 +58,34 @@ class OembedService extends Component
         try {
             array_multisort($options);
 
-            /** @var Adapter $media */
-            $media = Embed::create($url, $options);
+            $embed = new Embed();
+            $infos = $embed
+                ->get($url)
+            ;
+            $infos->setSettings($options);
+            $media = $infos->getOEmbed();
+            $data = $infos->getOEmbed()->all();
         } catch (InvalidUrlException $e) {
+            Craft::info($e->getMessage(), 'oembed');
+
             // Trigger notification
             if (Oembed::getInstance()->getSettings()->enableNotifications) {
                 Oembed::getInstance()->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
                     'url' => $url,
                 ]));
             }
+        }
+        finally {
+            if (empty($data)) {
+                $data = [
+                    'html' => $url ? '<iframe src="'.$url.'"></iframe>': null
+                ];
+            }
 
-            // Create fallback
-            $media = new FallbackAdapter(
-                $e->getResponse(),
-                $options,
-                new CurlDispatcher()
-            );
-        } finally {
             // Wrapping to be safe :)
             try {
                 $dom = new DOMDocument;
-                $dom->loadHTML($media->getCode());
+                $dom->loadHTML($data['html']);
 
                 $iframe = $dom->getElementsByTagName('iframe')->item(0);
                 $src = $iframe->getAttribute('src');
@@ -132,19 +140,22 @@ class OembedService extends Component
                 }
 
                 $iframe->setAttribute('src', $src);
-                $media->code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
+                $iframeXML = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
 
+                $data['html'] = $iframeXML;
             } catch (\Exception $exception) {
                 Craft::info($exception->getMessage(), 'oembed');
             }
             finally {
                 if (Oembed::getInstance()->getSettings()->enableCache) {
                     // Cache failed requests only for 15 minutes
-                    $duration = $media instanceof FallbackAdapter ? 15 * 60 : 60 * 60;
+//                    $duration = $media instanceof FallbackAdapter ? 15 * 60 : 60 * 60;
+                    $duration = 60 * 60;
 
                     Craft::$app->cache->set($cacheKey, $media, $duration);
                 }
-                return $media;
+
+                return new EmbedAdapter($data);
             }
         }
     }
@@ -189,10 +200,10 @@ class OembedService extends Component
     public function render($url, array $options = [])
     {
         /** @var Media $media */
-        $media = $this->embed($url, $options);
+        $media = (object)$this->embed($url, $options);
 
         if (!empty($media)) {
-            return Template::raw(isset($media->code) ? $media->code : '');
+            return Template::raw($media->html ?? '');
         } else {
             return null;
         }
