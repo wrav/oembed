@@ -1,5 +1,14 @@
 # oEmbed Changelog
 
+## 1.3.13 - 2021-10-21
+
+### Added
+- Add referrer to Embed for videos with privacy restrictions.
+
+### Update
+- Changes to the handle of FallbackAdapter with no URL.
+- Preview changes
+
 ## 1.3.12 - 2021-08-05
 
 ### Added
