@@ -104,27 +104,31 @@ class OembedService extends Component
                 }
 
                 // Autoplay
-                if (!empty($options['autoplay']) && strpos($html, 'autoplay=') === false && $src) {
+                if (!empty($options['autoplay']) && strpos($src, 'autoplay=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?autoplay='. (!!$options['autoplay'] ? '1' : '0') .'&${1}', $src);
                 }
 
                 // Width - Override
                 if (!empty($options['width']) && is_int($options['width'])) {
                     $iframe->setAttribute('width', $options['width']);
+                    $data['originalWidth'] = $data['width'];
+                    $data['width'] = $options['width'];
                 }
 
                 // Height - Override
                 if (!empty($options['height']) && is_int($options['height'])) {
                     $iframe->setAttribute('height', $options['height']);
+                    $data['originalHeight'] = $data['height'];
+                    $data['height'] = $options['height'];
                 }
 
                 // Looping
-                if (!empty($options['loop']) && strpos($html, 'loop=') === false && $src) {
+                if (!empty($options['loop']) && strpos($src, 'loop=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?loop='. (!!$options['loop'] ? '1' : '0') .'&${1}', $src);
                 }
 
                 // Autopause
-                if (!empty($options['autopause']) && strpos($html, 'autopause=') === false && $src) {
+                if (!empty($options['autopause']) && strpos($src, 'autopause=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?autopause='. (!!$options['autopause'] ? '1' : '0') .'&${1}', $src);
                 }
 
