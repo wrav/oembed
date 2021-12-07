@@ -129,7 +129,7 @@ class OembedService extends Component
                 }
 
                 // Rel
-                if (!empty($options['rel']) && strpos($html, 'rel=') === false && $src) {
+                if (!empty($options['rel']) && strpos($src, 'rel=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?rel='. (!!$options['rel'] ? '1' : '0') .'&${1}', $src);
                 }
 
@@ -149,7 +149,6 @@ class OembedService extends Component
             finally {
                 if (Oembed::getInstance()->getSettings()->enableCache) {
                     // Cache failed requests only for 15 minutes
-//                    $duration = $media instanceof FallbackAdapter ? 15 * 60 : 60 * 60;
                     $duration = 60 * 60;
 
                     Craft::$app->cache->set($cacheKey, $media, $duration);
