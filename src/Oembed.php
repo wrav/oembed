@@ -55,7 +55,7 @@ class Oembed extends Plugin
     /**
      * @var string|null The plugin’s schema version number
      */
-    public $schemaVersion = '1.0.1';
+    public string $schemaVersion = '1.0.1';
 
     // Public Methods
     // =========================================================================
@@ -166,7 +166,7 @@ class Oembed extends Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?craft\base\Model
     {
         return new Settings();
     }
