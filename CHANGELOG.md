@@ -1,8 +1,13 @@
 # oEmbed Changelog
 
+## 2.0.0 - 2022-05-18
+
+### Updated
+- Updated plugin to support Craft v4
+
 ## 1.3.15 - 2022-03-09
 
-### Update
+### Updated
 - Fix for issue #101, where the plugin is unable to set a webpage as a valid source URL. Thanks @juban
 
 ## 1.3.13 - 2021-10-21
@@ -10,7 +15,7 @@
 ### Added
 - Add referrer to Embed for videos with privacy restrictions.
 
-### Update
+### Updated
 - Changes to the handle of FallbackAdapter with no URL.
 - Preview changes
 
