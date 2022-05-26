@@ -1,6 +1,26 @@
 # oEmbed plugin for Craft CMS 3.x
 
-![oEmbed](resources/img/plugin-logo.png)
+<p align="center">
+   <img src="resources/img/plugin-logo.png" alt="oEmbed" />
+</p>
+
+<p align="center">
+   <img src="https://img.shields.io/badge/license-MIT-green" />
+   <a href="https://github.com/wrav/oembed/releases" alt="Releases">
+   <img src="https://img.shields.io/github/v/release/wrav/oembed"></a>
+   <a href="https://github.com/reganlawton" alt="Maintainer">
+      <img src="https://img.shields.io/badge/maintainer-reganlawton-blue" /></a>
+   <a href="https://github.com/badges/shields/graphs/contributors" alt="Contributors">
+      <img src="https://img.shields.io/github/contributors/wrav/oembed" /></a>
+   <a href="https://github.com/wrav/oembed/pulse" alt="Activity">
+      <img src="https://img.shields.io/github/commit-activity/y/wrav/oembed" /></a>  
+   <a href="https://github.com/wrav/oembed/issues" alt="Issues">
+      <img src="https://img.shields.io/github/issues-raw/wrav/oembed" /></a>
+   <a href="https://packagist.org/packages/wrav/oembed" alt="Downloads">
+      <img src="https://img.shields.io/packagist/dt/wrav/oembed" /></a>   
+   
+</p>
+
 
 A simple plugin to extract media information from websites, like youtube videos, twitter statuses or blog articles.
 
