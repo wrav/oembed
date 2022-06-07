@@ -1,9 +1,10 @@
 # oEmbed Changelog
 
-## 2.0.0 - 2022-05-18
+## 2.0.0 - 2022-06-18
 
 ### Updated
 - Updated plugin to support Craft v4
+- Removed requirement for Craft v3 and requiremnt is now PHP to >=8.0.2
 
 ## 1.3.15 - 2022-03-09
 
