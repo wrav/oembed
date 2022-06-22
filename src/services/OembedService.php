@@ -19,6 +19,7 @@ use Embed\Adapters\Adapter;
 use Embed\Embed;
 use Embed\Exceptions\InvalidUrlException;
 use Embed\Http\CurlDispatcher;
+use Embed\Utils;
 use wrav\oembed\adapters\FallbackAdapter;
 use wrav\oembed\events\BrokenUrlEvent;
 use wrav\oembed\Oembed;
