@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.17 - 2022-06-24
+
+### Update
+- Fix issue with composer and packagist version syncing. Thanks @juban
+
 ## 1.3.15 - 2022-03-09
 
 ### Update
