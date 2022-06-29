@@ -16,8 +16,8 @@ use Embed\Utils;
 class FallbackAdapter extends Adapter
 {
     /**
-     * Magic method to execute methods to return paramaters
-     * For example, $source->sourceUrl executes $source->getSourceUrl().
+     * Magic method to return properties if the exists
+     * and fail gracefully (return null) if they don't.
      *
      * @param string $name The property name
      *
@@ -25,19 +25,10 @@ class FallbackAdapter extends Adapter
      */
     public function __get($name)
     {
-        $method = 'get'.$name;
-
         if(property_exists($this, $name)){
             return $this->$name;
         }
 
-        if(property_exists($this, $method)){
-            return $this->$method;
-        }
-
-        if (method_exists($this, $method)) {
-            return $this->$name = $this->$method();
-        }
         return null;
     }
 
