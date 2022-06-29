@@ -15,6 +15,8 @@ use Embed\Utils;
 
 class FallbackAdapter extends Adapter
 {
+    public $height;
+
     protected function init()
     {
         $this->providers = [];
