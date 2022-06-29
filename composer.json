@@ -31,7 +31,8 @@
     ],
     "require": {
         "craftcms/cms": "^4.0",
-        "embed/embed": "^3.3"
+        "embed/embed": "^3.3",
+        "ext-dom": "*"
     },
     "repositories": [
         {
@@ -55,5 +56,11 @@
             "oembedService": "wrav\\oembed\\services\\OembedService"
         },
         "class": "wrav\\oembed\\Oembed"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
     }
 }
