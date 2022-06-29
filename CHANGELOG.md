@@ -1,5 +1,13 @@
 # oEmbed Changelog
 
+## 2.1.0 - 2022-06-29
+
+### Added
+- Added `ext-dom` requirement
+
+### Updated
+- Fix for issue #101 for the v2 version track for Craft v4. Thanks again @juban
+
 ## 2.0.0 - 2022-06-18
 
 ### Updated
