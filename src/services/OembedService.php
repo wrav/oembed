@@ -160,7 +160,6 @@ class OembedService extends Component
 
                 $iframe->setAttribute('src', $src);
                 $media->code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
-
             } catch (\Exception $exception) {
                 Craft::info($exception->getMessage(), 'oembed');
             } finally {
@@ -168,7 +167,7 @@ class OembedService extends Component
                     // Cache failed requests only for 15 minutes
                     $duration = $media instanceof FallbackAdapter ? 15 * 60 : 60 * 60;
 
-                    Craft::$app->cache->set($cacheKey, $media, $duration);
+                    Craft::$app->cache->set($cacheKey, json_decode(json_encode($media)), $duration);
                 }
                 return $media;
             }
@@ -199,7 +198,6 @@ class OembedService extends Component
                     }
 
                     $url = preg_replace('/(dnt=(1|0))/i', 'dnt=1', $url);
-                    $skip = true;
                 }
             }
         }
