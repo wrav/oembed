@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 2.2.1 - 2022-06-30
+
+### Update
+- Fix a side effect of #101 fix where the preview and embed will fallback to the default Craft site if no or invalid URL is provided (@juban)
+
 ## 2.2.0 - 2022-06-30
 
 ### Update
