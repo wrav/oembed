@@ -110,6 +110,10 @@ class OembedField extends Field
     {
         // If null, don’t proceed
         if ($value === null) {
+            if ($this->required) {
+                return null;
+            }
+
             return new OembedModel(null);
         }
 
