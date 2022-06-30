@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 1.3.18 - 2022-06-30
+
+### Update
+- Converting DOMDocument to JSON and back to StdClass due to error "Serialization of 'DOMDocument' is not allowed" with caching in PHP 8.
+- Fixed `required` option not applying
+
 ## 1.3.17 - 2022-06-24
 
 ### Update

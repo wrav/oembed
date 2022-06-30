@@ -168,7 +168,11 @@ class OembedService extends Component
                     // Cache failed requests only for 15 minutes
                     $duration = $media instanceof FallbackAdapter ? 15 * 60 : 60 * 60;
 
-                    Craft::$app->cache->set($cacheKey, $media, $duration);
+                    if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+                        Craft::$app->cache->set($cacheKey, json_decode(json_encode($media)), $duration);
+                    } else {
+                        Craft::$app->cache->set($cacheKey, $media, $duration);
+                    }
                 }
                 return $media;
             }
