@@ -1,6 +1,6 @@
 # oEmbed Changelog
 
-## 2.2.2 - 2022-06-30
+## 2.2.2 - 2022-08-26
 
 ### Update
 - Fix Craft 4 type compatibility. THANKS @raymondelooff
