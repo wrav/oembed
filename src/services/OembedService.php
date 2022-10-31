@@ -101,8 +101,8 @@ class OembedService extends Component
             try {
                 $dom = new DOMDocument;
                 $code = $media->getCode();
-                if (empty($code)) {
-                    $code = Utils::iframe($media->url);
+                if (empty($code) && !($media instanceof FallbackAdapter)) {
+                    $code = empty((string)$url) ? '' : Utils::iframe($media->url);
                 }
                 $dom->loadHTML($code);
 
