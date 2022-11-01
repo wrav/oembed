@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 1.3.19 - 2022-11-01
+
+### Update
+- Fix for FallbackAdapter not being handled correctly. Thanks @creode-dev
+
 ## 1.3.18 - 2022-06-30
 
 ### Update
