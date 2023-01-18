@@ -39,10 +39,10 @@ class OembedService extends Component
      * @param array $options
      * @return string
      */
-    public function render($url, array $options = [])
+    public function render($url, array $options = [], array $cacheProps = [])
     {
         /** @var Media $media */
-        $media = $this->embed($url, $options);
+        $media = $this->embed($url, $options, $cacheProps);
 
         if (!empty($media)) {
             return Template::raw(isset($media->code) ? $media->code : '');
@@ -56,10 +56,10 @@ class OembedService extends Component
      * @param array $options
      * @return Media|string
      */
-    public function embed($url, array $options = [])
+    public function embed($url, array $options = [], array $cacheProps = [])
     {
         try {
-            $hash = md5(json_encode($options));
+            $hash = md5(json_encode($options)).md5(json_encode($cacheProps));
         } catch (\Exception $exception) {
             $hash = '';
         }
@@ -166,6 +166,42 @@ class OembedService extends Component
                 if (Oembed::getInstance()->getSettings()->enableCache) {
                     // Cache failed requests only for 15 minutes
                     $duration = $media instanceof FallbackAdapter ? 15 * 60 : 60 * 60;
+
+                    $defaultCacheKeys = [
+                        'title',
+                        'description',
+                        'url',
+                        'type',
+                        'tags',
+                        'images',
+                        'image',
+                        'imageWidth',
+                        'imageHeight',
+                        'code',
+                        'width',
+                        'height',
+                        'aspectRatio',
+                        'authorName',
+                        'authorUrl',
+                        'providerName',
+                        'providerUrl',
+                        'providerIcons',
+                        'providerIcon',
+                        'publishedDate',
+                        'license',
+                        'linkedData',
+                        'feeds',
+                    ];
+
+                    $cacheKeys = array_unique(array_merge($defaultCacheKeys, $cacheProps));
+
+                    foreach ($cacheKeys as $key) {
+                        try {
+                            $media->{$key} = $media->{$key};
+                        } catch (\Exception $e) {
+                            $media->{$key} = null;
+                        }
+                    }
 
                     Craft::$app->cache->set($cacheKey, json_decode(json_encode($media)), $duration);
                 }
