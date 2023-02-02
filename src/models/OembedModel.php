@@ -132,13 +132,13 @@ class OembedModel extends Model
      * @param array $options
      * @return string
      */
-    public function render(array $options = [])
+    public function render(array $options = [], array $cacheProps = [])
     {
         if (empty($this->getUrl())) {
             return null;
         }
 
-        return Oembed::getInstance()->oembedService->render($this->getUrl(), $options);
+        return Oembed::getInstance()->oembedService->render($this->getUrl(), $options, $cacheProps);
     }
 
     /**
@@ -147,38 +147,38 @@ class OembedModel extends Model
      * @param array $options
      * @return string
      */
-    public function embed(array $options = [])
+    public function embed(array $options = [], array $cacheProps = [])
     {
         if (empty($this->getUrl())) {
             return null;
         }
 
-        return Oembed::getInstance()->oembedService->embed($this->getUrl(), $options);
+        return Oembed::getInstance()->oembedService->embed($this->getUrl(), $options, $cacheProps);
     }
 
     /**
      * @param array $options
      * @return string
      */
-    public function media(array $options = [])
+    public function media(array $options = [], array $cacheProps = [])
     {
         if (empty($this->getUrl())) {
             return null;
         }
 
-        return $this->embed($options);
+        return $this->embed($options, $cacheProps);
     }
 
     /**
      * @return boolean
      */
-    public function valid(array $options = [])
+    public function valid(array $options = [], array $cacheProps = [])
     {
         if (empty($this->getUrl())) {
             return false;
         }
 
-        $media = $this->embed($options);
+        $media = $this->embed($options, $cacheProps);
         return (!empty($media) && isset($media->code));
     }
 }

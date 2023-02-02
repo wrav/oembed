@@ -56,10 +56,10 @@ To use simply call one of the following methods on your field type
     
 We also provide option to use as a Twig variable
 
-    {{ craft.oembed.valid(url, options) }}
-    {{ craft.oembed.render(url, options) }}
-    {% set embed = craft.oembed.embed(url, options) %}
-    {% set media = craft.oembed.media(url, options) %}
+    {{ craft.oembed.valid(url, options, cacheFields) }}
+    {{ craft.oembed.render(url, options, cacheFields) }}
+    {% set embed = craft.oembed.embed(url, options, cacheFields) %}
+    {% set media = craft.oembed.media(url, options, cacheFields) %}
     
 Updating the embed URL, such as autoplay, rel, mute paramaters. This allows for you to support features the provider might not yet support
 
@@ -126,6 +126,48 @@ You can access additional media details using the examples below.
     entry.field.media.feeds
 
 Additional Embed information can be found [here](https://github.com/oscarotero/Embed)
+
+## Cache
+
+By default, the plugin will cache the following keys on the oembed object. The plugin can cache additional missing fields using the cache prop parameter which will take an array of strings.
+
+   {{ 
+      entry.oembed_field.render(
+         {
+            width: 640,
+            height: 480,
+         }, 
+         [
+            'cacheable_key'
+         ]
+      ) 
+   }}
+
+### Default Keys
+
+- title
+- description
+- url
+- type
+- tags
+- images
+- image
+- imageWidth
+- imageHeight
+- code
+- width
+- height
+- aspectRatio
+- authorName
+- authorUrl
+- providerName
+- providerUrl
+- providerIcons
+- providerIcon
+- publishedDate
+- license
+- linkedData
+- feeds
 
 ## GraphQL
 

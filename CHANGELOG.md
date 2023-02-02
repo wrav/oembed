@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 2.3.0 - 2023-02-02
+
+### Update
+- Added default caching keys to resolve missing field data while cached
+
 ## 2.2.2 - 2022-08-26
 
 ### Update

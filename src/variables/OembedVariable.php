@@ -30,13 +30,13 @@ class OembedVariable
      * @param array $options
      * @return string
      */
-    public function render($url, array $options = [])
+    public function render($url, array $options = [], array $cacheProps = [])
     {
         if (empty($url)) {
             return null;
         }
 
-        return Oembed::getInstance()->oembedService->render($url, $options);
+        return Oembed::getInstance()->oembedService->render($url, $options, $cacheProps);
     }
 
     /**
@@ -48,13 +48,13 @@ class OembedVariable
      * @param array $options
      * @return string
      */
-    public function embed($url, array $options = [])
+    public function embed($url, array $options = [], array $cacheProps = [])
     {
         if (empty($url)) {
             return null;
         }
 
-        return Oembed::getInstance()->oembedService->embed($url, $options);
+        return Oembed::getInstance()->oembedService->embed($url, $options, $cacheProps);
     }
 
     /**
@@ -66,13 +66,13 @@ class OembedVariable
      * @param array $options
      * @return bool
      */
-    public function valid($url, array $options = [])
+    public function valid($url, array $options = [], array $cacheProps = [])
     {
         if (empty($url)) {
             return false;
         }
 
-        $media = $this->embed($url, $options);
+        $media = $this->embed($url, $options, $cacheProps);
         return (!empty($media) && isset($media->code));
     }
 }
