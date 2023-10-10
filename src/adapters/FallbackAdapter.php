@@ -18,6 +18,8 @@ class FallbackAdapter extends Adapter
     protected function init()
     {
         $this->providers = [];
+        $this->height = null;
+        $this->width = null;
     }
 
     public function getCode()
