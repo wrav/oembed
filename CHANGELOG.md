@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 2.3.1 - 2023-10-11
+
+### Update
+- Added fix for issue #138, caused by static return type on the JobInterface. Thanks @laurabennett
+- Added @sgtpenguin 's PR to avoid GraphQL bug by defaulting the height and width to NULL for the fallback adapter. Thanks @sgtpenguin
+
 ## 2.3.0 - 2023-02-02
 
 ### Update
