@@ -19,9 +19,9 @@ class BrokenUrlNotify extends BaseJob
     /**
      * @inheritdoc
      */
-    public function execute($queue)
+    public function execute($queue): void
     {
-        $email = Oembed::getInstance()->getSettings()->notificationEmail;
+        $email = Oembed::getInstance()->getSettings()->notificationEmail ?? false;
         $subject = Craft::$app->getSystemName() . ' :: oEmbed detected broken URL';
 
         if (!$email) {
@@ -29,10 +29,10 @@ class BrokenUrlNotify extends BaseJob
         }
 
         if (!$email || !$this->url) {
-            return false;
+            return;
         }
 
-        return Craft::$app
+        Craft::$app
             ->getMailer()
             ->compose()
             ->setTo($email)
