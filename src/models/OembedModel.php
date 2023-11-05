@@ -64,10 +64,11 @@ class OembedModel extends Model
             $oembed = Oembed::getInstance()->oembedService->embed($this->url);
 
             if (!$oembed) {
-                $this->embed = [];
+                $this->oembed = [];
+            } else {
+                $this->oembed = $oembed;
             }
 
-            $this->oembed = $oembed;
         }
 
         return $this->oembed->$name ?? null;

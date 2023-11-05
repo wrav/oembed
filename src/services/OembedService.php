@@ -217,7 +217,8 @@ class OembedService extends Component
 
                     Craft::$app->cache->set($cacheKey, json_decode(json_encode($media)), $duration);
                 }
-                return $media;
+
+                return $media ?? [];
             }
         }
     }
