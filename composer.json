@@ -29,6 +29,9 @@
             "homepage": "https://github.com/reganlawton"
         }
     ],
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
     "require": {
         "craftcms/cms": "^4.0",
         "embed/embed": "^v4.4",
