@@ -36,6 +36,6 @@ class EmbedAdapter
 
     public function getCode()
     {
-        return isset($this->data['html']) ? $this->data['html'] : '';
+        return $this->data['html'] ?? '';
     }
 }
