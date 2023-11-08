@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.0 - 2023-11-04
+
+### Update
+- Update embed/embed to v4 to allow for support with newer plugins.
+
 ## 2.3.1 - 2023-10-11
 
 ### Update

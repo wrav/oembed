@@ -10,24 +10,6 @@
 
 namespace wrav\oembed\adapters;
 
-use Embed\Adapters\Adapter;
-use Embed\Utils;
-
-class FallbackAdapter extends Adapter
+class FallbackAdapter extends EmbedAdapter
 {
-    protected function init()
-    {
-        $this->providers = [];
-        $this->height = null;
-        $this->width = null;
-    }
-
-    public function getCode()
-    {
-        if (!$this->url) {
-            return Utils::iframe($this->url);
-        }
-
-        return null;
-    }
 }
