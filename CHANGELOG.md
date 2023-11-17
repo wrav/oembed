@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.1 - 2023-11-17
+
+### Update
+- Handle all exceptions in OembedService to prevent edge case errors. Reported by @holiday-jan in issue #141. Thanks @holiday-jan
+
 ## 3.0.0 - 2023-11-04
 
 ### Update

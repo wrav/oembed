@@ -16,8 +16,8 @@ use craft\helpers\Template;
 use craft\helpers\UrlHelper;
 use DOMDocument;
 use Embed\Embed;
-use Embed\Exceptions\InvalidUrlException;
 use Embed\Http\CurlDispatcher;
+use Exception;
 use wrav\oembed\adapters\EmbedAdapter;
 use wrav\oembed\adapters\FallbackAdapter;
 use wrav\oembed\events\BrokenUrlEvent;
@@ -83,7 +83,7 @@ class OembedService extends Component
             $data = $infos->getOEmbed()->all();
 
             $media = new EmbedAdapter($data);
-        } catch (InvalidUrlException $e) {
+        } catch (Exception $e) {
             Craft::info($e->getMessage(), 'oembed');
 
             // Trigger notification event
