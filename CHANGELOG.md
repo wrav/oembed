@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.2 - 2023-12-01
+
+### Update
+- Add data mapping and fallback for image properties. Reported by @maxfenton in issue #143 and @helleholmsen in issue #145. Thanks @maxfenton and @helleholmsen
+
 ## 3.0.1 - 2023-11-17
 
 ### Update

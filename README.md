@@ -99,7 +99,7 @@ or
         }) 
     }}
     
-You can access additional media details using the examples below.
+You can access additional media details using the examples below, these are the default keys.
 
     entry.field.media.title
     entry.field.media.description
@@ -124,6 +124,10 @@ You can access additional media details using the examples below.
     entry.field.media.license
     entry.field.media.linkedData
     entry.field.media.feeds
+
+You can access additional media details from the data array. These will be snake_case so be aware.
+
+   {{ dump(entry.field.media.data) }}
 
 Additional Embed information can be found [here](https://github.com/oscarotero/Embed)
 
