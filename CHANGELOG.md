@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.3 - 2023-12-04
+
+### Update
+- Add GDPR compliance with CookieBot settings and functionality. Reported by @joepagan  in issue #131. Thanks @joepagan and @iparr for discussion and logging.
+
 ## 3.0.2 - 2023-12-01
 
 ### Update

@@ -122,6 +122,12 @@ class OembedService extends Component
 
                 $src = $this->manageGDPR($src);
 
+                // Adds additional attributes for GDPR compliance
+                if (Oembed::getInstance()->getSettings()->enableGdprCookieBot) {
+                    $iframe->setAttribute('data-cookieblock-src', $src);
+                    $iframe->setAttribute('data-cookieconsent', 'marketing');
+                }
+
                 // Solved issue with "params" options not applying
                 if (!preg_match('/\?(.*)$/i', $src)) {
                     $src .= "?";

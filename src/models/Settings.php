@@ -31,6 +31,11 @@ class Settings extends Model
     public $enableGdpr;
 
     /**
+     * @var bool
+     */
+    public $enableGdprCookieBot;
+
+    /**
      * @var string
      */
     public $enableNotifications;

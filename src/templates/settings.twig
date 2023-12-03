@@ -27,6 +27,14 @@
 }) }}
 
 {{ forms.lightswitchField({
+    label: "Enable GDPR compliant with CookieBot"|t,
+    instructions: "Check this box to enable GDPR compliance with CookieBot. This ensures that your website follows the necessary regulations for user privacy."|t,
+    id: 'enableGdprCookieBot',
+    name: 'enableGdprCookieBot',
+    on: settings.enableGdprCookieBot,
+}) }}
+
+{{ forms.lightswitchField({
     label: "Previews hidden by default"|t,
     instructions: "This will hide preview in collapsable component"|t,
     id: 'previewHidden',
