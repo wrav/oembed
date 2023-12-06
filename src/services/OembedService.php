@@ -56,12 +56,14 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [], array $cacheProps = [])
     {
+        $plugin = Craft::$app->plugins->getPlugin('oembed');
+
         try {
             $hash = md5(json_encode($options)).md5(json_encode($cacheProps));
         } catch (\Exception $exception) {
             $hash = '';
         }
-        $cacheKey = $url . '_' . $hash;
+        $cacheKey = $url . '_' . $plugin->getVersion() . '_' . $hash;
         $data = [];
 
         if (Oembed::getInstance()->getSettings()->enableCache && Craft::$app->cache->exists($cacheKey)) {
