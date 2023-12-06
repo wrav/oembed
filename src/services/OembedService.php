@@ -82,13 +82,16 @@ class OembedService extends Component
 
             /** @var Adapter $media */
             $media = Embed::create($url, $options, $dispatcher);
-        } catch (InvalidUrlException $e) {
+        } catch (\Exception $e) {
             // Trigger notification
             if (Oembed::getInstance()->getSettings()->enableNotifications) {
                 Oembed::getInstance()->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
                     'url' => $url,
                 ]));
             }
+
+            // Log
+            Craft::info($e->getMessage(), 'oembed');
 
             // Create fallback
             $media = new FallbackAdapter(
