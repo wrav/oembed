@@ -142,6 +142,11 @@ class OembedService extends Component
 
                 if (!empty($options['params'])) {
                     foreach ((array)$options['params'] as $key => $value) {
+                        // If value is an array, skip
+                        if (is_array($value)) {
+                            continue;
+                        }
+
                         $src = preg_replace('/\?(.*)$/i', '?' . $key . '=' . $value . '&${1}', $src);
                     }
                 }
