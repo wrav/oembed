@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.5 - 2023-12-08
+
+### Update
+- Modified handling of empty embedded media codes
+
 ## 3.0.4 - 2023-12-07
 
 ### Update

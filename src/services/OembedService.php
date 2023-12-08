@@ -43,7 +43,12 @@ class OembedService extends Component
         $media = $this->embed($url, $options, $cacheProps);
 
         if (!empty($media)) {
-            return Template::raw(isset($media->code) ? $media->code : '');
+            // If code is empty, we have a fallback to HTML prop
+            if(empty($media->code)) {
+                return Template::raw($media->html ?? '');
+            }
+
+            return Template::raw($media->code ?? '');
         } else {
             return null;
         }
