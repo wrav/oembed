@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.7 - 2023-12-15
+
+### Update
+- Resolve YT loop issues. Reported by @holiday-jan in issue #146. Thanks @holiday-jan
+
 ## 3.0.6 - 2023-12-15
 
 ### Update

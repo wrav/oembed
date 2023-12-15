@@ -32,6 +32,8 @@ use wrav\oembed\Oembed;
  */
 class OembedService extends Component
 {
+    private $youtubePattern = '/(?:http|https)*?:*\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.be|youtube-nocookie\.com)/i';
+
     /**
      * @param $url
      * @param array $options
@@ -185,6 +187,21 @@ class OembedService extends Component
                 if (!empty($options['attributes'])) {
                     foreach ((array)$options['attributes'] as $key => $value) {
                         $iframe->setAttribute($key, $value);
+                    }
+                }
+
+                // Resolve YT loop issues
+                preg_match($this->youtubePattern, $url, $ytMatch, PREG_OFFSET_CAPTURE);
+
+                // If youtube video and loop=1 is found
+                if (count($ytMatch) && strpos($src, 'loop=1') !== false) {
+                    // Get playlist param from the URL code
+                    preg_match('/\/embed\/([^?]+)/', $src, $ytCode);
+
+                    // If playlist param is found
+                    if (count($ytCode)) {
+                        // Add playlist param to the URL
+                        $src = preg_replace('/\?(.*)$/i', '?playlist=' . $ytCode[1] . '&${1}', $src);
                     }
                 }
 
