@@ -1,7 +1,9 @@
-{% set media = craft.oembed.embed(url) %}
-
-{% if media and media.code|default(false) %}
-    {{ media.code|default('')|raw }}
+{% if url is defined and url is not null and url is not empty or craft.oembed.valid(url) %}
+    {{
+        craft.oembed.render(
+            url,
+        )
+    }}
 {% else %}
     <p class="error">Please check your URL.</p>
 {% endif %}

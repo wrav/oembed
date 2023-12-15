@@ -152,7 +152,7 @@ class OembedService extends Component
                 }
 
                 // Autoplay
-                if (!empty($options['autoplay']) && strpos($html, 'autoplay=') === false && $src) {
+                if (!empty($options['autoplay']) && strpos($src, 'autoplay=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?autoplay=' . (!!$options['autoplay'] ? '1' : '0') . '&${1}', $src);
                 }
 
@@ -167,28 +167,34 @@ class OembedService extends Component
                 }
 
                 // Looping
-                if (!empty($options['loop']) && strpos($html, 'loop=') === false && $src) {
+                if (!empty($options['loop']) && strpos($src, 'loop=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?loop=' . (!!$options['loop'] ? '1' : '0') . '&${1}', $src);
                 }
 
                 // Autopause
-                if (!empty($options['autopause']) && strpos($html, 'autopause=') === false && $src) {
+                if (!empty($options['autopause']) && strpos($src, 'autopause=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?autopause=' . (!!$options['autopause'] ? '1' : '0') . '&${1}', $src);
                 }
 
                 // Rel
-                if (!empty($options['rel']) && strpos($html, 'rel=') === false && $src) {
+                if (!empty($options['rel']) && strpos($src, 'rel=') === false && $src) {
                     $src = preg_replace('/\?(.*)$/i', '?rel=' . (!!$options['rel'] ? '1' : '0') . '&${1}', $src);
                 }
 
+                // Apply attributes to the iframe
                 if (!empty($options['attributes'])) {
                     foreach ((array)$options['attributes'] as $key => $value) {
                         $iframe->setAttribute($key, $value);
                     }
                 }
 
+                // Set the SRC
                 $iframe->setAttribute('src', $src);
-                $media->code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
+
+                // Set the code
+                $code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
+
+                $media->code = $code;
             } catch (\Exception $exception) {
                 Craft::info($exception->getMessage(), 'oembed');
             } finally {

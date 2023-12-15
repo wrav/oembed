@@ -1,5 +1,13 @@
 # oEmbed Changelog
 
+## 3.0.6 - 2023-12-15
+
+### Update
+- Fixed issue with src attribute not being set on iframe. Reported by @holiday-jan in issue #146. Thanks @holiday-jan
+- Rework preview handling
+- Updated README docs
+- Fallback .code for certain providers, this completely blocked GraphQL users. Reported by @yoannisj in issue #129. Thanks @yoannisj
+
 ## 3.0.5 - 2023-12-08
 
 ### Update

@@ -52,6 +52,9 @@ class EmbedAdapter
             $this->$key = $this->data[$keyName] ?? null;
         }
 
+        // Fallback for .code incase it's empty
+        $this->code = $this->code ?: $this->getCode();
+
         // Custom mapping
 
         // Fallback for .image
