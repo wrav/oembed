@@ -65,15 +65,29 @@ Updating the embed URL, such as autoplay, rel, mute paramaters. This allows for 
 
     {{ 
         entry.oembed_field.render({
-            autoplay: 1,
-            rel: 0,
-            mute: 0,
-            loop: 1,
-            autopause: 1,
+            params: {
+                autoplay: 1,
+                rel: 0,
+                mute: 0,
+                loop: 1,
+                autopause: 1,
+            },
             attributes: {
                 title: 'Main title',
                 'data-title': 'Some other title',
             }
+        }) 
+    }}
+    
+We still support hte old legacy method, however this might be deprecated in future versions.
+
+    {{ 
+        entry.oembed_field.render({
+             autoplay: 1,
+             rel: 0,
+             mute: 0,
+             loop: 1,
+             autopause: 1,
         }) 
     }}
     
