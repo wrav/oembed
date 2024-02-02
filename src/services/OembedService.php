@@ -160,7 +160,7 @@ class OembedService extends Component
 
                 // Width - Override
                 if (!empty($options['width']) && is_int($options['width'])) {
-                    $iframe->setAttribute('width', $options['width']);
+                    $iframe->setAttribute('width', $options['width']* 2);
                 }
 
                 // Height - Override
@@ -187,6 +187,11 @@ class OembedService extends Component
                 if (!empty($options['attributes'])) {
                     foreach ((array)$options['attributes'] as $key => $value) {
                         $iframe->setAttribute($key, $value);
+
+                        // If key in array, add to the media object
+                        if (in_array($key, ['width', 'height'])) {
+                            $media->$key = $value;
+                        }
                     }
                 }
 
@@ -211,7 +216,11 @@ class OembedService extends Component
                 // Set the code
                 $code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
 
+                // Apply the code to the media object
                 $media->code = $code;
+
+                // Set the URL if not set
+                $media->url = $media->url ?: $url;
             } catch (\Exception $exception) {
                 Craft::info($exception->getMessage(), 'oembed');
             } finally {

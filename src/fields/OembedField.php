@@ -93,10 +93,47 @@ class OembedField extends Field
     {
         $typeArray = OembedFieldTypeGenerator::generateTypes($this);
 
+        $handle = $this->handle;
+
         return [
-            'name' => $this->handle,
+            'name' => $handle,
             'description' => "Oembed field",
             'type' => array_shift($typeArray),
+            // The `args` array specifies the GraphQL arguments that the `embed` function accepts so we can apply options for the oEmbed service
+            'args' => [
+                'options' => [
+                    'name' => 'options',
+                    'type' => Type::string(),
+                    'description' => 'This should be a JSON-encoded string.',
+                ],
+                'cacheProps' => [
+                    'name' => 'cacheProps',
+                    'type' => Type::string(),
+                    'description' => 'This should be a JSON-encoded string.',
+                ],
+            ],
+            // Use the `resolve` method to convert the field value into a format that can be used by the oEmbed services embed method
+            'resolve' => function($source, $arguments) use ($handle) {
+                try {
+                    $url = $source[$handle]['url'];
+                } catch (\Exception $e) {
+                    throw new \Exception('The oEmbed field is not set.');
+                }
+
+                if (isset($arguments['options'])) {
+                    $arguments['options'] = Json::decode($arguments['options']);
+                }
+                if (isset($arguments['cacheProps'])) {
+                    $arguments['cacheProps'] = Json::decode($arguments['cacheProps']);
+                }
+
+                $url = 'https://www.youtube.com/watch?list=TLGGAUdtDa3aKmYwMjAyMjAyNA&v=C0DPdy98e4c&embeds_referring_euri=http%3A%2F%2Flocalhost%3A8080%2F&source_ve_path=MjM4NTE&feature=emb_title';
+                $embed = Oembed::getInstance()->oembedService->embed($url, $arguments['options'] ?? [], $arguments['cacheProps'] ?? []);
+
+//                throw new \Exception(Json::encode($embed));
+
+                return $embed;
+            }
         ];
     }
 
