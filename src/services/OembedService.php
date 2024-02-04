@@ -160,7 +160,7 @@ class OembedService extends Component
 
                 // Width - Override
                 if (!empty($options['width']) && is_int($options['width'])) {
-                    $iframe->setAttribute('width', $options['width']* 2);
+                    $iframe->setAttribute('width', $options['width']);
                 }
 
                 // Height - Override

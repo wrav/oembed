@@ -127,10 +127,7 @@ class OembedField extends Field
                     $arguments['cacheProps'] = Json::decode($arguments['cacheProps']);
                 }
 
-                $url = 'https://www.youtube.com/watch?list=TLGGAUdtDa3aKmYwMjAyMjAyNA&v=C0DPdy98e4c&embeds_referring_euri=http%3A%2F%2Flocalhost%3A8080%2F&source_ve_path=MjM4NTE&feature=emb_title';
                 $embed = Oembed::getInstance()->oembedService->embed($url, $arguments['options'] ?? [], $arguments['cacheProps'] ?? []);
-
-//                throw new \Exception(Json::encode($embed));
 
                 return $embed;
             }
