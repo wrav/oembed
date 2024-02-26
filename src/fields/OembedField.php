@@ -93,10 +93,44 @@ class OembedField extends Field
     {
         $typeArray = OembedFieldTypeGenerator::generateTypes($this);
 
+        $handle = $this->handle;
+
         return [
-            'name' => $this->handle,
+            'name' => $handle,
             'description' => "Oembed field",
             'type' => array_shift($typeArray),
+            // The `args` array specifies the GraphQL arguments that the `embed` function accepts so we can apply options for the oEmbed service
+            'args' => [
+                'options' => [
+                    'name' => 'options',
+                    'type' => Type::string(),
+                    'description' => 'This should be a JSON-encoded string.',
+                ],
+                'cacheProps' => [
+                    'name' => 'cacheProps',
+                    'type' => Type::string(),
+                    'description' => 'This should be a JSON-encoded string.',
+                ],
+            ],
+            // Use the `resolve` method to convert the field value into a format that can be used by the oEmbed services embed method
+            'resolve' => function($source, $arguments) use ($handle) {
+                try {
+                    $url = $source[$handle]['url'];
+                } catch (\Exception $e) {
+                    throw new \Exception('The oEmbed field is not set.');
+                }
+
+                if (isset($arguments['options'])) {
+                    $arguments['options'] = Json::decode($arguments['options']);
+                }
+                if (isset($arguments['cacheProps'])) {
+                    $arguments['cacheProps'] = Json::decode($arguments['cacheProps']);
+                }
+
+                $embed = Oembed::getInstance()->oembedService->embed($url, $arguments['options'] ?? [], $arguments['cacheProps'] ?? []);
+
+                return $embed;
+            }
         ];
     }
 

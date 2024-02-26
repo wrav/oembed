@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.8 - 2024-02-26
+
+### Update
+- Resolved GraphQL issues. Special thanks to @davidwebca 
+
 ## 3.0.7 - 2023-12-15
 
 ### Update
