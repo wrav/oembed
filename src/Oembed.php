@@ -55,7 +55,7 @@ class Oembed extends Plugin
     /**
      * @var string|null The plugin’s schema version number
      */
-    public string $schemaVersion = '1.0.1';
+    public $schemaVersion = '1.0.1';
 
     // Public Methods
     // =========================================================================

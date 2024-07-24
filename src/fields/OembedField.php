@@ -89,7 +89,7 @@ class OembedField extends Field
      * @inheritdoc
      * @since 3.3.0
      */
-    public function getContentGqlType(): \GraphQL\Type\Definition\Type|array
+    public function getContentGqlType()
     {
         $typeArray = OembedFieldTypeGenerator::generateTypes($this);
 
@@ -140,7 +140,7 @@ class OembedField extends Field
      *
      * @return mixed The prepared field value
      */
-    public function normalizeValue(mixed $value, ?craft\base\ElementInterface $element = null): mixed
+    public function normalizeValue($value, $element = null)
     {
         // If null, don’t proceed
         if ($value === null) {
@@ -187,7 +187,7 @@ class OembedField extends Field
      *                                param, if any.
      * @return null|false `false` in the event that the method is sure that no elements are going to be found.
      */
-    public function serializeValue(mixed $value, ?craft\base\ElementInterface $element = null): mixed
+    public function serializeValue($value, $element = null): mixed
     {
         return parent::serializeValue($value, $element);
     }
