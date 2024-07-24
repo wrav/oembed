@@ -187,7 +187,7 @@ class OembedField extends Field
      *                                param, if any.
      * @return null|false `false` in the event that the method is sure that no elements are going to be found.
      */
-    public function serializeValue($value, $element = null): mixed
+    public function serializeValue($value, $element = null)
     {
         return parent::serializeValue($value, $element);
     }
