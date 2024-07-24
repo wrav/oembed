@@ -24,11 +24,6 @@ use craft\web\Controller;
 class DefaultController extends Controller
 {
 
-    // Protected Properties
-    // =========================================================================
-
-    protected array|int|bool $allowAnonymous = false;
-
     // Public Methods
     // =========================================================================
 
