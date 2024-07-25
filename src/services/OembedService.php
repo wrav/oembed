@@ -86,7 +86,7 @@ class OembedService extends Component
 
             $embed = new Embed();
             $infos = $embed
-                ->get($url)
+                ->get($url ?: "")
             ;
             $infos->setSettings($options);
             $data = $infos->getOEmbed()->all();
