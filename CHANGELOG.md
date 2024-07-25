@@ -1,5 +1,10 @@
 # oEmbed Changelog
 
+## 3.0.9 - 2024-07-26
+
+### Update
+- Resolves error when querying an entry with a empty oEmbed URL. Thanks to @jaapfaes for PR #157
+
 ## 3.0.8 - 2024-02-26
 
 ### Update
