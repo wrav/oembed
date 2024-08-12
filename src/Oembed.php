@@ -10,25 +10,26 @@
 
 namespace wrav\oembed;
 
-use wrav\oembed\events\BrokenUrlEvent;
-use wrav\oembed\fields\OembedField;
-use wrav\oembed\jobs\BrokenUrlNotify;
-use wrav\oembed\services\OembedService;
-use wrav\oembed\variables\OembedVariable;
-use wrav\oembed\models\Settings;
-
 use Craft;
+use craft\web\View;
+use yii\base\Event;
 use craft\base\Plugin;
+use craft\web\UrlManager;
+use craft\services\Fields;
+
 use craft\services\Plugins;
 use craft\events\PluginEvent;
-use craft\services\Fields;
-use craft\web\twig\variables\CraftVariable;
-use craft\events\RegisterComponentTypesEvent;
-use craft\web\View;
+use wrav\oembed\models\Settings;
+use wrav\oembed\fields\OembedField;
+use wrav\oembed\jobs\BrokenUrlNotify;
+use wrav\oembed\events\BrokenUrlEvent;
 use craft\events\RegisterUrlRulesEvent;
-use craft\web\UrlManager;
+use wrav\oembed\services\OembedService;
+use wrav\oembed\variables\OembedVariable;
+use craft\web\twig\variables\CraftVariable;
 
-use yii\base\Event;
+use craft\events\RegisterComponentTypesEvent;
+use wrav\oembed\assetbundles\oembed\OembedAsset;
 
 /**
  * @author    reganlawton
@@ -116,6 +117,9 @@ class Oembed extends Plugin
                 }
             }
         );
+
+        // Register Assets
+        Craft::$app->getView()->registerAssetBundle(OembedAsset::class);
 
         Event::on(
             View::class,
