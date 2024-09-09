@@ -33,6 +33,7 @@
         "roave/security-advisories": "dev-latest"
     },
     "require": {
+        "php": ">=7.4",
         "craftcms/cms": "^3.0 | ^4.0 | ^5.0",
         "embed/embed": "^v4.4",
         "ext-dom": "*"
@@ -64,6 +65,9 @@
         "allow-plugins": {
             "yiisoft/yii2-composer": true,
             "craftcms/plugin-installer": true
+        },
+        "platform": {
+            "php": "7.4"
         }
     }
 }
