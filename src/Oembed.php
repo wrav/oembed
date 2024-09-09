@@ -119,7 +119,7 @@ class Oembed extends Plugin
         );
 
         // Register Assets
-        if (!Craft::$app->getRequest()->getIsSiteRequest()) {
+        if (!Craft::$app->getRequest()->getIsSiteRequest() && !Craft::$app->getRequest()->getIsConsoleRequest()) {
             Craft::$app->getView()->registerAssetBundle(OembedAsset::class);
         }
 
