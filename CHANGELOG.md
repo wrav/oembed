@@ -1,12 +1,12 @@
 # oEmbed Changelog
 
-## 3.1.1 - 2024-07-09
+## 3.1.1 - 2024-09-09
 
 ### Update
 
 - Removed Assets from console. Relates to [#158](https://github.com/wrav/oembed/issues/158). Thanks @jeffreyzant
 
-## 3.1.0 - 2024-07-09
+## 3.1.0 - 2024-09-09
 
 ### Added
 
