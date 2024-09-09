@@ -13,10 +13,42 @@ namespace wrav\oembed\adapters;
 class EmbedAdapter
 {
     public $data = [];
+    private $extractorData;
 
-    public function __construct($data)
+    /**
+     * @param mixed $data The data to be mapped to the EmbedAdapter object
+     * @param \Embed\Extractor $extractorData The extractor data to be used as a fallback
+     * 
+     * @var string $title The title of the media
+     * @var string $description The description of the media
+     * @var string $url The url of the media
+     * @var string $type The type of the media
+     * @var array $tags The tags of the media
+     * @var string $images The images of the media
+     * @var string $image The image of the media
+     * @var int $imageWidth The width of the image
+     * @var int $imageHeight The height of the image
+     * @var string $code The code of the media
+     * @var int $width The width of the media
+     * @var int $height The height of the media
+     * @var float $aspectRatio The aspect ratio of the media
+     * @var string $authorName The author name of the media
+     * @var string $authorUrl The author url of the media
+     * @var string $providerName The provider name of the media
+     * @var string $providerUrl The provider url of the media
+     * @var array $providerIcons The provider icons of the media
+     * @var string $providerIcon The provider icon of the media
+     * @var string $publishedDate The published date of the media
+     * @var string $license The license of the media
+     * @var array $linkedData The linked data of the media
+     * @var array $feeds The feeds of the media
+     * 
+     * @return void
+     */
+    public function __construct($data, \Embed\Extractor $extractorData = null)
     {
         $this->data = $data;
+        $this->extractorData = $extractorData;
 
         // Map the data to the EmbedAdapter object properties for easy access
         $defaultKeys = [
@@ -50,6 +82,25 @@ class EmbedAdapter
             $keyName = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key));
 
             $this->$key = $this->data[$keyName] ?? null;
+
+            // Try to get the value from the extractorData first and fallback to the oembed data array
+            if($this->$key === null && $this->extractorData) {
+                try {
+                    $this->$key = $this->extractorData->$key;
+
+                    // If the value is an stringable object, convert it to a string
+                    if($this->$key !== null && is_object($this->$key) && method_exists($this->$key, '__toString')) {
+                        $this->$key = (string) $this->$key;
+                    }
+                } catch (\Exception $e) {
+                    // Do nothing if the property doesn't exist
+                }
+            }
+        }
+
+        // Get linkedData from the extractorData if it's not set
+        if($key === 'linkedData' && $this->extractorData && $this->linkedData === null) {
+            $this->linkedData = $this->extractorData->getLinkedData()->all();
         }
 
         // Fallback for .code incase it's empty
@@ -90,6 +141,25 @@ class EmbedAdapter
             if ($this->data['thumbnail_height'] ?? null) {
                 $this->imageHeight = $this->data['thumbnail_height'] ?? null;
             }
+        }
+
+        // Set width, height and aspect ratio from the extractorData code object, if they are not set
+        try {
+            $codeObject = $this->extractorData->code;
+
+            if($codeObject && $this->width === null) {
+                $this->width = $codeObject->width;
+            }
+
+            if($codeObject && $this->height === null) {
+                $this->height = $codeObject->height;
+            }
+
+            if($codeObject && $this->ratio === null) {
+                $this->aspectRatio = $codeObject->ratio;
+            }
+        } catch (\Exception $e) {
+            // Do nothing if the property doesn't exist
         }
     }
 
