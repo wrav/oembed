@@ -30,6 +30,16 @@ This plugin requires Craft CMS 3.0.0-beta.23 or later.
 
 If use are looking for CraftCMS 2.5 support use previous project [version 1.0.4](https://github.com/hut6/oembed/tree/1.0.4), which is the latest release for CraftCMS 2.5.
 
+## Versions
+
+| Version | CraftCMS Version       | Embed Version | PHP Version   | Branch                          | Status        |
+|---------|------------------------|---------------|---------------|---------------------------------|---------------|
+| v1      | ^3.0.0-beta.23          | ^3.3          | >=7.2.5       | [v1](https://github.com/wrav/oembed/tree/v1) | Discontinued  |
+| v2      | ^4.0                    | ^3.3          | ^8.0.2        | [v2](https://github.com/wrav/oembed/tree/v2) | Discontinued  |
+| v3      | ^3.0 \| ^4.0 \| ^5.0    | ^v4.4         | ^8.2          | [v3](https://github.com/wrav/oembed/tree/v3) | Active        |
+| dev-v3-php74-support | ^3.0 \| ^4.0 \| ^5.0 | ^v4.4         | ^7.4          | [dev-v3-php74-support](https://github.com/wrav/oembed/tree/dev-v3-php74-support) | Active (PHP 7.4 Support) |
+◊
+
 ## Quick FYI on URL issues
 
 Many websites, such as Vimeo, are restricting access to standard URLs (e.g. www.vimeo.com) and sometimes require using the embed URL (e.g., player.vimeo.com) to retrieve oEmbed data.
