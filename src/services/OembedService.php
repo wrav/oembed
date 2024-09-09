@@ -13,10 +13,8 @@ namespace wrav\oembed\services;
 use craft;
 use craft\base\Component;
 use craft\helpers\Template;
-use craft\helpers\UrlHelper;
 use DOMDocument;
 use Embed\Embed;
-use Embed\Http\CurlDispatcher;
 use Exception;
 use wrav\oembed\adapters\EmbedAdapter;
 use wrav\oembed\adapters\FallbackAdapter;
@@ -61,7 +59,7 @@ class OembedService extends Component
      * @param array $options
      * @return Media|string
      */
-    public function embed($url, array $options = [], array $cacheProps = [])
+    public function embed($url, array $options = [], array $cacheProps = [], $factories = [])
     {
         $plugin = Craft::$app->plugins->getPlugin('oembed');
 
@@ -85,13 +83,23 @@ class OembedService extends Component
             array_multisort($options);
 
             $embed = new Embed();
+        
+            // Add custom factories
+            if (count($factories) > 0) {
+                foreach ($factories as $factory) {
+                    $embed->getExtractorFactory()->addAdapter($factory['domain'], $factory['extractor']::class);
+                }
+            }
+
             $infos = $embed
-                ->get($url)
+                ->get($url ?: "")
             ;
+
             $infos->setSettings($options);
+            
             $data = $infos->getOEmbed()->all();
 
-            $media = new EmbedAdapter($data);
+            $media = new EmbedAdapter($data, $infos);
         } catch (Exception $e) {
             Craft::info($e->getMessage(), 'oembed');
 

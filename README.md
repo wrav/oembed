@@ -28,8 +28,15 @@ A simple plugin to extract media information from websites, like youtube videos,
 
 This plugin requires Craft CMS 3.0.0-beta.23 or later.
 
-If use are looking for CraftCMS 2.5 support use previous project [version 1.0.4](https://github.com/hut6/oembed/tree/1.0.4) 
-which is the latest release for CraftCMS 2.5.
+If use are looking for CraftCMS 2.5 support use previous project [version 1.0.4](https://github.com/hut6/oembed/tree/1.0.4), which is the latest release for CraftCMS 2.5.
+
+## Quick FYI on URL issues
+
+Many websites, such as Vimeo, are restricting access to standard URLs (e.g. www.vimeo.com) and sometimes require using the embed URL (e.g., player.vimeo.com) to retrieve oEmbed data.
+
+You can typically find the embed URL through the "share" options on video and oEmbed-supported sites. While the plugin provides general rich content as a fallback, its true potential comes from utilizing the oEmbed protocol and the associated metadata from the content provider.
+
+If you're experiencing issues, check whether the provider or page offers an embed version, and use that URL to ensure you're accessing the most accurate data.
 
 ## Installing
 
