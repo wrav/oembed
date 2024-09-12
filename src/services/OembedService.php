@@ -87,7 +87,7 @@ class OembedService extends Component
             // Add custom factories
             if (count($factories) > 0) {
                 foreach ($factories as $factory) {
-                    $embed->getExtractorFactory()->addAdapter($factory['domain'], $factory['extractor']::class);
+                    $embed->getExtractorFactory()->addAdapter($factory['domain'], get_class($factory['extractor']));
                 }
             }
 
