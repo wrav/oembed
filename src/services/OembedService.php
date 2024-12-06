@@ -55,6 +55,25 @@ class OembedService extends Component
     }
 
     /**
+     * @param string $input 
+     * @param array $options
+     * @return string 
+     */
+    public function parseTags(string $input, array $options = [], array $cacheProps = [])
+    {
+        if (empty($input)) {
+            return '';
+        }
+        
+        $output = preg_replace_callback('/\<oembed\s(?:.*?)url="(.*?)"(?:.*?)>(?:.*?)<\/oembed>/i', function($matches) {
+            $url = $matches[1];
+            return $this->render($url, $options, $cacheProps);
+        }, $input);
+
+        return $output;
+    }
+
+    /**
      * @param $url
      * @param array $options
      * @return Media|string
