@@ -65,7 +65,7 @@ class OembedService extends Component
             return '';
         }
         
-        $output = preg_replace_callback('/\<oembed\s(?:.*?)url="(.*?)"(?:.*?)>(?:.*?)<\/oembed>/i', function($matches) {
+        $output = preg_replace_callback('/\<oembed\s(?:.*?)url="(.*?)"(?:.*?)>(?:.*?)<\/oembed>/i', function($matches) use ($options, $cacheProps) {
             $url = $matches[1];
             return $this->render($url, $options, $cacheProps);
         }, $input);
