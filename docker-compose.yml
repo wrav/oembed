@@ -1,0 +1,26 @@
+# Add postgres service for unit testing
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "craftcms", "-d", "dev_craftcms"]
+      interval: 5s
+      retries: 3
+  app:
+    image: craftcms/nginx:8.2-dev
+    container_name: app
+    environment:
+      XDEBUG_CONFIG: client_host=host.docker.internal
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      # vendor/bin/codecept run
