@@ -75,4 +75,22 @@ class OembedVariable
         $media = $this->embed($url, $options, $cacheProps);
         return (!empty($media) && isset($media->code));
     }
+
+    /**
+     * Call it like this:
+     *
+     *     {{ craft.oembed.parseTags(input, options) }}
+     *
+     * @param $input
+     * @param array $options
+     * @return string
+     */
+    public function parseTags($input, array $options = [], array $cacheProps = [])
+    {
+        if (empty($input)) {
+            return null;
+        }
+
+        return Oembed::getInstance()->oembedService->parseTags($input, $options, $cacheProps);
+    }
 }
