@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 3.1.3 - 2024-12-10
+
+### Update
+
+- Passing the option & cache variables to the anonymous function for parsing tags. Thanks @JeroenJRP
+
 ## 3.1.2 - 2024-12-09
 
 ### Added
