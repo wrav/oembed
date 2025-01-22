@@ -1,4 +1,14 @@
+# Composer
 vendor
 composer.lock
-.DS_Store
+
+# CraftCms test specific
 cpresources
+
+# Misc
+.DS_Store
+Thumbs.db
+.idea
+node_modules
+npm-debug.log
+yarn-error.log
