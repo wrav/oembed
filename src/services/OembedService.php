@@ -240,8 +240,40 @@ class OembedService extends Component
                 // Set the SRC
                 $iframe->setAttribute('src', $src);
 
+                // Get the main element
+                $mainElement = null;
+                $bodyItem = $dom->getElementsByTagName('body')->item(0);
+                if($bodyItem !== null) {
+                    if ($bodyItem->childNodes->count() === 1) {
+                        // Body only contains 1 child, use that
+                        $mainElement = $bodyItem->childNodes->item(0);
+                    } else {
+                        // Body contains multiple children, wrap in div
+                        $mainElement = $dom->createElement('div');
+
+                        // Collect all body children
+                        $bodyChildren = [];
+                        foreach ($bodyItem->childNodes as $child) {
+                            $bodyChildren[] = $child;
+                        }
+
+                        // Move all body children to the div
+                        foreach ($bodyChildren as $child) {
+                            $mainElement->appendChild($child);
+                        }
+                        
+                        // Add div back to body
+                        $bodyItem->appendChild($mainElement);
+                    }
+                }
+
+                // If we were unable to get the main element fall back to the iframe
+                if($mainElement !== null) {
+                    $mainElement = $iframe;
+                }
+
                 // Set the code
-                $code = $dom->saveXML($iframe, LIBXML_NOEMPTYTAG);
+                $code = $dom->saveXML($mainElement, LIBXML_NOEMPTYTAG);
 
                 // Apply the code to the media object
                 $media->code = $code;
