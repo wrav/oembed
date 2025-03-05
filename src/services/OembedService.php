@@ -268,7 +268,7 @@ class OembedService extends Component
                 }
 
                 // If we were unable to get the main element fall back to the iframe
-                if($mainElement !== null) {
+                if($mainElement === null) {
                     $mainElement = $iframe;
                 }
 
