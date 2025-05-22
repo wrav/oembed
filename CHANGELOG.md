@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 3.1.4 - 2024-05-22
+
+### Added
+
+- Added improved GDRP support for Cookiebot. Thanks @MangoMarcus
+
 ## 3.1.3 - 2024-12-10
 
 ### Update
