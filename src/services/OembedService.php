@@ -150,7 +150,10 @@ class OembedService extends Component
                     $html = empty((string)$url) ? '' : '<iframe src="'.$url.'"></iframe>';
                     $dom->loadHTML($html);
                 } else {
-                    $dom->loadHTML($data['html']);
+                    $html = $data['html'];
+                    $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+                    $html = preg_replace('/&(?!#?[a-z0-9]+;)/i', '&amp;', $html);
+                    $dom->loadHTML($html);
                 }
 
                 $iframe = $dom->getElementsByTagName('iframe')->item(0);
