@@ -8,18 +8,28 @@ This is a Craft CMS plugin called "oEmbed" that extracts media information from 
 
 ## Development Commands
 
-### Testing
-- Run all tests: `vendor/bin/codecept run`
-- Run specific test file: `vendor/bin/codecept run {your_file}`
-- Run with coverage: `XDEBUG_MODE=coverage vendor/bin/codecept run --coverage`
+**IMPORTANT**: All development and testing must be done using Docker. The project requires a PostgreSQL database and specific environment setup that is only available through the Docker containers.
 
-### Docker Development
-- Start development environment: `docker compose up -d`
-- Access shell: `docker exec -it app sh`
+### Docker Setup (Required)
+1. Start development environment: `docker compose up -d`
+2. Verify containers are running: `docker ps`
+3. Copy test environment: `cp tests/.env.example tests/.env`
+4. Configure API tokens in `.env` for Meta, Twitter, etc. for full test coverage
 
-### Environment Setup
-- Copy test environment: `cp tests/.env.example tests/.env`
-- Configure API tokens in `.env` for Meta, Twitter, etc. for full test coverage
+### Testing (Docker Required)
+- Run all tests: `docker exec app vendor/bin/codecept run`
+- Run specific test file: `docker exec app vendor/bin/codecept run {your_file}`
+- Run with coverage: `docker exec app sh -c "XDEBUG_MODE=coverage vendor/bin/codecept run --coverage"`
+- Run embed-specific tests: `docker exec app vendor/bin/codecept run tests/unit/embeds/`
+
+### Development Shell Access
+- Access container shell: `docker exec -it app sh`
+- Run commands inside container: `docker exec app [command]`
+
+### Common Development Tasks
+- Install dependencies: `docker exec app composer install`
+- Check logs: `docker logs app`
+- Stop environment: `docker compose down`
 
 ## Code Architecture
 

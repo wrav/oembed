@@ -1,64 +1,82 @@
-# Pull Request
+# 🚀 Pull Request
 
-Please fill out the fields below to help us review your pull request.
+**Thanks for contributing to the oEmbed Craft CMS plugin!** Please fill out the sections below to help us review your changes.
 
-## Description
-<!--- Describe your changes in detail -->
+## 📝 What does this PR do?
+<!-- Brief description of your changes -->
 
-## Related Issue
-<!--- This project only accepts pull requests related to open issues -->
+## 🔗 Related Issue
+<!-- Link to the issue this PR addresses -->
+Fixes #
 
-## Motivation and Context
-<!--- Why is this change required? What problem does it solve? -->
+## 🎯 Type of Change
+<!-- Put an `x` in the box that applies -->
+- [ ] 🐛 **Bug fix** (fixes an issue without breaking existing functionality)
+- [ ] ✨ **New feature** (adds functionality without breaking changes)  
+- [ ] 💥 **Breaking change** (fix/feature that changes existing functionality)
+- [ ] 🏗️ **Refactor** (code improvement without functional changes)
+- [ ] 📚 **Documentation** (README, comments, or docs)
+- [ ] 🧪 **Tests** (adding or updating tests)
 
-## How Has This Been Tested?
-<!--- Please describe in detail how you tested your changes -->
+## 🧪 Testing
 
-## Screenshots (if appropriate):
-<!--- Add screenshots to help explain your changes -->
+### How did you test this?
+<!-- Describe your testing approach -->
+- [ ] Added/updated unit tests
+- [ ] Tested with multiple embed providers (YouTube, Vimeo, etc.)
+- [ ] Tested admin CP field functionality
+- [ ] Tested frontend rendering
+- [ ] Tested caching behavior
+- [ ] Tested GDPR compliance features
+- [ ] Manual testing in Craft CMS environment
 
-## Types of changes
-<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to change)
-- [ ] Documentation update
-- [ ] Other (please describe):
-- [ ] Refactor
-- [ ] Build related changes
-- [ ] CI related changes
-- [ ] Test related changes
-- [ ] Performance related changes
-- [ ] Security related changes
-- [ ] Dependency related changes
-- [ ] License related changes
-- [ ] Code style changes (formatting, renaming)
-- [ ] Other (please describe):
-- [ ] None of the above
+### Test Environment
+- **Craft CMS version**: 
+- **PHP version**: 
+- **Tested providers**: <!-- e.g., YouTube, Vimeo, Instagram -->
 
-## Checklist:
-<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
-- [ ] My code follows the code style of this project.
-- [ ] My change requires a change to the documentation.
-- [ ] I have updated the documentation accordingly.
-- [ ] I have read the **CONTRIBUTING** document.
-- [ ] I have added tests to cover my changes.
-- [ ] All new and existing tests passed.
-- [ ] My changes generate no new warnings.
-- [ ] I have updated the **README**.
+## ✅ Checklist
+<!-- Put an `x` in completed boxes -->
 
-## Reviewer Checklist:
-<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
-- [ ] The code is well written and easy to understand.
-- [ ] The code is commented where necessary.
-- [ ] The code is well documented.
-- [ ] The code is efficient and performs well.
-- [ ] The code is secure and free of vulnerabilities.
-- [ ] The code is scalable and can handle large amounts of data.
-- [ ] The code is reliable and robust.
-- [ ] The code is maintainable and can be easily updated.
-- [ ] The code is tested and all tests pass.
-- [ ] The code is well organized and follows best practices.
+### Code Quality
+- [ ] My code follows the existing code style
+- [ ] I've added comments where code is complex
+- [ ] No new warnings or errors introduced
 
-## Additional Comments:
-<!--- Add any additional comments or notes for the reviewer here -->
+### Functionality  
+- [ ] Field works correctly in Craft CP
+- [ ] Frontend rendering works as expected
+- [ ] Caching behaves properly
+- [ ] GDPR settings are respected (if applicable)
+- [ ] GraphQL queries work (if applicable)
+
+### Testing & Documentation
+- [ ] I've added/updated tests for my changes
+- [ ] All existing tests still pass
+- [ ] I've updated documentation if needed
+- [ ] I've tested edge cases and error scenarios
+
+### Plugin-Specific
+- [ ] Handles provider URL variations (embed vs regular URLs)
+- [ ] Fallback behavior works for unsupported providers
+- [ ] Network/timeout errors are handled gracefully
+- [ ] API token requirements documented (if applicable)
+
+## 🔍 Review Focus Areas
+<!-- Help reviewers know what to focus on -->
+- [ ] **Admin UI**: Changes to the control panel field interface
+- [ ] **Template Methods**: Changes to `render()`, `embed()`, `media()`, `valid()` methods
+- [ ] **Provider Support**: New or modified provider handling
+- [ ] **Caching Logic**: Changes to cache behavior
+- [ ] **GDPR Features**: Privacy compliance modifications
+- [ ] **Error Handling**: Network/provider failure scenarios
+
+## 📸 Screenshots (if applicable)
+<!-- Add screenshots for UI changes -->
+
+## 💭 Additional Notes
+<!-- Any other context, concerns, or questions for reviewers -->
+
+---
+
+**🔄 Ready for Review?** Make sure all tests pass and the CI checks are green!
