@@ -1,5 +1,17 @@
 # oEmbed Changelog
 
+## 3.1.5 - 2024-05-22
+
+### Added
+
+- Added improved GDRP support for Cookiebot. Thanks @MangoMarcus
+
+## 3.1.4 - 2025-03-06
+
+### Update
+
+- Allow oEmbed code that includes an iframe to render all of it's HTML instead of just the iframe
+
 ## 3.1.3 - 2024-12-10
 
 ### Update
