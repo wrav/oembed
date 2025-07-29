@@ -16,7 +16,7 @@ class VimeoTest extends TestCase
     protected UnitTester $tester;
 
 
-    public function testYoutubeEmbedWithUrl()
+    public function testVimeoEmbedWithUrl()
     {
         // Test video URL
         $url = 'https://www.vimeo.com/76979871';

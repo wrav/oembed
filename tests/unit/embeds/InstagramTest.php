@@ -35,10 +35,7 @@ class InstagramTest extends TestCase
 
         // Assert that the render contains the iframe parts
         $this->assertStringContainsString('<iframe', $render);
-        $this->assertStringContainsString('src="https://www.youtube.com/embed/9bZkp7q19f0', $render);
-        $this->assertStringContainsString('width="560"', $render);
-        $this->assertStringContainsString('height="315"', $render);
-        $this->assertStringContainsString('autoplay=1', $render);
+        $this->assertStringContainsString('src="https://www.instagram.com/reel/DDP7yUypbZs/', $render);
     }
 
 }
