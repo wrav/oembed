@@ -220,11 +220,21 @@ class OembedService extends Component
      */
     private function triggerBrokenUrlEvent(string $url): void
     {
-        if ($this->settings->enableNotifications) {
-            $this->eventDispatcher->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
-                'url' => $url,
-            ]));
+        if (!$this->settings->enableNotifications) {
+            return;
         }
+
+        // Validate URL before triggering event
+        if (!$url || trim($url) === '') {
+            Craft::warning('triggerBrokenUrlEvent: Cannot trigger event for empty URL', 'oembed');
+            return;
+        }
+
+        Craft::info('triggerBrokenUrlEvent: Triggering broken URL event for: ' . $url, 'oembed');
+
+        $this->eventDispatcher->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
+            'url' => trim($url),
+        ]));
     }
 
     /**

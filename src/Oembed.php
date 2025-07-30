@@ -135,8 +135,16 @@ class Oembed extends Plugin
             Oembed::class,
             Oembed::EVENT_BROKEN_URL_DETECTED,
             function (BrokenUrlEvent $event) {
+                // Validate URL before queuing notification job
+                if (!$event->url || trim($event->url) === '') {
+                    Craft::warning('BrokenUrlEvent: Cannot queue notification for empty URL', 'oembed');
+                    return;
+                }
+
+                Craft::info('BrokenUrlEvent: Queuing notification job for URL: ' . $event->url, 'oembed');
+                
                 Craft::$app->getQueue()->push(new BrokenUrlNotify([
-                    'url' => $event->url,
+                    'url' => trim($event->url),
                 ]));
             }
         );
