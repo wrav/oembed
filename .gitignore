@@ -12,3 +12,5 @@ Thumbs.db
 node_modules
 npm-debug.log
 yarn-error.log
+
+todo.md # TODO file for the project to track tasks that need to be done still
