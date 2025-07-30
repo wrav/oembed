@@ -137,6 +137,9 @@ class OembedService extends Component
      */
     protected function generateCacheKey(string $url, array $options, array $cacheProps): string
     {
+        // Additional safety check (should not be needed after embed() method fix)
+        $url = $url ?: '';
+        
         try {
             $hash = md5(json_encode($options)) . md5(json_encode($cacheProps));
         } catch (\Exception $exception) {
@@ -463,6 +466,9 @@ class OembedService extends Component
      */
     public function embed($url, array $options = [], array $cacheProps = [], $factories = [])
     {
+        // Normalize null/empty URLs immediately to prevent type errors
+        $url = $url ?: '';
+
         // Check cache first
         $cacheKey = $this->generateCacheKey($url, $options, $cacheProps);
         $cachedResult = $this->getCachedEmbed($cacheKey);

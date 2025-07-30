@@ -5,14 +5,18 @@
 ### Fixed
 
 - Fixed broken URL email notifications not including the invalid URL in the message. Resolves [#170](https://github.com/wrav/oembed/issues/170)
+- Fixed GraphQL error when querying entries with empty oEmbed URLs. Resolves [#156](https://github.com/wrav/oembed/issues/156)
 - Added comprehensive validation to prevent empty or null URLs from causing notification issues
 - Enhanced email template with better formatting and XSS protection
 - Added debug logging for broken URL notification system to aid troubleshooting
+- Fixed TypeError in generateCacheKey() when processing null URLs from GraphQL queries
 
 ### Added
 
 - Added unit tests for broken URL notification system
 - Added validation layers across the notification flow (service → event → job)
+- Added comprehensive unit tests for OembedModel null URL handling
+- Added URL normalization at entry points (model constructor and service method)
 
 ## 3.1.5 - 2024-05-22
 

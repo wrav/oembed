@@ -39,11 +39,12 @@ class OembedModel extends Model
 
     /**
      * OembedModel constructor.
-     * @param string $url
+     * @param string|null $url
      */
     public function __construct($url)
     {
-        $this->url = $url;
+        // Normalize null URLs to empty string to prevent GraphQL type errors
+        $this->url = $url ?: '';
     }
 
     // Public Methods
