@@ -207,6 +207,39 @@ By default, the plugin will cache the following keys on the oembed object. The p
 - linkedData
 - feeds
 
+## Cookie Management
+
+The plugin includes automatic cookie file cleanup to prevent server storage issues from accumulating embed-cookie files created by the underlying `embed/embed` library.
+
+### Settings
+
+Cookie cleanup can be configured in the plugin settings:
+
+- **Enable Cookie Cleanup** (default: `true`) - Enable/disable automatic cookie file cleanup
+- **Cookie Max Age** (default: `86400` seconds / 24 hours) - Maximum age of cookie files before cleanup (minimum: 300 seconds)
+- **Cookies Path** (optional) - Custom directory path for cookie files (uses system temp directory if empty)
+
+### Manual Cleanup Commands
+
+You can manually manage cookie files using the console commands:
+
+```bash
+# Clean up old cookie files
+php craft oembed/cookie/cleanup
+
+# Get information about cookie files
+php craft oembed/cookie/info
+```
+
+### Automatic Cleanup
+
+Cookie cleanup runs automatically on plugin initialization with built-in throttling to prevent performance impact:
+
+- Cleanup runs at most once per hour
+- Only processes files older than the configured `cookieMaxAge`
+- Only removes files matching the pattern `embed-cookies-*`
+- Preserves non-cookie files and recently created files
+
 ## GraphQL
 
 I recommend enabling caching in the plugin settings menu to speed up the API resolve timing.

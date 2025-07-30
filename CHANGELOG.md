@@ -6,10 +6,12 @@
 
 - Fixed broken URL email notifications not including the invalid URL in the message. Resolves [#170](https://github.com/wrav/oembed/issues/170)
 - Fixed GraphQL error when querying entries with empty oEmbed URLs. Resolves [#156](https://github.com/wrav/oembed/issues/156)
+- Fixed cookie file accumulation issue where embed-cookie files were not being cleaned up. Resolves [#152](https://github.com/wrav/oembed/issues/152)
 - Added comprehensive validation to prevent empty or null URLs from causing notification issues
 - Enhanced email template with better formatting and XSS protection
 - Added debug logging for broken URL notification system to aid troubleshooting
 - Fixed TypeError in generateCacheKey() when processing null URLs from GraphQL queries
+- Implemented automatic cookie cleanup system with configurable cleanup intervals and file age limits
 
 ### Added
 
@@ -17,6 +19,10 @@
 - Added validation layers across the notification flow (service → event → job)
 - Added comprehensive unit tests for OembedModel null URL handling
 - Added URL normalization at entry points (model constructor and service method)
+- Added cookie cleanup console command (`php craft oembed/cookie/cleanup`)
+- Added cookie cleanup settings: `enableCookieCleanup`, `cookieMaxAge`, and `cookiesPath`
+- Added automatic cookie cleanup on plugin initialization with throttling to prevent performance impact
+- Added comprehensive unit tests for cookie cleanup functionality
 
 ## 3.1.5 - 2024-05-22
 

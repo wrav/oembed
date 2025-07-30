@@ -179,7 +179,14 @@ class OembedService extends Component
     {
         try {
             array_multisort($options);
-            $embed = new Embed();
+            
+            // Create a custom crawler with cookie settings
+            $curlClient = new \Embed\Http\CurlClient();
+            $cookieSettings = $this->getCookieSettings();
+            $curlClient->setSettings($cookieSettings);
+            
+            $crawler = new \Embed\Http\Crawler($curlClient);
+            $embed = new Embed($crawler);
         
             // Add custom factories
             if (count($factories) > 0) {
@@ -238,6 +245,85 @@ class OembedService extends Component
         $this->eventDispatcher->trigger(Oembed::EVENT_BROKEN_URL_DETECTED, new BrokenUrlEvent([
             'url' => trim($url),
         ]));
+    }
+
+    /**
+     * Get cookie settings for the embed library
+     */
+    private function getCookieSettings(): array
+    {
+        $settings = [];
+        
+        // Set custom cookies path if configured
+        if (!empty($this->settings->cookiesPath)) {
+            $cookiesDir = rtrim($this->settings->cookiesPath, '/');
+            if (!is_dir($cookiesDir)) {
+                @mkdir($cookiesDir, 0755, true);
+            }
+            $settings['cookies_path'] = $cookiesDir . '/embed-cookies.txt';
+        } else {
+            // Use plugin-specific temp directory
+            $tempDir = Craft::$app->getPath()->getTempPath() . '/oembed-cookies';
+            if (!is_dir($tempDir)) {
+                @mkdir($tempDir, 0755, true);
+            }
+            $settings['cookies_path'] = $tempDir . '/embed-cookies-' . uniqid() . '.txt';
+        }
+        
+        return $settings;
+    }
+
+    /**
+     * Clean up old cookie files
+     */
+    public function cleanupCookieFiles(): int
+    {
+        if (!$this->settings->enableCookieCleanup) {
+            return 0;
+        }
+
+        $deletedCount = 0;
+        $maxAge = $this->settings->cookieMaxAge;
+        $cutoffTime = time() - $maxAge;
+
+        // Define directories to clean
+        $dirsToClean = [
+            Craft::$app->getPath()->getTempPath() . '/oembed-cookies',
+            sys_get_temp_dir()
+        ];
+
+        // Add custom cookies path if set
+        if (!empty($this->settings->cookiesPath)) {
+            $dirsToClean[] = rtrim($this->settings->cookiesPath, '/');
+        }
+
+        foreach ($dirsToClean as $dir) {
+            if (!is_dir($dir)) {
+                continue;
+            }
+
+            try {
+                $files = glob($dir . '/embed-cookie*.txt');
+                if ($files) {
+                    foreach ($files as $file) {
+                        if (is_file($file) && filemtime($file) < $cutoffTime) {
+                            if (@unlink($file)) {
+                                $deletedCount++;
+                                Craft::info("Cleaned up cookie file: {$file}", 'oembed');
+                            }
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                Craft::warning("Failed to cleanup cookies in {$dir}: " . $e->getMessage(), 'oembed');
+            }
+        }
+
+        if ($deletedCount > 0) {
+            Craft::info("Cookie cleanup completed: {$deletedCount} files removed", 'oembed');
+        }
+
+        return $deletedCount;
     }
 
     /**
