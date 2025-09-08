@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 3.1.6 - 2025-01-08
+
+### Fixed
+
+- Fixed DOM parsing errors by properly escaping unencoded ampersands before parsing HTML. Thanks @mofman
+
 ## 3.1.5 - 2024-05-22
 
 ### Added
