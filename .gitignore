@@ -12,3 +12,8 @@ Thumbs.db
 node_modules
 npm-debug.log
 yarn-error.log
+
+
+# Claude AI ignore files
+todo.md
+.claude/settings.local.json

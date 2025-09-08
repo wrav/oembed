@@ -135,11 +135,22 @@ class Oembed extends Plugin
             Oembed::class,
             Oembed::EVENT_BROKEN_URL_DETECTED,
             function (BrokenUrlEvent $event) {
+                // Validate URL before queuing notification job
+                if (!$event->url || trim($event->url) === '') {
+                    Craft::warning('BrokenUrlEvent: Cannot queue notification for empty URL', 'oembed');
+                    return;
+                }
+
+                Craft::info('BrokenUrlEvent: Queuing notification job for URL: ' . $event->url, 'oembed');
+                
                 Craft::$app->getQueue()->push(new BrokenUrlNotify([
-                    'url' => $event->url,
+                    'url' => trim($event->url),
                 ]));
             }
         );
+
+        // Perform cookie cleanup on plugin initialization
+        $this->performInitialCleanup();
 
         Craft::info(
             Craft::t(
@@ -173,6 +184,30 @@ class Oembed extends Plugin
                 'settings' => $this->getSettings(),
             ]
         );
+    }
+
+    /**
+     * Perform initial cookie cleanup on plugin initialization
+     */
+    private function performInitialCleanup(): void
+    {
+        // Only run cleanup occasionally to avoid performance impact
+        $lastCleanup = Craft::$app->getCache()->get('oembed_last_cleanup');
+        $now = time();
+        
+        // Run cleanup if never run before or if 1 hour has passed
+        if (!$lastCleanup || ($now - $lastCleanup) > 3600) { 
+            try {
+                $deletedCount = $this->oembedService->cleanupCookieFiles();
+                if ($deletedCount > 0) {
+                    Craft::info("Initial cookie cleanup completed: {$deletedCount} files removed", 'oembed');
+                }
+                // Update last cleanup timestamp
+                Craft::$app->getCache()->set('oembed_last_cleanup', $now, 86400); // Cache for 24 hours
+            } catch (\Exception $e) {
+                Craft::warning("Initial cookie cleanup failed: " . $e->getMessage(), 'oembed');
+            }
+        }
     }
 
 }

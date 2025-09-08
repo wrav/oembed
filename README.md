@@ -24,11 +24,17 @@
 
 A simple plugin to extract media information from websites, like youtube videos, twitter statuses or blog articles.
 
+## Seeking a New Maintainer
+
+It's been nearly nine years since I released the first version of Oembed. While it's been an incredible journey, I no longer have the time or energy to actively maintain the project. Since 2019, I've been deeply involved in building a data and analytics startup, which has grown significantly and now demands most of my focus.
+
+To keep this library alive and thriving, I'm looking for someone passionate about its future to take over its maintenance and development. If you're interested, please reach out by opening an issue or contacting me directly.
+
+In the meantime, I’ll continue merging pull requests from the community to ensure the project doesn’t stagnate, though I won’t be actively contributing new features or updates. Thank you for your support over the years!
+
 ## Requirements
 
 This plugin requires Craft CMS 3.0.0-beta.23 or later.
-
-If use are looking for CraftCMS 2.5 support use previous project [version 1.0.4](https://github.com/hut6/oembed/tree/1.0.4), which is the latest release for CraftCMS 2.5.
 
 ## Versions
 
@@ -38,7 +44,6 @@ If use are looking for CraftCMS 2.5 support use previous project [version 1.0.4]
 | v2      | ^4.0                    | ^3.3          | ^8.0.2        | [v2](https://github.com/wrav/oembed/tree/v2) | Discontinued  |
 | v3      | ^3.0 \| ^4.0 \| ^5.0    | ^v4.4         | ^8.2          | [v3](https://github.com/wrav/oembed/tree/v3) | Active        |
 | dev-v3-php74-support | ^3.0 \| ^4.0 \| ^5.0 | ^v4.4         | ^7.4          | [dev-v3-php74-support](https://github.com/wrav/oembed/tree/dev-v3-php74-support) | Active (PHP 7.4 Support) |
-◊
 
 ## Quick FYI on URL issues
 
@@ -202,6 +207,39 @@ By default, the plugin will cache the following keys on the oembed object. The p
 - linkedData
 - feeds
 
+## Cookie Management
+
+The plugin includes automatic cookie file cleanup to prevent server storage issues from accumulating embed-cookie files created by the underlying `embed/embed` library.
+
+### Settings
+
+Cookie cleanup can be configured in the plugin settings:
+
+- **Enable Cookie Cleanup** (default: `true`) - Enable/disable automatic cookie file cleanup
+- **Cookie Max Age** (default: `86400` seconds / 24 hours) - Maximum age of cookie files before cleanup (minimum: 300 seconds)
+- **Cookies Path** (optional) - Custom directory path for cookie files (uses system temp directory if empty)
+
+### Manual Cleanup Commands
+
+You can manually manage cookie files using the console commands:
+
+```bash
+# Clean up old cookie files
+php craft oembed/cookie/cleanup
+
+# Get information about cookie files
+php craft oembed/cookie/info
+```
+
+### Automatic Cleanup
+
+Cookie cleanup runs automatically on plugin initialization with built-in throttling to prevent performance impact:
+
+- Cleanup runs at most once per hour
+- Only processes files older than the configured `cookieMaxAge`
+- Only removes files matching the pattern `embed-cookies-*`
+- Preserves non-cookie files and recently created files
+
 ## GraphQL
 
 I recommend enabling caching in the plugin settings menu to speed up the API resolve timing.
@@ -221,6 +259,29 @@ Below is an example of a Oembed field called "foobar" add accessing properties f
     }
   }
 }
+```
+
+## Testing
+
+This project uses Codeception and Docker Compose (Locally) and I would strongly ask for unit tests, however I understand sometimes this may not be needed.
+
+***NOTE:*** If your wanting to run the all project tests you'll need to set up the required Meta, Twitter, etc API tokens in the `.env` file.
+
+```bash
+# Setting ENV for testing and edit
+cp tests/.env.example tests/.env
+
+# Spin up docker
+docker compose up -d
+
+# Access shell 
+docker exec -it app sh
+
+# Run tests via Codeception
+vendor/bin/codecept run {your_file}
+
+# Run with Coverage
+XDEBUG_MODE=coverage vendor/bin/codecept run --coverage
 ```
 
 ## Credits

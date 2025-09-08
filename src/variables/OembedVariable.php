@@ -64,6 +64,20 @@ class OembedVariable
     /**
      * Call it like this:
      *
+     *     {{ craft.oembed.media(url, options) }}
+     *
+     * @param $url
+     * @param array $options
+     * @return mixed
+     */
+    public function media($url, array $options = [], array $cacheProps = [])
+    {
+        return $this->embed($url, $options, $cacheProps);
+    }
+
+    /**
+     * Call it like this:
+     *
      *     {{ craft.oembed.valid(url, options) }}
      *
      * @param $url
