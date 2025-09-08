@@ -1,6 +1,6 @@
 # oEmbed Changelog
 
-## 3.1.6 - 2025-01-30
+## 3.1.7 - 2025-08-30
 
 ### Fixed
 
@@ -23,6 +23,12 @@
 - Added cookie cleanup settings: `enableCookieCleanup`, `cookieMaxAge`, and `cookiesPath`
 - Added automatic cookie cleanup on plugin initialization with throttling to prevent performance impact
 - Added comprehensive unit tests for cookie cleanup functionality
+
+## 3.1.6 - 2025-08-08
+
+### Fixed
+
+- Fixed DOM parsing errors by properly escaping unencoded ampersands before parsing HTML. Thanks @mofman
 
 ## 3.1.5 - 2024-05-22
 
