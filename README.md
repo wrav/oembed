@@ -22,7 +22,7 @@
 </p>
 
 
-A simple plugin to extract media information from websites, like youtube videos, twitter statuses or blog articles.
+A simple plugin to extract media information from websites, like youtube videos, twitter statuses, gumlet videos or blog articles.
 
 ## Requirements
 
@@ -42,7 +42,7 @@ If use are looking for CraftCMS 2.5 support use previous project [version 1.0.4]
 
 ## Quick FYI on URL issues
 
-Many websites, such as Vimeo, are restricting access to standard URLs (e.g. www.vimeo.com) and sometimes require using the embed URL (e.g., player.vimeo.com) to retrieve oEmbed data.
+Many websites, such as Vimeo and Gumlet, are restricting access to standard URLs (e.g. www.gumlet.tv, www.vimeo.com) and sometimes require using the embed URL (e.g., player.vimeo.com, play.gumlet.io) to retrieve oEmbed data.
 
 You can typically find the embed URL through the "share" options on video and oEmbed-supported sites. While the plugin provides general rich content as a fallback, its true potential comes from utilizing the oEmbed protocol and the associated metadata from the content provider.
 
