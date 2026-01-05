@@ -5,7 +5,6 @@
 ### Added
 
 - Added support for Gumlet video embed provider
-- Created GumletAdapter for handling Gumlet-specific video embeds
 
 ## 3.1.6 - 2025-08-08
 
