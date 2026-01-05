@@ -1,5 +1,11 @@
 # oEmbed Changelog
 
+## 3.1.7 - 2025-01-05
+
+### Added
+
+- Added support for Gumlet video embed provider
+
 ## 3.1.6 - 2025-08-08
 
 ### Fixed
