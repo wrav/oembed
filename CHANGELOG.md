@@ -1,5 +1,16 @@
 # oEmbed Changelog
 
+## 3.2.0 - 2026-01-14
+
+### Added
+
+- Added integration test suite coverage for Craft DB-backed entry creation with embedded media templates
+- Added integration template fixture for rendering embedded media in tests
+
+### Update
+
+- Updated GitHub Actions CI workflow to run multi-PHP test matrix with coverage
+
 ## 3.1.7 - 2025-08-30
 
 ### Fixed
