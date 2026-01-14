@@ -2,14 +2,24 @@
 
 ## 3.2.0 - 2026-01-14
 
+### Fixed
+
+- Broken URL notifications now include the invalid URL (fixes #170)
+- GraphQL TypeError when querying entries with empty oEmbed URLs (fixes #156)
+- Cookie file accumulation via automatic cleanup (fixes #152)
+
 ### Added
 
-- Added integration test suite coverage for Craft DB-backed entry creation with embedded media templates
-- Added integration template fixture for rendering embedded media in tests
+- Docker-based test environment with PostgreSQL
+- Codeception + Craft CMS testing integration
+- Unit + functional tests across services, models, jobs, and providers
+- CI pipeline for automated testing and coverage reporting
 
-### Update
+### Improved
 
-- Updated GitHub Actions CI workflow to run multi-PHP test matrix with coverage
+- Defensive validation with XSS protection in notifications
+- URL normalization at entry points to prevent null/empty URL issues
+- Configurable cookie cleanup with console command and throttling
 
 ## 3.1.7 - 2025-08-30
 
