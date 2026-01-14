@@ -2,7 +2,7 @@
     "name": "wrav/oembed",
     "description": "A simple plugin to extract media information from websites, like youtube videos, twitter statuses or blog articles.",
     "type": "craft-plugin",
-    "version": "3.1.6",
+    "version": "3.2.0",
     "keywords": [
         "craft",
         "cms",
@@ -30,12 +30,17 @@
         }
     ],
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "phpunit/phpunit": "^11.4",
+        "codeception/codeception": "^5.1",
+        "codeception/module-yii2": "^1.1",
+        "codeception/module-asserts": "^3.0"
     },
     "require": {
         "craftcms/cms": "^4.0 | ^5.0",
         "embed/embed": "^v4.4",
-        "ext-dom": "*"
+        "ext-dom": "*",
+        "vlucas/phpdotenv": "^5.6"
     },
     "repositories": [
         {
@@ -45,7 +50,12 @@
     ],
     "autoload": {
         "psr-4": {
-          "wrav\\oembed\\": "src/"
+            "wrav\\oembed\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Oembed\\tests\\": "tests/unit/"
         }
     },
     "extra": {
