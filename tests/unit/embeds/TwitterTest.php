@@ -3,12 +3,9 @@
 
 namespace Oembed\tests\embeds;
 
-use craft\test\TestCase;
 use UnitTester;
-use wrav\oembed\Oembed;
-use wrav\oembed\services\OembedService;
 
-class TwitterTest extends TestCase
+class TwitterTest extends EmbedTestCase
 {
     /**
      * @var UnitTester
@@ -21,9 +18,24 @@ class TwitterTest extends TestCase
         // Test video URL
         $url = 'https://x.com/pathfinderSport/status/1234567890?mx=2';
 
-        $render = (new OembedService())->render($url);
+        $service = $this->createServiceMock([
+            'enableCache' => false,
+        ]);
 
-        // Assert that the render contains the iframe parts
+        $adapter = $this->createEmbedAdapter('<blockquote class="twitter-tweet"><p>Some tweet</p><a href="https://twitter.com/pathfinderSport/status/1234567890">link</a></blockquote>');
+
+        $service->expects($this->once())
+            ->method('createEmbed')
+            ->with(
+                $this->equalTo($url),
+                $this->isType('array'),
+                $this->isType('array')
+            )
+            ->willReturn($adapter);
+
+        $render = (string)$service->render($url);
+
+        // Assert that the render contains the blockquote twitter embed
         $this->assertStringContainsString('<blockquote class="twitter-tweet"', $render);
         $this->assertStringContainsString('https://twitter.com/pathfinderSport/status/1234567890', $render);
     }

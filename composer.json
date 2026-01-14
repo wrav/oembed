@@ -50,7 +50,12 @@
     ],
     "autoload": {
         "psr-4": {
-          "wrav\\oembed\\": "src/"
+            "wrav\\oembed\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Oembed\\tests\\": "tests/unit/"
         }
     },
     "extra": {
