@@ -51,6 +51,11 @@ class Settings extends Model
     public $previewHidden;
 
     /**
+     * @var bool
+     */
+    public $enableCardPreviews = false;
+
+    /**
      * @var string
      */
     public $facebookKey;
@@ -98,6 +103,9 @@ class Settings extends Model
 
             ['previewHidden', 'boolean'],
             ['previewHidden', 'default', 'value' => false],
+
+            ['enableCardPreviews', 'boolean'],
+            ['enableCardPreviews', 'default', 'value' => false],
 
             ['facebookKey', 'string'],
             ['facebookKey', 'default', 'value' => ''],

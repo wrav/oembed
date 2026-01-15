@@ -43,6 +43,14 @@
 }) }}
 
 {{ forms.lightswitchField({
+    label: "Enable card previews"|t,
+    instructions: "Show thumbnails and titles in element card views and Matrix cards (Craft 5+)"|t,
+    id: 'enableCardPreviews',
+    name: 'enableCardPreviews',
+    on: settings.enableCardPreviews,
+}) }}
+
+{{ forms.lightswitchField({
     label: "Enable notifications"|t,
     instructions: ""|t,
     id: 'enableNotifications',

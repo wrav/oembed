@@ -13,6 +13,7 @@ namespace wrav\oembed\fields;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use craft\base\PreviewableFieldInterface;
 use craft\elements\MatrixBlock as MatrixBlockElement;
 use craft\gql\arguments\elements\MatrixBlock as MatrixBlockArguments;
 use craft\gql\resolvers\elements\MatrixBlock as MatrixBlockResolver;
@@ -20,6 +21,7 @@ use craft\gql\types\generators\MatrixBlockType as MatrixBlockTypeGenerator;
 use craft\gql\types\QueryArgument;
 use craft\helpers\ArrayHelper;
 use craft\helpers\Gql as GqlHelper;
+use craft\helpers\Html;
 use craft\helpers\Json;
 use craft\helpers\UrlHelper;
 use GraphQL\Type\Definition\Type;
@@ -28,6 +30,14 @@ use wrav\oembed\Oembed;
 use yii\db\Schema;
 use wrav\oembed\models\OembedModel;
 
+// Craft 5+ has ThumbableFieldInterface, Craft 4 does not
+// Create a compatibility shim for Craft 4
+if (!interface_exists(\craft\base\ThumbableFieldInterface::class)) {
+    interface OembedThumbableInterface {}
+} else {
+    class_alias(\craft\base\ThumbableFieldInterface::class, __NAMESPACE__ . '\OembedThumbableInterface');
+}
+
 /**
  * OembedField Field
  *
@@ -35,7 +45,7 @@ use wrav\oembed\models\OembedModel;
  * @package   Oembed
  * @since     1.0.0
  */
-class OembedField extends Field
+class OembedField extends Field implements PreviewableFieldInterface, OembedThumbableInterface
 {
     // Public Properties
     // =========================================================================
@@ -238,5 +248,125 @@ class OembedField extends Field
             $preview .= '<div class="oembed-preview"></div>';
         }
         return $input.$preview;
+    }
+
+    /**
+     * Returns preview HTML for element table and card views.
+     *
+     * @param mixed $value The field's value
+     * @param ElementInterface $element The element the field is associated with
+     * @return string
+     * @since 3.1.0
+     */
+    public function getPreviewHtml(mixed $value, ElementInterface $element): string
+    {
+        $settings = Oembed::getInstance()->getSettings();
+        if (!$settings->enableCardPreviews) {
+            return $value instanceof OembedModel ? Html::encode((string)$value) : '';
+        }
+
+        if (!$value instanceof OembedModel || !$value->valid()) {
+            return '';
+        }
+
+        try {
+            $media = $value->media();
+            if (!$media) {
+                return Html::encode((string)$value);
+            }
+
+            $title = $media->title ?? '';
+            $providerName = $media->providerName ?? '';
+            $image = $media->image ?? null;
+
+            $parts = [];
+
+            if ($image) {
+                $parts[] = Html::img($image, [
+                    'style' => 'max-width: 40px; max-height: 40px; vertical-align: middle; margin-right: 8px;',
+                    'alt' => $title,
+                ]);
+            }
+
+            if ($title) {
+                $parts[] = Html::encode($title);
+            } elseif ($providerName) {
+                $parts[] = Html::encode($providerName);
+            } else {
+                $parts[] = Html::encode((string)$value);
+            }
+
+            return implode('', $parts);
+        } catch (\Exception $e) {
+            return Html::encode((string)$value);
+        }
+    }
+
+    /**
+     * Returns placeholder HTML for the card preview designer.
+     *
+     * @param mixed $value
+     * @param ElementInterface|null $element
+     * @return string
+     * @since 3.1.0
+     */
+    public function previewPlaceholderHtml(mixed $value, ?ElementInterface $element): string
+    {
+        return Html::tag('span', Craft::t('oembed', 'oEmbed Preview'), [
+            'style' => 'color: #8f98a3; font-style: italic;',
+        ]);
+    }
+
+    /**
+     * Returns thumbnail HTML for element card views.
+     *
+     * @param mixed $value The field's value
+     * @param ElementInterface $element The element the field is associated with
+     * @param int $size The maximum width and height the thumbnail should have
+     * @return string|null
+     * @since 3.1.0
+     */
+    public function getThumbHtml(mixed $value, ElementInterface $element, int $size): ?string
+    {
+        $settings = Oembed::getInstance()->getSettings();
+        if (!$settings->enableCardPreviews) {
+            return null;
+        }
+
+        if (!$value instanceof OembedModel || !$value->valid()) {
+            return null;
+        }
+
+        try {
+            $media = $value->media();
+            if (!$media) {
+                return null;
+            }
+
+            $image = $media->image ?? null;
+            if (!$image) {
+                $images = $media->images ?? [];
+                $image = !empty($images) ? $images[0] : null;
+            }
+
+            if (!$image) {
+                $providerIcon = $media->providerIcon ?? null;
+                if ($providerIcon) {
+                    $image = $providerIcon;
+                }
+            }
+
+            if (!$image) {
+                return null;
+            }
+
+            return Html::img($image, [
+                'style' => "max-width: {$size}px; max-height: {$size}px; object-fit: cover;",
+                'alt' => $media->title ?? '',
+                'loading' => 'lazy',
+            ]);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
