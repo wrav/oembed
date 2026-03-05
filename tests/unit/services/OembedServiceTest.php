@@ -182,6 +182,31 @@ class OembedServiceTest extends Unit
         $this->assertStringContainsString('invalid-url', (string)$result);
     }
 
+    public function testRenderNormalizesSchemeLessUrlForFallback()
+    {
+        $this->mockSettings->enableCache = false;
+
+        $mockPlugin = $this->createMock(\craft\base\Plugin::class);
+        $mockPlugin->method('getVersion')->willReturn('3.1.5');
+        $this->mockPlugin->method('getPlugin')->with('oembed')->willReturn($mockPlugin);
+
+        $service = $this->getMockBuilder(OembedService::class)
+            ->onlyMethods(['createEmbed'])
+            ->getMock();
+
+        $service->setCacheService($this->mockCache);
+        $service->setPluginService($this->mockPlugin);
+        $service->setSettings($this->mockSettings);
+        $service->setEventDispatcher($this->mockEventDispatcher);
+        $service->method('createEmbed')->willReturn(null);
+
+        $result = $service->render('www.youtube.com/watch?v=gUO37bwl7Dc');
+
+        $this->assertNotNull($result);
+        $this->assertStringContainsString('iframe', (string)$result);
+        $this->assertStringContainsString('https://www.youtube.com/watch?v=gUO37bwl7Dc', (string)$result);
+    }
+
     public function testRenderHandlesEmptyUrl()
     {
         $this->mockSettings->enableCache = false;

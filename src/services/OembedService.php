@@ -114,6 +114,28 @@ class OembedService extends Component
     }
 
     /**
+     * Normalize a URL by adding https:// when no scheme is present.
+     */
+    private function normalizeUrl(string $url): string
+    {
+        $url = trim($url);
+
+        if ($url === '') {
+            return $url;
+        }
+
+        if (preg_match('#^https?://#i', $url)) {
+            return $url;
+        }
+
+        if (str_starts_with($url, '//')) {
+            return 'https:' . $url;
+        }
+
+        return 'https://' . $url;
+    }
+
+    /**
      * @param string $input 
      * @param array $options
      * @return string 
@@ -554,6 +576,10 @@ class OembedService extends Component
     {
         // Normalize null/empty URLs immediately to prevent type errors
         $url = $url ?: '';
+
+        if (is_string($url)) {
+            $url = $this->normalizeUrl($url);
+        }
 
         // Check cache first
         $cacheKey = $this->generateCacheKey($url, $options, $cacheProps);
