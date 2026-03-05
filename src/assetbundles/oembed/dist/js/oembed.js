@@ -25,7 +25,7 @@ $('body').on('click', '.oembed-header', function () {
     }
 });
 
-$('body').on('keyup blur change', 'input.oembed-field', function () {
+$('body').on('input paste keyup blur change', 'input.oembed-field', function () {
     var that = $(this);
 
     if (oembedOnChangeTimeout != null) {
@@ -39,9 +39,10 @@ $('body').on('keyup blur change', 'input.oembed-field', function () {
         var cpTrigger = Craft && Craft.cpTrigger ? Craft.cpTrigger : 'admin';
 
         if(val) {
+            var encodedVal = encodeURIComponent(val);
             $.ajax({
                 type: "GET",
-                url: "/"+cpTrigger.toString()+"/oembed/preview?url=" + val + "&options[]=",
+                url: "/"+cpTrigger.toString()+"/oembed/preview?url=" + encodedVal + "&options[]=",
                 async: true
             }).done(function (res) {
                 var preview = that.parent().find('.oembed-preview');

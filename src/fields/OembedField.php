@@ -135,6 +135,34 @@ class OembedField extends Field
     }
 
     /**
+     * Normalize a URL by adding https:// scheme if missing.
+     *
+     * @param string $url The URL to normalize
+     * @return string The normalized URL
+     */
+    private function normalizeUrl(string $url): string
+    {
+        $url = trim($url);
+
+        if (empty($url)) {
+            return $url;
+        }
+
+        // If URL already has a scheme, return as-is
+        if (preg_match('#^https?://#i', $url)) {
+            return $url;
+        }
+
+        // If URL starts with //, add https:
+        if (str_starts_with($url, '//')) {
+            return 'https:' . $url;
+        }
+
+        // Add https:// to URLs without a scheme
+        return 'https://' . $url;
+    }
+
+    /**
      * @param mixed                 $value   The raw field value
      * @param ElementInterface|null $element The element the field is associated with, if there is one
      *
@@ -153,8 +181,9 @@ class OembedField extends Field
 
         // If an instance of `OembedModel` and URL is set, return it
         if ($value instanceof OembedModel && $value->url) {
-            if (UrlHelper::isFullUrl($value->url)) {
-                return $this->value = $value->url;
+            $normalizedUrl = $this->normalizeUrl($value->url);
+            if (UrlHelper::isFullUrl($normalizedUrl)) {
+                return $this->value = new OembedModel($normalizedUrl);
             } else {
                 // If we get here, something’s gone wrong
                 return new OembedModel(null);
@@ -170,7 +199,12 @@ class OembedField extends Field
             $value = ArrayHelper::getValue($value, 'url');
         }
 
-        // If URL stri  ng, return an instance of `OembedModel`
+        // Normalize URL by adding scheme if missing (fixes #177)
+        if (is_string($value)) {
+            $value = $this->normalizeUrl($value);
+        }
+
+        // If URL string, return an instance of `OembedModel`
         if (is_string($value) && UrlHelper::isFullUrl($value)) {
             return $this->value = new OembedModel($value);
         }

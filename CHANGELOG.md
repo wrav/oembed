@@ -1,5 +1,16 @@
 # oEmbed Changelog
 
+## 3.2.1 - 2026-03-03
+
+### Fixed
+
+- URLs without scheme (e.g., `youtube.com/watch?v=xxx`) are now automatically normalized with `https://` instead of being silently cleared on save (fixes #177)
+- Fixed inconsistent return type in `normalizeValue()` when input was already an `OembedModel` - now consistently returns `OembedModel` instead of a string
+
+### Added
+
+- Unit tests for URL normalization in `OembedFieldTest`
+
 ## 3.2.0 - 2026-01-14
 
 ### Fixed
@@ -50,6 +61,7 @@
 ### Fixed
 
 - Fixed DOM parsing errors by properly escaping unencoded ampersands before parsing HTML. Thanks @mofman
+- Fixed issue from #178 craft\web\View::renderJsFile() in "oembed/settings"
 
 ## 3.1.5 - 2024-05-22
 

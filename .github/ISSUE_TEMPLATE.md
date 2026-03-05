@@ -1,83 +1,65 @@
-# 🐛 Bug Report / 💡 Feature Request
+# Bug Report
 
-**Thanks for contributing to the oEmbed Craft CMS plugin!** This template helps us understand issues with the field type, embed functionality, caching, and admin interface.
+Thanks for reporting an issue. Please fill this out so we can troubleshoot quickly.
 
-## 📋 Issue Type
-- [ ] 🐛 Bug report
-- [ ] 💡 Feature request  
-- [ ] 📚 Documentation issue
-- [ ] ❓ Question/Support
+## Summary
+<!-- What is going wrong? -->
 
----
-
-## 🔍 **Bug Report** (Skip if feature request)
-
-### What's the issue?
-<!-- Clear description of what's wrong -->
-
-### Where does it happen?
-- [ ] **Admin CP Field**: Issue in the Craft control panel field interface
-- [ ] **Frontend Render**: Problem with `{{ entry.field.render() }}` output
-- [ ] **Caching**: Cached content not updating or cache errors
-- [ ] **GDPR Compliance**: Issues with privacy settings (YouTube no-cookie, Vimeo DNT, etc.)
-- [ ] **Network/Provider**: Provider-specific embed failures
-- [ ] **GraphQL**: Issues with GraphQL field queries
-
-### Steps to reproduce
+## Steps to Reproduce
 1. 
 2. 
 3. 
 
-### Expected vs Actual
-**Expected:** 
-**Actual:** 
+## Expected Behavior
+<!-- What did you expect to happen? -->
 
-### Your Environment
-- **Craft CMS**: <!-- e.g., 4.5.0 -->
-- **oEmbed Plugin**: <!-- e.g., 3.1.5 -->
-- **PHP**: <!-- e.g., 8.2 -->
-- **Provider**: <!-- e.g., YouTube, Vimeo, Instagram, Twitter -->
-- **Test URL**: <!-- The URL you're trying to embed -->
+## Actual Behavior
+<!-- What happened instead? Include error text if available. -->
 
----
+## Environment
+- **CraftCMS version:**
+- **oEmbed plugin version:**
+- **PHP version:**
+- **Database (optional):** <!-- e.g., MySQL 8.0 / MariaDB 10.6 / PostgreSQL 15 -->
+- **Web server (optional):** <!-- e.g., Nginx / Apache -->
+- **OS (optional):**
 
-## 💡 **Feature Request** (Skip if bug report)
+## URL/Provider Details
+- **Provider:** <!-- e.g., YouTube, Vimeo, Instagram -->
+- **Example URL(s):**
 
-### What feature would you like?
-<!-- Clear description -->
+## Template / Code Used
+<!-- Paste the template code or field usage, e.g. `entry.oembedField.render()` -->
 
-### What problem does this solve?
-<!-- Context about why this is needed -->
+## Logs / Errors
+<!-- Paste relevant Craft logs, PHP errors, stack traces, or screenshots -->
 
-### Suggested implementation
-<!-- How you think it should work -->
+## Error Messages / Screenshots
+<!-- Paste exact error messages and attach screenshots from the CP or frontend where helpful -->
 
----
-
-## 🔧 Additional Context
+## Additional Context
+<!-- Anything else that might help us reproduce or debug -->
 
 ### Admin CP Issues (if applicable)
 - Field preview not showing?
 - Save/validation problems?
 - Settings interface issues?
 
-### Frontend Issues (if applicable)
+### Frontend / Template Context (if applicable)
 - Template method used: `render()` / `embed()` / `media()` / `valid()`
-- Cache enabled/disabled?
+- Cache enabled or disabled?
 - GDPR settings active?
+- Is this GraphQL-related?
 
-### Provider-Specific Issues
+### Provider-Specific Notes (if applicable)
 - Does the URL work on the provider's site?
-- Using embed URL vs regular URL?
-- API tokens configured (for Instagram/Facebook)?
-
-### Error Messages/Screenshots
-<!-- Paste any error messages or attach screenshots -->
+- Using embed URL vs regular/shared URL?
+- Any provider API tokens configured (for Instagram/Facebook)?
 
 ---
 
-**💡 Pro Tips:**
-- Many providers need **embed URLs** not regular URLs (check provider's share → embed option)
-- Check your **cache settings** - try disabling cache temporarily to test
-- For Instagram: requires Facebook API token in plugin settings
-- For GDPR: check if privacy settings are affecting embeds
+## Pro Tips
+- Some providers require **embed URLs** instead of regular watch/share URLs.
+- Try disabling cache temporarily to check whether this is cache-related.
+- For Instagram, confirm Facebook API token configuration.
+- For GDPR mode, check whether privacy settings are blocking the expected embed behavior.
