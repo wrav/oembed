@@ -1,0 +1,7 @@
+{% if entry is defined and entry %}
+    {% set fieldHandle = mediaFieldHandle ?? null %}
+    {% if fieldHandle %}
+        {% set fieldValue = attribute(entry, fieldHandle) %}
+        {{ fieldValue ? fieldValue.render() : '' }}
+    {% endif %}
+{% endif %}

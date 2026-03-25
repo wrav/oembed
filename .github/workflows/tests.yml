@@ -1,0 +1,155 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+      - 'v*'
+  push:
+    branches:
+      - 'master'
+      - 'v*'
+
+jobs:
+  craft5-tests:
+    if: github.ref == 'refs/heads/master' || github.base_ref == 'master'
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      matrix:
+        php: [8.2, 8.3]
+
+    name: Craft 5.x - PHP ${{ matrix.php }} Tests
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, pdo_pgsql, bcmath, soap, intl, gd, exif, iconv
+        coverage: xdebug
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: craft5-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          craft5-${{ runner.os }}-php-${{ matrix.php }}-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --dev
+
+    - name: Setup test environment
+      run: |
+        cp tests/.env.example tests/.env
+        sed -i 's/host=postgres/host=localhost/' tests/.env
+        mkdir -p tests/_craft/storage/runtime
+        mkdir -p tests/_craft/storage/logs
+        mkdir -p tests/_craft/storage/config-deltas
+        mkdir -p tests/_craft/migrations
+        mkdir -p tests/_output
+
+    - name: Build Codeception
+      run: vendor/bin/codecept build
+
+    - name: Run all tests
+      run: vendor/bin/codecept run --coverage --coverage-xml
+      env:
+        DB_DSN: "pgsql:host=localhost;port=5432;dbname=postgres"
+        DB_USER: postgres
+        DB_PASSWORD: postgres
+        DB_SCHEMA: public
+        DB_TABLE_PREFIX: craft
+        CRAFT_SECURITY_KEY: test-security-key-for-github-actions
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      if: matrix.php == '8.2'
+      with:
+        files: ./tests/_output/coverage.xml
+        fail_ci_if_error: false
+        verbose: true
+
+  craft4-tests:
+    if: github.ref == 'refs/heads/v2' || github.base_ref == 'v2'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [8.0, 8.1, 8.2]
+
+    name: Craft 4.x - PHP ${{ matrix.php }} Tests
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+        coverage: xdebug
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: craft4-${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          craft4-${{ runner.os }}-php-${{ matrix.php }}-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --dev
+
+    - name: Build Codeception (if exists)
+      run: |
+        if [ -f "vendor/bin/codecept" ]; then
+          vendor/bin/codecept build
+        fi
+
+    - name: Run unit tests (if exists)
+      run: |
+        if [ -f "vendor/bin/codecept" ]; then
+          vendor/bin/codecept run unit
+        else
+          echo "No tests configured for this branch"
+        fi
+
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --dev
+
+    - name: Check PHP syntax
+      run: find src tests -name "*.php" -exec php -l {} \;

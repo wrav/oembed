@@ -1,0 +1,12 @@
+# Codeception Test Suite Configuration
+#
+# Suite for integration tests with Craft CMS bootstrapped
+
+actor: IntegrationTester
+bootstrap: _bootstrap.php
+modules:
+  enabled:
+    - \craft\test\Craft
+    - Asserts
+    - \Helper\Unit
+  step_decorators: ~

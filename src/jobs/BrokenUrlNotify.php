@@ -21,6 +21,12 @@ class BrokenUrlNotify extends BaseJob
      */
     public function execute($queue): void
     {
+        // Debug logging to track URL values
+        Craft::info(
+            'BrokenUrlNotify job executing with URL: ' . ($this->url ?? 'NULL'),
+            'oembed'
+        );
+
         $email = Oembed::getInstance()->getSettings()->notificationEmail ?? false;
         $subject = Craft::$app->getSystemName() . ' :: oEmbed detected broken URL';
 
@@ -28,17 +34,36 @@ class BrokenUrlNotify extends BaseJob
             $email = \craft\helpers\App::mailSettings()->fromEmail;
         }
 
-        if (!$email || !$this->url) {
+        // Enhanced validation with logging
+        if (!$email) {
+            Craft::warning('BrokenUrlNotify: No email address configured for notifications', 'oembed');
             return;
         }
 
-        Craft::$app
-            ->getMailer()
-            ->compose()
-            ->setTo($email)
-            ->setSubject($subject)
-            ->setHtmlBody('The following URL is invalid: '.$this->url)
-            ->send();
+        if (!$this->url || trim($this->url) === '') {
+            Craft::warning('BrokenUrlNotify: URL is empty or null - cannot send notification', 'oembed');
+            return;
+        }
+
+        // Enhanced email body with better formatting
+        $htmlBody = sprintf(
+            '<p>The following URL is invalid and could not be processed:</p><p><strong>%s</strong></p><p>Please check the URL and try again.</p>',
+            htmlspecialchars($this->url, ENT_QUOTES, 'UTF-8')
+        );
+
+        try {
+            Craft::$app
+                ->getMailer()
+                ->compose()
+                ->setTo($email)
+                ->setSubject($subject)
+                ->setHtmlBody($htmlBody)
+                ->send();
+
+            Craft::info('BrokenUrlNotify: Email sent successfully for URL: ' . $this->url, 'oembed');
+        } catch (\Exception $e) {
+            Craft::error('BrokenUrlNotify: Failed to send email - ' . $e->getMessage(), 'oembed');
+        }
     }
 
     /**
