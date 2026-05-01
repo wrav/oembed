@@ -578,6 +578,12 @@ class OembedService extends Component
         $url = $url ?: '';
 
         if (is_string($url)) {
+            // Reject HTML embed codes before attempting any fetch (fixes #181)
+            $trimmed = trim($url);
+            if ($trimmed !== strip_tags($trimmed)) {
+                return null;
+            }
+
             $url = $this->normalizeUrl($url);
         }
 

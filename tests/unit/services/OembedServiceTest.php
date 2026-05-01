@@ -224,6 +224,34 @@ class OembedServiceTest extends Unit
     }
 
     /**
+     * Test that HTML embed codes are rejected immediately without attempting a fetch (fixes #181)
+     * @dataProvider htmlEmbedCodeProvider
+     */
+    public function testEmbedRejectsHtmlEmbedCode(string $input)
+    {
+        $result = $this->service->embed($input);
+        $this->assertNull($result, 'embed() must return null for HTML embed codes, not attempt a fetch');
+    }
+
+    public static function htmlEmbedCodeProvider(): array
+    {
+        return [
+            'vimeo full embed code' => [
+                '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1127343747?badge=0&autopause=0" frameborder="0" allow="autoplay; fullscreen"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>',
+            ],
+            'youtube iframe embed' => [
+                '<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>',
+            ],
+            'bare iframe' => [
+                '<iframe src="https://example.com/video"></iframe>',
+            ],
+            'already-prefixed html stored in db' => [
+                'https://<div><iframe src="https://player.vimeo.com/video/123"></iframe></div>',
+            ],
+        ];
+    }
+
+    /**
      * Test broken URL notification system handles empty URLs correctly
      */
     public function testBrokenUrlNotificationWithEmptyUrl()
