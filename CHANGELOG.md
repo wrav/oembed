@@ -1,5 +1,18 @@
 # oEmbed Changelog
 
+## 3.2.2 - 2026-05-01
+
+### Fixed
+
+- Pasting an HTML embed code (e.g. from Vimeo or YouTube) instead of a URL no longer breaks the entry edit page (fixes #181). Thanks @tomfischerNL
+- HTML embed codes are now rejected in `normalizeValue()` and `OembedService::embed()` — including any bad data already stored in the database — so they are never saved or rendered
+- The CP field input value is now properly HTML-escaped, preventing HTML injection from malformed stored values
+- A clear validation error ("Please enter a URL, not an HTML embed code.") is now surfaced inline in the Control Panel when an embed code is submitted
+
+### Added
+
+- Unit tests for HTML embed code rejection in `OembedFieldTest` and `OembedServiceTest`
+
 ## 3.2.1 - 2026-03-03
 
 ### Fixed

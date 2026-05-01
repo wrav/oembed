@@ -135,6 +135,14 @@ class OembedField extends Field
     }
 
     /**
+     * Detect whether a string contains HTML tags (e.g. an embed code pasted instead of a URL).
+     */
+    private function isHtmlEmbedCode(string $value): bool
+    {
+        return trim($value) !== strip_tags(trim($value));
+    }
+
+    /**
      * Normalize a URL by adding https:// scheme if missing.
      *
      * @param string $url The URL to normalize
@@ -170,7 +178,7 @@ class OembedField extends Field
      */
     public function normalizeValue(mixed $value, ?craft\base\ElementInterface $element = null): mixed
     {
-        // If null, don’t proceed
+        // If null, don't proceed
         if ($value === null) {
             if ($this->required) {
                 return null;
@@ -182,10 +190,13 @@ class OembedField extends Field
         // If an instance of `OembedModel` and URL is set, return it
         if ($value instanceof OembedModel && $value->url) {
             $normalizedUrl = $this->normalizeUrl($value->url);
+            if ($this->isHtmlEmbedCode($normalizedUrl)) {
+                return new OembedModel(null);
+            }
             if (UrlHelper::isFullUrl($normalizedUrl)) {
                 return $this->value = new OembedModel($normalizedUrl);
             } else {
-                // If we get here, something’s gone wrong
+                // If we get here, something's gone wrong
                 return new OembedModel(null);
             }
         }
@@ -193,7 +204,7 @@ class OembedField extends Field
         // If JSON object string, decode it and use that as the value
         $value = Json::decodeIfJson($value); // Returns an array
 
-        // If array with `url` attribute, that’s our url so update the value
+        // If array with `url` attribute, that's our url so update the value
         // Run `getValue` to avoid https://github.com/wrav/oembed/issues/74
         while(is_array($value)) {
             $value = ArrayHelper::getValue($value, 'url');
@@ -204,12 +215,17 @@ class OembedField extends Field
             $value = $this->normalizeUrl($value);
         }
 
+        // Reject HTML embed codes — catches raw HTML and any already-prefixed bad data (fixes #181)
+        if (is_string($value) && $this->isHtmlEmbedCode($value)) {
+            return new OembedModel(null);
+        }
+
         // If URL string, return an instance of `OembedModel`
         if (is_string($value) && UrlHelper::isFullUrl($value)) {
             return $this->value = new OembedModel($value);
         }
 
-        // If we get here, something’s gone wrong
+        // If we get here, something's gone wrong
         return new OembedModel(null);
     }
 
@@ -217,7 +233,7 @@ class OembedField extends Field
      * Modifies an element query.
      *
      * @param ElementInterface $query The element query
-     * @param mixed            $value The value that was set on this field’s corresponding [[ElementCriteriaModel]]
+     * @param mixed            $value The value that was set on this field's corresponding [[ElementCriteriaModel]]
      *                                param, if any.
      * @return null|false `false` in the event that the method is sure that no elements are going to be found.
      */
@@ -235,8 +251,34 @@ class OembedField extends Field
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getElementValidationRules(): array
+    {
+        $rules = parent::getElementValidationRules();
+        $handle = $this->handle;
+
+        $rules[] = [
+            $handle,
+            function($attribute, $params) use ($handle) {
+                $request = Craft::$app->getRequest();
+                if (!$request instanceof \craft\web\Request || !$request->getIsPost()) {
+                    return;
+                }
+                $fields = $request->getBodyParam('fields', []);
+                $rawValue = $fields[$handle] ?? null;
+                if (is_string($rawValue) && $rawValue !== strip_tags($rawValue)) {
+                    $this->addError($attribute, Craft::t('oembed', 'Please enter a URL, not an HTML embed code.'));
+                }
+            },
+        ];
+
+        return $rules;
+    }
+
+    /**
      * @param ElementInterface|null $element The element the field is associated with, if there is one
-     * @param mixed                 $value   The field’s value. This will either be the [[normalizeValue() normalized
+     * @param mixed                 $value   The field's value. This will either be the [[normalizeValue() normalized
      *                                       value]], raw POST data (i.e. if there was a validation error), or null
      * @return string The input HTML.
      */
@@ -246,13 +288,27 @@ class OembedField extends Field
         $hidden = $settings['previewHidden'];
         $previewIcon = $hidden ? 'expand' : 'collapse';
 
+        // Safely extract the URL string and detect HTML embed codes (#181)
+        $urlString = '';
+        $isHtmlInput = false;
+        if ($value instanceof OembedModel) {
+            $urlString = is_string($value->url) ? $value->url : '';
+        } elseif (is_string($value)) {
+            if ($this->isHtmlEmbedCode($value)) {
+                $isHtmlInput = true;
+            } else {
+                $urlString = $value;
+            }
+        }
 
-        $input = '<input name="'.$this->handle.'" class="text nicetext fullwidth oembed-field" value="'.$value.'" />';
+        $input = '<input name="'.$this->handle.'" class="text nicetext fullwidth oembed-field" value="'.htmlspecialchars($urlString, ENT_QUOTES, 'UTF-8').'" />';
         $preview = '<div class="oembed-header">
                       <p class="fullwidth"><strong>Preview</strong> <span class="right" data-icon-after="'.$previewIcon.'"></span></p>
                     </div>';
 
-        if ($value) {
+        if ($isHtmlInput) {
+            $preview .= '<div class="oembed-preview"><p class="error">'.Craft::t('oembed', 'Please enter a URL, not an HTML embed code.').'</p></div>';
+        } elseif ($value) {
             try {
                 if ($embed = new OembedModel($value)) {
                     $embed = $embed->embed();
