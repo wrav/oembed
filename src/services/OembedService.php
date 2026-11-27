@@ -481,6 +481,7 @@ class OembedService extends Component
         if ($this->settings->enableGdprCookieBot) {
             $iframe->setAttribute('data-cookieblock-src', $src);
             $iframe->setAttribute('data-cookieconsent', 'marketing');
+            $iframe->removeAttribute('src');
         }
     }
 
